@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { Drawer, DrawerContent, DrawerTrigger, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 
 // Import images
 import property1 from "@/assets/property1.jpg";
@@ -142,62 +143,85 @@ const Index = () => {
 
   // Demo mode switcher
   const DemoControls = () => (
-    <div className="fixed top-20 right-4 z-40 bg-white border rounded-lg p-4 shadow-medium">
-      <h3 className="font-semibold mb-3">Demo Mode</h3>
-      <div className="space-y-2">
-        <div className="flex gap-2">
-          <Button 
-            size="sm" 
-            variant={userType === 'client' ? 'default' : 'outline'}
-            onClick={() => setUserType('client')}
-          >
-            Cliente
-          </Button>
-          <Button 
-            size="sm" 
-            variant={userType === 'agent' ? 'default' : 'outline'}
-            onClick={() => setUserType('agent')}
-          >
-            Agente
-          </Button>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="fixed top-20 right-4 z-40 bg-background border shadow-medium"
+        >
+          Demo Mode
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent className="max-w-sm mx-auto">
+        <DrawerHeader>
+          <DrawerTitle>Demo Mode</DrawerTitle>
+        </DrawerHeader>
+        <div className="p-4 space-y-4">
+          <div className="space-y-2">
+            <h4 className="font-medium text-sm text-muted-foreground">Tipo de Usuario</h4>
+            <div className="flex gap-2">
+              <Button 
+                size="sm" 
+                variant={userType === 'client' ? 'default' : 'outline'}
+                onClick={() => setUserType('client')}
+                className="flex-1"
+              >
+                Cliente
+              </Button>
+              <Button 
+                size="sm" 
+                variant={userType === 'agent' ? 'default' : 'outline'}
+                onClick={() => setUserType('agent')}
+                className="flex-1"
+              >
+                Agente
+              </Button>
+            </div>
+          </div>
+          
+          <Separator />
+          
+          <div className="space-y-2">
+            <h4 className="font-medium text-sm text-muted-foreground">Navegación</h4>
+            <div className="space-y-1">
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="w-full justify-start"
+                onClick={() => setCurrentView('home')}
+              >
+                🏠 Inicio
+              </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="w-full justify-start"
+                onClick={() => setCurrentView('property-details')}
+              >
+                🔍 Detalles Propiedad
+              </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="w-full justify-start"
+                onClick={() => setCurrentView('agent-dashboard')}
+              >
+                📊 Panel Agente
+              </Button>
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="w-full justify-start"
+                onClick={() => setCurrentView('messages')}
+              >
+                💬 Mensajes
+              </Button>
+            </div>
+          </div>
         </div>
-        <Separator />
-        <div className="space-y-1">
-          <Button 
-            size="sm" 
-            variant="ghost" 
-            className="w-full justify-start"
-            onClick={() => setCurrentView('home')}
-          >
-            🏠 Inicio
-          </Button>
-          <Button 
-            size="sm" 
-            variant="ghost" 
-            className="w-full justify-start"
-            onClick={() => setCurrentView('property-details')}
-          >
-            🔍 Detalles Propiedad
-          </Button>
-          <Button 
-            size="sm" 
-            variant="ghost" 
-            className="w-full justify-start"
-            onClick={() => setCurrentView('agent-dashboard')}
-          >
-            📊 Panel Agente
-          </Button>
-          <Button 
-            size="sm" 
-            variant="ghost" 
-            className="w-full justify-start"
-            onClick={() => setCurrentView('messages')}
-          >
-            💬 Mensajes
-          </Button>
-        </div>
-      </div>
-    </div>
+      </DrawerContent>
+    </Drawer>
   );
 
   const renderCurrentView = () => {

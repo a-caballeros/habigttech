@@ -303,11 +303,50 @@ const Index = () => {
                   ¿Por qué ResidenciasGT?
                 </h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-6xl mx-auto">
                   <Card className="text-center">
                     <CardContent className="p-8">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">🏠</span>
+                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2">10,000+</div>
+                      <h3 className="text-xl font-semibold mb-3">Propiedades Disponibles</h3>
+                      <p className="text-muted-foreground">
+                        Miles de propiedades verificadas en todo Guatemala esperándote
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="text-center">
+                    <CardContent className="p-8">
+                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">⭐</span>
+                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2">500+</div>
+                      <h3 className="text-xl font-semibold mb-3">Agentes Certificados</h3>
+                      <p className="text-muted-foreground">
+                        Trabaja con agentes profesionales y certificados en todo Guatemala
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="text-center">
+                    <CardContent className="p-8">
+                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">📍</span>
+                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2">22</div>
+                      <h3 className="text-xl font-semibold mb-3">Departamentos Cubiertos</h3>
+                      <p className="text-muted-foreground">
+                        Cobertura nacional en todos los departamentos de Guatemala
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="text-center">
+                    <CardContent className="p-8">
+                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">🔍</span>
                       </div>
                       <div className="text-3xl font-bold text-primary mb-2">{propertyCount.toLocaleString()}</div>
                       <h3 className="text-xl font-semibold mb-3">Propiedades Verificadas</h3>
@@ -320,12 +359,12 @@ const Index = () => {
                   <Card className="text-center">
                     <CardContent className="p-8">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">⭐</span>
+                        <span className="text-2xl">👥</span>
                       </div>
                       <div className="text-3xl font-bold text-primary mb-2">{agentCount.toLocaleString()}</div>
-                      <h3 className="text-xl font-semibold mb-3">Agentes Certificados</h3>
+                      <h3 className="text-xl font-semibold mb-3">Agentes Registrados</h3>
                       <p className="text-muted-foreground">
-                        Trabaja con agentes profesionales y certificados en todo Guatemala
+                        Agentes activos creciendo día a día en nuestra plataforma
                       </p>
                     </CardContent>
                   </Card>

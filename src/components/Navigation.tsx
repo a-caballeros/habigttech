@@ -12,8 +12,6 @@ interface NavigationProps {
 const Navigation = ({ userType = 'client', isAuthenticated = false }: NavigationProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   
-  const locations = ["CAES", "Zona 10", "Zona 11", "Mixco", "Antigua Guatemala", "Zona 14", "Escuintla"];
-  
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -24,18 +22,6 @@ const Navigation = ({ userType = 'client', isAuthenticated = false }: Navigation
           </div>
           <h1 className="text-xl font-bold text-foreground">ResidenciasGT</h1>
         </div>
-
-        {/* Quick Location Links */}
-        <nav className="hidden md:flex items-center space-x-6">
-          {locations.map((location) => (
-            <button
-              key={location}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {location}
-            </button>
-          ))}
-        </nav>
 
         {/* Search Bar - Only for clients */}
         {userType === 'client' && (

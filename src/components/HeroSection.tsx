@@ -57,7 +57,7 @@ const HeroSection = () => {
 
         {/* Quick Search Options */}
         <div className="flex flex-wrap justify-center gap-3 mb-16">
-          {['Guatemala', 'Zona 14', 'Antigua', 'Quetzaltenango', 'Escuintla'].map((location) => (
+          {['Guatemala', 'Zona 14', 'Antigua', 'Quetzaltenango', 'CAES', 'Zona 10', 'Zona 11', 'Mixco', 'Escuintla'].map((location) => (
             <Button 
               key={location}
               variant="outline" 

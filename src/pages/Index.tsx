@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import PropertyCard from "@/components/PropertyCard";
@@ -26,6 +26,8 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [userType, setUserType] = useState<UserType>('client');
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
+  const [propertyCount, setPropertyCount] = useState(2);
+  const [agentCount, setAgentCount] = useState(1);
 
   // Sample property data
   const sampleProperties = [
@@ -121,6 +123,22 @@ const Index = () => {
     setCurrentView('home');
     setSelectedProperty(null);
   };
+
+  // Simulate growing counters
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Simulate properties being added occasionally
+      if (Math.random() < 0.3) {
+        setPropertyCount(prev => prev + 1);
+      }
+      // Simulate agents being added occasionally
+      if (Math.random() < 0.2) {
+        setAgentCount(prev => prev + 1);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Demo mode switcher
   const DemoControls = () => (
@@ -267,6 +285,7 @@ const Index = () => {
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">🏠</span>
                       </div>
+                      <div className="text-3xl font-bold text-primary mb-2">{propertyCount.toLocaleString()}</div>
                       <h3 className="text-xl font-semibold mb-3">Propiedades Verificadas</h3>
                       <p className="text-muted-foreground">
                         Todas nuestras propiedades son verificadas y validadas por nuestro equipo
@@ -279,6 +298,7 @@ const Index = () => {
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">⭐</span>
                       </div>
+                      <div className="text-3xl font-bold text-primary mb-2">{agentCount.toLocaleString()}</div>
                       <h3 className="text-xl font-semibold mb-3">Agentes Certificados</h3>
                       <p className="text-muted-foreground">
                         Trabaja con agentes profesionales y certificados en todo Guatemala

@@ -390,10 +390,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation 
-        userType={userType}
-        isAuthenticated={true}
-      />
+      <Navigation />
       
       {renderCurrentView()}
       

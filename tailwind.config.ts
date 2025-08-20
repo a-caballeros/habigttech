@@ -69,7 +69,8 @@ export default {
 				tier: {
 					bronze: 'hsl(var(--tier-bronze))',
 					silver: 'hsl(var(--tier-silver))',
-					gold: 'hsl(var(--tier-gold))'
+					gold: 'hsl(var(--tier-gold))',
+					platinum: 'hsl(var(--tier-platinum))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

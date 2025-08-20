@@ -14,7 +14,120 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agent_subscriptions: {
+        Row: {
+          agent_id: string
+          billing_cycle: string
+          created_at: string
+          current_period_end: string
+          current_period_start: string
+          id: string
+          properties_used_this_month: number | null
+          status: string
+          tier_id: string
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          billing_cycle: string
+          created_at?: string
+          current_period_end: string
+          current_period_start?: string
+          id?: string
+          properties_used_this_month?: number | null
+          status?: string
+          tier_id: string
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          billing_cycle?: string
+          created_at?: string
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          properties_used_this_month?: number | null
+          status?: string
+          tier_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_subscriptions_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_subscriptions_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+          user_type: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+          user_type: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_type?: string
+        }
+        Relationships: []
+      }
+      subscription_tiers: {
+        Row: {
+          annual_price: number
+          created_at: string
+          description: string | null
+          id: string
+          monthly_price: number
+          name: string
+          property_limit: number | null
+        }
+        Insert: {
+          annual_price: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          monthly_price: number
+          name: string
+          property_limit?: number | null
+        }
+        Update: {
+          annual_price?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          monthly_price?: number
+          name?: string
+          property_limit?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

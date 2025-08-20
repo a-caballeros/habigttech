@@ -1,15 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Bell, User, Heart, MessageCircle } from "lucide-react";
+import { Search, Bell, User, Heart, MessageCircle, LogOut } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
 
-interface NavigationProps {
-  userType?: 'client' | 'agent';
-  isAuthenticated?: boolean;
-}
-
-const Navigation = ({ userType = 'client', isAuthenticated = false }: NavigationProps) => {
+const Navigation = () => {
+  const navigate = useNavigate();
+  const { user, userType, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   
   return (
@@ -24,7 +24,7 @@ const Navigation = ({ userType = 'client', isAuthenticated = false }: Navigation
         </div>
 
         {/* Search Bar - Only for clients */}
-        {userType === 'client' && (
+        {userType === 'client' && user && (
           <div className="flex-1 max-w-lg mx-8">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -40,7 +40,7 @@ const Navigation = ({ userType = 'client', isAuthenticated = false }: Navigation
 
         {/* Navigation Actions */}
         <div className="flex items-center space-x-4">
-          {isAuthenticated ? (
+          {user ? (
             <>
               {/* Client Actions */}
               {userType === 'client' && (
@@ -82,14 +82,36 @@ const Navigation = ({ userType = 'client', isAuthenticated = false }: Navigation
                 </Badge>
               </Button>
               
-              <Button variant="ghost" size="sm">
-                <User className="h-4 w-4" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    <User className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate('/profile')}>
+                    Mi Perfil
+                  </DropdownMenuItem>
+                  {userType === 'agent' && (
+                    <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                      Dashboard
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem onClick={() => signOut()}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Cerrar Sesión
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </>
           ) : (
             <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="sm">Iniciar Sesión</Button>
-              <Button variant="default" size="sm">Registrarse</Button>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/auth')}>
+                Iniciar Sesión
+              </Button>
+              <Button variant="default" size="sm" onClick={() => navigate('/auth')}>
+                Registrarse
+              </Button>
             </div>
           )}
         </div>

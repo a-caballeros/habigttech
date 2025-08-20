@@ -70,6 +70,7 @@
     --tier-bronze: 35 70% 45%;
     --tier-silver: 210 15% 65%;
     --tier-gold: 45 90% 55%;
+    --tier-platinum: 220 70% 60%;
     
     /* Animation Timing */
     --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -178,6 +179,10 @@
   
   .tier-gold {
     color: hsl(var(--tier-gold));
+  }
+  
+  .tier-platinum {
+    color: hsl(var(--tier-platinum));
   }
   
   /* Animation Classes */

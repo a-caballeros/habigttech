@@ -21,7 +21,7 @@ const Navigation = () => {
           <img 
             src={logoHorizontal}
             alt="Habi.gt"
-            className="h-16 w-auto sm:h-20 md:h-24 lg:h-28 xl:h-32 cursor-pointer max-w-[220px] sm:max-w-[280px] md:max-w-[340px] lg:max-w-[400px] xl:max-w-[450px]"
+            className="h-10 w-auto sm:h-12 md:h-14 lg:h-16 cursor-pointer max-w-[120px] sm:max-w-[150px] md:max-w-[180px] lg:max-w-[200px]"
             onClick={() => navigate('/')}
           />
         </div>

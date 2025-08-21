@@ -86,7 +86,7 @@ const Auth = () => {
 
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Regístrate o accede a tu cuenta</CardTitle>
+            <CardTitle>Autenticación</CardTitle>
             <CardDescription>
               Elige tu método de autenticación preferido
             </CardDescription>
@@ -136,7 +136,7 @@ const Auth = () => {
                       <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                       <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    {loading ? "Registrando..." : `Registrarte como ${userType === 'client' ? 'Cliente' : 'Agente'} con Google`}
+                    {loading ? "Procesando..." : `Continuar como ${userType === 'client' ? 'Cliente' : 'Agente'} con Google`}
                   </Button>
                 </div>
 
@@ -151,14 +151,14 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <Button 
-                  variant="ghost" 
-                  className="w-full"
-                  onClick={() => (document.querySelector('[value="email"]') as HTMLElement)?.click()}
-                >
-                  <Mail className="mr-2 h-4 w-4" />
-                  Registrarte con email y contraseña
-                </Button>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full"
+                    onClick={() => (document.querySelector('[value="email"]') as HTMLElement)?.click()}
+                  >
+                    <Mail className="mr-2 h-4 w-4" />
+                    Usar email y contraseña
+                  </Button>
               </TabsContent>
 
               {/* Email Login Tab */}
@@ -166,7 +166,7 @@ const Auth = () => {
                 <Tabs defaultValue="signin" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="signin">Iniciar Sesión</TabsTrigger>
-                    <TabsTrigger value="signup">Registrarse</TabsTrigger>
+                    <TabsTrigger value="signup">Crear Cuenta</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="signin" className="space-y-4 mt-4">

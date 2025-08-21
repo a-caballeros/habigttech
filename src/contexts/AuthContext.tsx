@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signUp = async (email: string, password: string, userData = {}) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -126,10 +126,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         description: error.message,
         variant: "destructive",
       });
-    } else {
+    } else if (data?.user && !data?.user?.email_confirmed_at) {
       toast({
         title: "Registro exitoso",
         description: "Revisa tu email para verificar tu cuenta",
+      });
+    } else if (data?.user) {
+      toast({
+        title: "Bienvenido",
+        description: "Tu cuenta ha sido creada exitosamente",
       });
     }
 

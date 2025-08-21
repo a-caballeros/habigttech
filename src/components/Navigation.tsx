@@ -15,13 +15,13 @@ const Navigation = () => {
   
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-20 items-center justify-between">{/* Increased height from h-16 to h-20 */}
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <img 
             src="/lovable-uploads/f1417da8-41e1-449e-b4c4-a0323e83c55e.png"
             alt="Habi.gt"
-            className="h-8 w-auto sm:h-10 md:h-12 lg:h-14 xl:h-16 cursor-pointer max-w-[100px] sm:max-w-[120px] md:max-w-[140px] lg:max-w-[160px] xl:max-w-[180px] object-contain"
+            className="h-12 w-auto sm:h-14 md:h-16 lg:h-18 xl:h-20 cursor-pointer max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] object-contain"
             onClick={() => navigate('/')}
           />
         </div>

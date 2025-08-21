@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin } from "lucide-react";
+import { Search, MapPin, Plus } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import heroImage from "@/assets/hero-guatemala.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const { userType } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -34,50 +38,68 @@ const HeroSection = () => {
           </p>
         </div>
 
-        {/* Search Bar */}
-        <div className="max-w-2xl mx-auto mb-12">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-muted-foreground" />
-            </div>
-            <Input 
-              placeholder="Buscar por ubicación, tipo de propiedad o palabras clave..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 pr-4 py-6 text-lg bg-white/95 backdrop-blur border-0 shadow-strong focus:bg-white transition-smooth"
-            />
-        <Button 
-          size="lg" 
-          className="absolute inset-y-0 right-0 m-1 px-4 md:px-8"
-          onClick={() => {
-            if (searchQuery.trim()) {
-              // Implementar búsqueda real
-              window.location.hash = `#buscar?q=${encodeURIComponent(searchQuery)}`;
-            }
-          }}
-        >
-          <Search className="h-4 w-4 md:hidden" />
-          <span className="hidden md:inline">Buscar</span>
-        </Button>
-          </div>
-        </div>
-
-        {/* Quick Search Options */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16">
-          {['Zona 14', 'Antigua', 'CAES', 'Zona 11', 'Mixco'].map((location) => (
+        {/* Search Bar for Clients / Add Property Button for Agents */}
+        {userType === 'agent' ? (
+          <div className="max-w-2xl mx-auto mb-12 text-center">
             <Button 
-              key={location}
-              variant="outline" 
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur transition-smooth"
+              size="lg" 
+              className="bg-success hover:bg-success/90 text-white px-8 py-6 text-lg font-semibold shadow-lg"
+              onClick={() => navigate('/add-property')}
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              Agregar Nueva Propiedad
+            </Button>
+            <p className="text-white/80 mt-4 text-sm">
+              Publica tus propiedades y conecta con clientes potenciales
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="max-w-2xl mx-auto mb-12">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <Input 
+                  placeholder="Buscar por ubicación, tipo de propiedad o palabras clave..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-12 pr-4 py-6 text-lg bg-white/95 backdrop-blur border-0 shadow-strong focus:bg-white transition-smooth"
+                />
+            <Button 
+              size="lg" 
+              className="absolute inset-y-0 right-0 m-1 px-4 md:px-8"
               onClick={() => {
-                window.location.hash = `#buscar?q=${encodeURIComponent(location)}`;
+                if (searchQuery.trim()) {
+                  // Implementar búsqueda real
+                  window.location.hash = `#buscar?q=${encodeURIComponent(searchQuery)}`;
+                }
               }}
             >
-              <MapPin className="h-4 w-4 mr-2" />
-              {location}
+              <Search className="h-4 w-4 md:hidden" />
+              <span className="hidden md:inline">Buscar</span>
             </Button>
-          ))}
-        </div>
+              </div>
+            </div>
+
+            {/* Quick Search Options */}
+            <div className="flex flex-wrap justify-center gap-3 mb-16">
+              {['Zona 14', 'Antigua', 'CAES', 'Zona 11', 'Mixco'].map((location) => (
+                <Button 
+                  key={location}
+                  variant="outline" 
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur transition-smooth"
+                  onClick={() => {
+                    window.location.hash = `#buscar?q=${encodeURIComponent(location)}`;
+                  }}
+                >
+                  <MapPin className="h-4 w-4 mr-2" />
+                  {location}
+                </Button>
+              ))}
+            </div>
+          </>
+        )}
 
       </div>
 

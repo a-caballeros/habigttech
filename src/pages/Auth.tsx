@@ -38,13 +38,25 @@ const Auth = () => {
     }
     
     setLoading(true);
-    const { error } = await signUp(email, password, {
-      full_name: fullName,
-      user_type: userType
-    });
     
-    if (!error) {
-      navigate('/');
+    // If user is signing up as agent, redirect to subscription page
+    if (userType === 'agent') {
+      navigate('/subscription', {
+        state: {
+          email,
+          password,
+          fullName
+        }
+      });
+    } else {
+      const { error } = await signUp(email, password, {
+        full_name: fullName,
+        user_type: userType
+      });
+      
+      if (!error) {
+        navigate('/');
+      }
     }
     setLoading(false);
   };

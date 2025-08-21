@@ -31,66 +31,29 @@ const Navigation = () => {
         <div className="flex items-center space-x-4">
           {user ? (
             <>
-              {/* Client Actions */}
+              {/* Client Panel */}
               {userType === 'client' && (
-                <>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => navigate('/favorites')}
-                  >
-                    <Heart className="h-4 w-4" />
-                    Favoritos
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => navigate('/messages')}
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    Mensajes
-                  </Button>
-                </>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate('/profile')}
+                >
+                  <User className="h-4 w-4" />
+                  Panel Cliente
+                </Button>
               )}
               
-              {/* Agent Actions */}
+              {/* Agent Panel */}
               {userType === 'agent' && (
-                <>
-                  <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="hidden lg:flex"
-                    onClick={() => navigate('/add-property')}
-                  >
-                    + Nueva Propiedad
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="hidden lg:flex"
-                    onClick={() => navigate('/dashboard')}
-                  >
-                    Dashboard
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => navigate('/messages')}
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    Consultas
-                  </Button>
-                </>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate('/dashboard')}
+                >
+                  <User className="h-4 w-4" />
+                  Panel Agente
+                </Button>
               )}
-              
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => navigate('/notifications')}
-              >
-                <Bell className="h-4 w-4" />
-                Alertas
-              </Button>
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

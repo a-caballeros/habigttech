@@ -26,20 +26,6 @@ const Navigation = () => {
           />
         </div>
 
-        {/* Search Bar - Only for clients */}
-        {userType === 'client' && user && (
-          <div className="flex-1 max-w-lg mx-4 md:mx-8">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input 
-                placeholder="Buscar por ubicación, tipo de propiedad..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 transition-smooth focus:shadow-soft"
-              />
-            </div>
-          </div>
-        )}
 
         {/* Navigation Actions */}
         <div className="flex items-center space-x-4">

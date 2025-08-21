@@ -18,9 +18,9 @@ const Navigation = () => {
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <img 
-            src="/lovable-uploads/aa964ad8-c21e-46ab-835a-ec030029deff.png" 
+            src="/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png" 
             alt="Habi.gt"
-            className="h-10 w-auto"
+            className="h-12 w-auto"
           />
         </div>
 

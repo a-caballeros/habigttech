@@ -1,16 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300">
   <defs>
-    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    <linearGradient id="pinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0891b2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0e7490;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <!-- Isotipo H -->
-  <rect x="233" y="200" width="45" height="100" fill="url(#logoGradient)" rx="8"/>
-  <rect x="325" y="200" width="45" height="100" fill="url(#logoGradient)" rx="8"/>
-  <rect x="278" y="235" width="47" height="30" fill="url(#logoGradient)" rx="8"/>
+  <!-- Pin de ubicación con casa -->
+  <g transform="translate(50, 50)">
+    <!-- Círculo exterior del pin -->
+    <circle cx="50" cy="50" r="45" fill="url(#pinGradient)" stroke="#ffffff" stroke-width="3"/>
+    
+    <!-- Casa interior -->
+    <g transform="translate(25, 25)">
+      <!-- Techo de la casa -->
+      <path d="M10 35 L25 20 L40 35 Z" fill="#ffffff"/>
+      <!-- Base de la casa -->
+      <rect x="15" y="35" width="20" height="15" fill="#ffffff"/>
+      <!-- Puerta -->
+      <rect x="22" y="42" width="6" height="8" fill="url(#pinGradient)"/>
+      <!-- Ventanas -->
+      <rect x="17" y="37" width="4" height="4" fill="url(#pinGradient)"/>
+      <rect x="29" y="37" width="4" height="4" fill="url(#pinGradient)"/>
+    </g>
+    
+    <!-- Punta del pin -->
+    <path d="M35 85 L50 110 L65 85 A25 25 0 0 0 35 85" fill="url(#pinGradient)"/>
+  </g>
   
   <!-- Texto Habi.gt -->
-  <text x="400" y="280" font-family="Arial, sans-serif" font-size="70" font-weight="300" fill="currentColor" letter-spacing="2px">Habi.gt</text>
+  <g transform="translate(200, 80)">
+    <!-- H -->
+    <rect x="0" y="20" width="15" height="80" fill="currentColor"/>
+    <rect x="50" y="20" width="15" height="80" fill="currentColor"/>
+    <rect x="15" y="55" width="35" height="12" fill="currentColor"/>
+    
+    <!-- a -->
+    <circle cx="110" cy="75" r="18" fill="none" stroke="currentColor" stroke-width="12"/>
+    <rect x="145" y="55" width="12" height="45" fill="currentColor"/>
+    <rect x="100" y="85" width="45" height="12" fill="currentColor"/>
+    
+    <!-- b -->
+    <rect x="180" y="20" width="12" height="80" fill="currentColor"/>
+    <circle cx="215" cy="75" r="18" fill="none" stroke="currentColor" stroke-width="12"/>
+    
+    <!-- i -->
+    <rect x="260" y="55" width="12" height="45" fill="currentColor"/>
+    <circle cx="266" cy="35" r="8" fill="currentColor"/>
+    
+    <!-- . -->
+    <circle cx="305" cy="92" r="8" fill="currentColor"/>
+    
+    <!-- g -->
+    <circle cx="350" cy="75" r="18" fill="none" stroke="currentColor" stroke-width="12"/>
+    <rect x="385" y="55" width="12" height="60" fill="currentColor"/>
+    <rect x="350" y="103" width="35" height="12" fill="currentColor"/>
+    
+    <!-- t -->
+    <rect x="420" y="35" width="12" height="65" fill="currentColor"/>
+    <rect x="410" y="55" width="32" height="10" fill="currentColor"/>
+  </g>
 </svg>

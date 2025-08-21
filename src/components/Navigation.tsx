@@ -6,7 +6,7 @@ import { Search, Bell, User, Heart, MessageCircle, LogOut } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
-import logoHorizontal from "@/assets/logo-horizontal.svg";
+// Using direct path to logo
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -19,9 +19,9 @@ const Navigation = () => {
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <img 
-            src={logoHorizontal}
+            src="/lovable-uploads/f1417da8-41e1-449e-b4c4-a0323e83c55e.png"
             alt="Habi.gt"
-            className="h-10 w-auto sm:h-12 md:h-14 lg:h-16 cursor-pointer max-w-[120px] sm:max-w-[150px] md:max-w-[180px] lg:max-w-[200px]"
+            className="h-8 w-auto sm:h-10 md:h-12 lg:h-14 xl:h-16 cursor-pointer max-w-[100px] sm:max-w-[120px] md:max-w-[140px] lg:max-w-[160px] xl:max-w-[180px] object-contain"
             onClick={() => navigate('/')}
           />
         </div>

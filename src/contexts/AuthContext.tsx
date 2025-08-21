@@ -11,6 +11,12 @@ interface Profile {
   email: string | null;
   avatar_url: string | null;
   role: string;
+  agency?: string | null;
+  bio?: string | null;
+  license_number?: string | null;
+  budget_max?: number | null;
+  preferred_location?: string | null;
+  preferred_property_type?: string | null;
   created_at: string;
   updated_at: string;
 }

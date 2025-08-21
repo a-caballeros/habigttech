@@ -13,6 +13,7 @@ import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
+import { supabase } from "@/integrations/supabase/client";
 
 const propertySchema = z.object({
   title: z.string().min(5, "El título debe tener al menos 5 caracteres"),
@@ -66,7 +67,23 @@ const AddProperty = () => {
     
     setIsLoading(true);
     try {
-      // TODO: Implement property creation in database
+      const { error } = await supabase
+        .from('properties')
+        .insert({
+          agent_id: user.id,
+          title: data.title,
+          description: data.description,
+          price: parseFloat(data.price),
+          location: data.location,
+          property_type: data.property_type,
+          bedrooms: parseInt(data.bedrooms),
+          bathrooms: parseFloat(data.bathrooms),
+          area: parseInt(data.area),
+          status: 'active'
+        });
+
+      if (error) throw error;
+
       toast({
         title: "Propiedad creada",
         description: "Tu propiedad ha sido publicada exitosamente.",

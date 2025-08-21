@@ -16,6 +16,9 @@ import { useState } from "react";
 const clientProfileSchema = z.object({
   full_name: z.string().min(2, "El nombre debe tener al menos 2 caracteres").max(100, "El nombre es muy largo"),
   phone: z.string().optional().refine((val) => !val || /^\+?[1-9]\d{1,14}$/.test(val), "Formato de teléfono inválido"),
+  budget_max: z.string().optional(),
+  preferred_location: z.string().optional(),
+  preferred_property_type: z.string().optional(),
 });
 
 type ClientProfileForm = z.infer<typeof clientProfileSchema>;
@@ -31,6 +34,9 @@ const ClientProfile = () => {
     defaultValues: {
       full_name: profile?.full_name || "",
       phone: profile?.phone || "",
+      budget_max: profile?.budget_max?.toString() || "",
+      preferred_location: profile?.preferred_location || "",
+      preferred_property_type: profile?.preferred_property_type || "",
     },
   });
 
@@ -44,6 +50,9 @@ const ClientProfile = () => {
         .update({
           full_name: data.full_name,
           phone: data.phone,
+          budget_max: data.budget_max ? parseFloat(data.budget_max) : null,
+          preferred_location: data.preferred_location,
+          preferred_property_type: data.preferred_property_type,
         })
         .eq('id', user.id);
 
@@ -143,11 +152,12 @@ const ClientProfile = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="budget">Presupuesto máximo</Label>
+                <Label htmlFor="budget_max">Presupuesto máximo</Label>
                 <Input
-                  id="budget"
-                  type="text"
-                  placeholder="Ej: Q500,000"
+                  id="budget_max"
+                  type="number"
+                  placeholder="500000"
+                  {...form.register("budget_max")}
                 />
               </div>
               
@@ -157,20 +167,27 @@ const ClientProfile = () => {
                   id="preferred_location"
                   type="text"
                   placeholder="Ej: Zona 10, Ciudad de Guatemala"
+                  {...form.register("preferred_location")}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="property_type">Tipo de propiedad</Label>
+                <Label htmlFor="preferred_property_type">Tipo de propiedad</Label>
                 <Input
-                  id="property_type"
+                  id="preferred_property_type"
                   type="text"
                   placeholder="Ej: Casa, Apartamento, Terreno"
+                  {...form.register("preferred_property_type")}
                 />
               </div>
               
-              <Button variant="outline" className="w-full">
-                Guardar Preferencias
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={form.handleSubmit(onSubmit)}
+                disabled={isLoading}
+              >
+                {isLoading ? "Guardando..." : "Guardar Preferencias"}
               </Button>
             </CardContent>
           </Card>
@@ -178,7 +195,7 @@ const ClientProfile = () => {
           {/* Quick Actions for Clients */}
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 border-blue-200 dark:border-blue-800">
             <CardHeader>
-              <CardTitle className="text-blue-700 dark:text-blue-300">Panel de Cliente</CardTitle>
+              <CardTitle className="text-blue-700 dark:text-blue-300">🏠 Panel de Cliente</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -188,36 +205,32 @@ const ClientProfile = () => {
                   onClick={() => navigate('/')}
                 >
                   <Search className="h-5 w-5" />
-                  Buscar Propiedades
+                  🔍 Explorar Propiedades
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
                   className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20"
-                  onClick={() => navigate('/favorites')}
                 >
                   <Heart className="h-5 w-5" />
-                  Ver Favoritos
+                  💙 Mis Favoritos
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2"
-                  onClick={() => navigate('/messages')}
+                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20"
                 >
-                  💬 Ver Mensajes
+                  📞 Contactar Agentes
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2"
-                  onClick={() => navigate('/notifications')}
+                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20"
                 >
-                  <Bell className="h-5 w-5" />
-                  Alertas de Precio
+                  🔔 Alertas Personalizadas
                 </Button>
               </div>
             </CardContent>

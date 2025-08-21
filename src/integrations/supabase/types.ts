@@ -70,37 +70,106 @@ export type Database = {
       }
       profiles: {
         Row: {
+          agency: string | null
           avatar_url: string | null
+          bio: string | null
+          budget_max: number | null
           created_at: string
           email: string | null
           full_name: string | null
           id: string
+          license_number: string | null
           phone: string | null
+          preferred_location: string | null
+          preferred_property_type: string | null
           role: string | null
           updated_at: string
           user_type: string
         }
         Insert: {
+          agency?: string | null
           avatar_url?: string | null
+          bio?: string | null
+          budget_max?: number | null
           created_at?: string
           email?: string | null
           full_name?: string | null
           id: string
+          license_number?: string | null
           phone?: string | null
+          preferred_location?: string | null
+          preferred_property_type?: string | null
           role?: string | null
           updated_at?: string
           user_type: string
         }
         Update: {
+          agency?: string | null
           avatar_url?: string | null
+          bio?: string | null
+          budget_max?: number | null
           created_at?: string
           email?: string | null
           full_name?: string | null
           id?: string
+          license_number?: string | null
           phone?: string | null
+          preferred_location?: string | null
+          preferred_property_type?: string | null
           role?: string | null
           updated_at?: string
           user_type?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          agent_id: string
+          area: number | null
+          bathrooms: number | null
+          bedrooms: number | null
+          created_at: string
+          description: string | null
+          id: string
+          images: string[] | null
+          location: string
+          price: number
+          property_type: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          area?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          location: string
+          price: number
+          property_type: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          area?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          location?: string
+          price?: number
+          property_type?: string
+          status?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }

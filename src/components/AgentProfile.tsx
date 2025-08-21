@@ -35,9 +35,9 @@ const AgentProfile = () => {
     defaultValues: {
       full_name: profile?.full_name || "",
       phone: profile?.phone || "",
-      agency: "",
-      bio: "",
-      license_number: "",
+      agency: profile?.agency || "",
+      bio: profile?.bio || "",
+      license_number: profile?.license_number || "",
     },
   });
 
@@ -51,6 +51,9 @@ const AgentProfile = () => {
         .update({
           full_name: data.full_name,
           phone: data.phone,
+          agency: data.agency,
+          bio: data.bio,
+          license_number: data.license_number,
         })
         .eq('id', user.id);
 
@@ -179,8 +182,14 @@ const AgentProfile = () => {
                 />
               </div>
               
-              <Button variant="outline" className="w-full">
-                Actualizar Información Profesional
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="w-full"
+                onClick={form.handleSubmit(onSubmit)}
+                disabled={isLoading}
+              >
+                {isLoading ? "Guardando..." : "Actualizar Información Profesional"}
               </Button>
             </CardContent>
           </Card>
@@ -209,48 +218,46 @@ const AgentProfile = () => {
           </Card>
 
           {/* Agent-specific actions */}
-          <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+          <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-950/20 dark:to-emerald-900/20 border-emerald-200 dark:border-emerald-800">
             <CardHeader>
-              <CardTitle className="text-primary">Panel de Agente Inmobiliario</CardTitle>
+              <CardTitle className="text-emerald-700 dark:text-emerald-300">🏢 Panel de Agente Inmobiliario</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Button 
                   size="lg"
-                  className="flex items-center gap-2 bg-primary hover:bg-primary/90"
+                  className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
                   onClick={() => navigate('/add-property')}
                 >
                   <Plus className="h-5 w-5" />
-                  Agregar Propiedad
+                  🏠 Subir Propiedad
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2 border-primary text-primary hover:bg-primary/5"
+                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20"
                   onClick={() => navigate('/dashboard')}
                 >
                   <BarChart3 className="h-5 w-5" />
-                  Ver Dashboard
+                  📊 Mi Dashboard
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2"
-                  onClick={() => navigate('/messages')}
-                >
-                  <MessageCircle className="h-5 w-5" />
-                  Consultas de Clientes
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  size="lg"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20"
                   onClick={() => navigate('/subscription')}
                 >
-                  ⭐ Gestionar Suscripción
+                  ⭐ Plan Premium
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20"
+                >
+                  📱 Ver Mi Portfolio
                 </Button>
               </div>
             </CardContent>

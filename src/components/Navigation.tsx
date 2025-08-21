@@ -37,24 +37,18 @@ const Navigation = () => {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="relative" 
                     onClick={() => navigate('/favorites')}
                   >
                     <Heart className="h-4 w-4" />
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs bg-accent">
-                      3
-                    </Badge>
+                    Favoritos
                   </Button>
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="relative" 
                     onClick={() => navigate('/messages')}
                   >
                     <MessageCircle className="h-4 w-4" />
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs bg-primary">
-                      2
-                    </Badge>
+                    Mensajes
                   </Button>
                 </>
               )}
@@ -71,15 +65,20 @@ const Navigation = () => {
                     + Nueva Propiedad
                   </Button>
                   <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="hidden lg:flex"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    Dashboard
+                  </Button>
+                  <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="relative" 
                     onClick={() => navigate('/messages')}
                   >
                     <MessageCircle className="h-4 w-4" />
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs bg-primary">
-                      5
-                    </Badge>
+                    Consultas
                   </Button>
                 </>
               )}
@@ -87,13 +86,10 @@ const Navigation = () => {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="relative" 
                 onClick={() => navigate('/notifications')}
               >
                 <Bell className="h-4 w-4" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs bg-accent">
-                  1
-                </Badge>
+                Alertas
               </Button>
               
               <DropdownMenu>

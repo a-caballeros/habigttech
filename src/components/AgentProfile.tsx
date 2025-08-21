@@ -209,40 +209,44 @@ const AgentProfile = () => {
           </Card>
 
           {/* Agent-specific actions */}
-          <Card>
+          <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
             <CardHeader>
-              <CardTitle>Gestión de Propiedades</CardTitle>
+              <CardTitle className="text-primary">Panel de Agente Inmobiliario</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Button 
-                  className="flex items-center gap-2"
+                  size="lg"
+                  className="flex items-center gap-2 bg-primary hover:bg-primary/90"
                   onClick={() => navigate('/add-property')}
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-5 w-5" />
                   Agregar Propiedad
                 </Button>
                 
                 <Button 
                   variant="outline" 
-                  className="flex items-center gap-2"
+                  size="lg"
+                  className="flex items-center gap-2 border-primary text-primary hover:bg-primary/5"
                   onClick={() => navigate('/dashboard')}
                 >
-                  <BarChart3 className="h-4 w-4" />
+                  <BarChart3 className="h-5 w-5" />
                   Ver Dashboard
                 </Button>
                 
                 <Button 
                   variant="outline" 
+                  size="lg"
                   className="flex items-center gap-2"
                   onClick={() => navigate('/messages')}
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-5 w-5" />
                   Consultas de Clientes
                 </Button>
                 
                 <Button 
                   variant="outline" 
+                  size="lg"
                   className="flex items-center gap-2"
                   onClick={() => navigate('/subscription')}
                 >

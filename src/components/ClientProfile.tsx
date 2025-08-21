@@ -176,32 +176,34 @@ const ClientProfile = () => {
           </Card>
 
           {/* Quick Actions for Clients */}
-          <Card>
+          <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 border-blue-200 dark:border-blue-800">
             <CardHeader>
-              <CardTitle>Acciones Rápidas</CardTitle>
+              <CardTitle className="text-blue-700 dark:text-blue-300">Panel de Cliente</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Button 
-                  variant="outline" 
-                  className="flex items-center gap-2"
-                  onClick={() => navigate('/favorites')}
-                >
-                  <Heart className="h-4 w-4" />
-                  Ver Favoritos
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  className="flex items-center gap-2"
+                  size="lg"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
                   onClick={() => navigate('/')}
                 >
-                  <Search className="h-4 w-4" />
+                  <Search className="h-5 w-5" />
                   Buscar Propiedades
                 </Button>
                 
                 <Button 
                   variant="outline" 
+                  size="lg"
+                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20"
+                  onClick={() => navigate('/favorites')}
+                >
+                  <Heart className="h-5 w-5" />
+                  Ver Favoritos
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="lg"
                   className="flex items-center gap-2"
                   onClick={() => navigate('/messages')}
                 >
@@ -210,11 +212,12 @@ const ClientProfile = () => {
                 
                 <Button 
                   variant="outline" 
+                  size="lg"
                   className="flex items-center gap-2"
                   onClick={() => navigate('/notifications')}
                 >
-                  <Bell className="h-4 w-4" />
-                  Notificaciones
+                  <Bell className="h-5 w-5" />
+                  Alertas de Precio
                 </Button>
               </div>
             </CardContent>

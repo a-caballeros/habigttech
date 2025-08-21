@@ -27,44 +27,7 @@ interface Property {
 }
 
 const AgentDashboard = () => {
-  const [properties] = useState<Property[]>([
-    {
-      id: '1',
-      title: 'Casa Colonial en Antigua',
-      price: 'Q1,500,000',
-      location: 'Antigua Guatemala',
-      image: '/api/placeholder/300/200',
-      status: 'active',
-      views: 245,
-      favorites: 12,
-      messages: 5,
-      datePosted: '2024-01-15'
-    },
-    {
-      id: '2', 
-      title: 'Apartamento Moderno Zona 14',
-      price: 'Q850,000',
-      location: 'Ciudad de Guatemala',
-      image: '/api/placeholder/300/200',
-      status: 'active',
-      views: 189,
-      favorites: 8,
-      messages: 3,
-      datePosted: '2024-01-10'
-    },
-    {
-      id: '3',
-      title: 'Villa con Piscina',
-      price: 'Q2,200,000',
-      location: 'Escuintla',
-      image: '/api/placeholder/300/200',
-      status: 'pending',
-      views: 156,
-      favorites: 15,
-      messages: 7,
-      datePosted: '2024-01-08'
-    }
-  ]);
+  const [properties] = useState<Property[]>([]);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -93,10 +56,10 @@ const AgentDashboard = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            ¡Hola, María González!
+            Panel de Agente
           </h1>
           <p className="text-muted-foreground">
-            Revisa el rendimiento de tus propiedades y gestiona tus listados.
+            Gestiona tus propiedades y revisa el rendimiento de tus listados.
           </p>
         </div>
 
@@ -111,10 +74,12 @@ const AgentDashboard = () => {
                 </div>
                 <Home className="h-8 w-8 text-primary" />
               </div>
-              <div className="flex items-center mt-2 text-sm text-success">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                +2 este mes
-              </div>
+              {activeProperties > 0 && (
+                <div className="flex items-center mt-2 text-sm text-success">
+                  <TrendingUp className="h-4 w-4 mr-1" />
+                  Propiedades activas
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -127,10 +92,12 @@ const AgentDashboard = () => {
                 </div>
                 <Eye className="h-8 w-8 text-primary" />
               </div>
-              <div className="flex items-center mt-2 text-sm text-success">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                +15% vs mes anterior
-              </div>
+              {totalViews > 0 && (
+                <div className="flex items-center mt-2 text-sm text-success">
+                  <TrendingUp className="h-4 w-4 mr-1" />
+                  Total de vistas
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -143,10 +110,12 @@ const AgentDashboard = () => {
                 </div>
                 <MessageCircle className="h-8 w-8 text-primary" />
               </div>
-              <div className="flex items-center mt-2 text-sm text-success">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                +5 esta semana
-              </div>
+              {totalMessages > 0 && (
+                <div className="flex items-center mt-2 text-sm text-success">
+                  <TrendingUp className="h-4 w-4 mr-1" />
+                  Nuevas consultas
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -155,13 +124,12 @@ const AgentDashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">Ingresos Mes</p>
-                  <p className="text-2xl font-bold text-foreground">Q15,000</p>
+                  <p className="text-2xl font-bold text-foreground">Q0</p>
                 </div>
                 <DollarSign className="h-8 w-8 text-primary" />
               </div>
-              <div className="flex items-center mt-2 text-sm text-success">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                +8% vs mes anterior
+              <div className="flex items-center mt-2 text-sm text-muted-foreground">
+                <span className="text-xs">Comienza agregando propiedades</span>
               </div>
             </CardContent>
           </Card>
@@ -199,78 +167,96 @@ const AgentDashboard = () => {
 
           <CardContent>
             <div className="space-y-4">
-              {properties.map((property) => (
-                <div key={property.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border rounded-lg transition-smooth hover:shadow-soft">
-                  {/* Property Image */}
-                  <img 
-                    src={property.image}
-                    alt={property.title}
-                    className="w-full sm:w-20 h-40 sm:h-20 rounded-lg object-cover"
-                  />
-
-                  {/* Property Info */}
-                  <div className="flex-1 min-w-0 w-full">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-2">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground">{property.title}</h3>
-                        <p className="text-sm text-muted-foreground">{property.location}</p>
-                      </div>
-                      <div className="text-left sm:text-right">
-                        <p className="font-bold text-lg text-foreground">{property.price}</p>
-                        <Badge className={statusColors[property.status]}>
-                          {statusLabels[property.status]}
-                        </Badge>
-                      </div>
-                    </div>
-
-                    {/* Statistics */}
-                    <div className="flex flex-wrap items-center gap-3 md:gap-6 text-sm">
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <Eye className="h-4 w-4" />
-                        {property.views} vistas
-                      </div>
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <Heart className="h-4 w-4" />
-                        {property.favorites} favoritos
-                      </div>
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <MessageCircle className="h-4 w-4" />
-                        {property.messages} mensajes
-                      </div>
-                      <span className="text-muted-foreground text-xs sm:text-sm">
-                        Publicado: {new Date(property.datePosted).toLocaleDateString()}
-                      </span>
-                    </div>
+              {properties.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="mb-4">
+                    <Home className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                      No tienes propiedades publicadas
+                    </h3>
+                    <p className="text-muted-foreground mb-6">
+                      Comienza agregando tu primera propiedad para empezar a recibir consultas
+                    </p>
+                    <Button className="flex items-center gap-2">
+                      <Plus className="h-4 w-4" />
+                      Agregar Primera Propiedad
+                    </Button>
                   </div>
-
-                  {/* Actions */}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem className="flex items-center gap-2">
-                        <Edit3 className="h-4 w-4" />
-                        Editar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2">
-                        <Pause className="h-4 w-4" />
-                        {property.status === 'paused' ? 'Reactivar' : 'Pausar'}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2">
-                        <Megaphone className="h-4 w-4" />
-                        Promocionar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2 text-destructive">
-                        <Trash2 className="h-4 w-4" />
-                        Eliminar
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
                 </div>
-              ))}
+              ) : (
+                properties.map((property) => (
+                  <div key={property.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border rounded-lg transition-smooth hover:shadow-soft">
+                    {/* Property Image */}
+                    <img 
+                      src={property.image}
+                      alt={property.title}
+                      className="w-full sm:w-20 h-40 sm:h-20 rounded-lg object-cover"
+                    />
+
+                    {/* Property Info */}
+                    <div className="flex-1 min-w-0 w-full">
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-2">
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-foreground">{property.title}</h3>
+                          <p className="text-sm text-muted-foreground">{property.location}</p>
+                        </div>
+                        <div className="text-left sm:text-right">
+                          <p className="font-bold text-lg text-foreground">{property.price}</p>
+                          <Badge className={statusColors[property.status]}>
+                            {statusLabels[property.status]}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      {/* Statistics */}
+                      <div className="flex flex-wrap items-center gap-3 md:gap-6 text-sm">
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <Eye className="h-4 w-4" />
+                          {property.views} vistas
+                        </div>
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <Heart className="h-4 w-4" />
+                          {property.favorites} favoritos
+                        </div>
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <MessageCircle className="h-4 w-4" />
+                          {property.messages} mensajes
+                        </div>
+                        <span className="text-muted-foreground text-xs sm:text-sm">
+                          Publicado: {new Date(property.datePosted).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem className="flex items-center gap-2">
+                          <Edit3 className="h-4 w-4" />
+                          Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="flex items-center gap-2">
+                          <Pause className="h-4 w-4" />
+                          {property.status === 'paused' ? 'Reactivar' : 'Pausar'}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="flex items-center gap-2">
+                          <Megaphone className="h-4 w-4" />
+                          Promocionar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="flex items-center gap-2 text-destructive">
+                          <Trash2 className="h-4 w-4" />
+                          Eliminar
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                ))
+              )}
             </div>
           </CardContent>
         </Card>

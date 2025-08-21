@@ -25,65 +25,11 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [userType, setUserType] = useState<UserType>('client');
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
-  const [propertyCount, setPropertyCount] = useState(2);
-  const [agentCount, setAgentCount] = useState(1);
+  const [propertyCount, setPropertyCount] = useState(0);
+  const [agentCount, setAgentCount] = useState(0);
 
-  // Sample property data
-  const sampleProperties = [
-    {
-      id: '1',
-      title: 'Casa Colonial con Jardín Privado',
-      price: 'Q1,500,000',
-      location: 'Antigua Guatemala, Sacatepéquez',
-      bedrooms: 4,
-      bathrooms: 3,
-      area: 280,
-      parking: 2,
-      images: [property1, property2, property3],
-      agent: {
-        name: 'María González',
-        photo: agent1,
-        tier: 'gold' as const
-      },
-      views: 245,
-      isPromoted: true
-    },
-    {
-      id: '2',
-      title: 'Apartamento Moderno con Vista',
-      price: 'Q850,000',
-      location: 'Zona 14, Ciudad de Guatemala',
-      bedrooms: 2,
-      bathrooms: 2,
-      area: 120,
-      parking: 1,
-      images: [property2, property1, property3],
-      agent: {
-        name: 'Carlos Mendoza',
-        photo: agent2,
-        tier: 'silver' as const
-      },
-      views: 189
-    },
-    {
-      id: '3',
-      title: 'Villa con Piscina y Terraza',
-      price: 'Q2,200,000',
-      location: 'Escuintla, Escuintla',
-      bedrooms: 5,
-      bathrooms: 4,
-      area: 350,
-      parking: 3,
-      images: [property3, property1, property2],
-      agent: {
-        name: 'Ana Rodríguez',
-        photo: agent1,
-        tier: 'gold' as const
-      },
-      views: 156,
-      isPromoted: false
-    }
-  ];
+  // Real properties will be loaded from database
+  const sampleProperties: any[] = [];
 
   // Property details data
   const propertyDetailsData = {
@@ -182,21 +128,37 @@ const Index = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                      {sampleProperties.map((property) => (
-                        <PropertyCard
-                          key={property.id}
-                          {...property}
-                          onClick={() => handlePropertyClick(property.id)}
-                        />
-                      ))}
+                      {sampleProperties.length === 0 ? (
+                        <div className="col-span-full text-center py-12">
+                          <div className="mb-4">
+                            <span className="text-6xl mb-4 block">🏠</span>
+                            <h3 className="text-lg font-semibold text-foreground mb-2">
+                              No hay propiedades disponibles
+                            </h3>
+                            <p className="text-muted-foreground">
+                              Las propiedades aparecerán aquí cuando los agentes las publiquen
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        sampleProperties.map((property) => (
+                          <PropertyCard
+                            key={property.id}
+                            {...property}
+                            onClick={() => handlePropertyClick(property.id)}
+                          />
+                        ))
+                      )}
                     </div>
 
-                    {/* Load More */}
-                    <div className="text-center mt-12">
-                      <Button variant="outline" size="lg">
-                        Ver Más Propiedades
-                      </Button>
-                    </div>
+                    {/* Load More - Only show if there are properties */}
+                    {sampleProperties.length > 0 && (
+                      <div className="text-center mt-12">
+                        <Button variant="outline" size="lg">
+                          Ver Más Propiedades
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

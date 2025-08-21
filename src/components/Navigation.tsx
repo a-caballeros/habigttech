@@ -16,11 +16,12 @@ const Navigation = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center">
-            <span className="text-white font-bold text-sm">RG</span>
-          </div>
-          <h1 className="text-xl font-bold text-foreground">ResidenciasGT</h1>
+        <div className="flex items-center space-x-3">
+          <img 
+            src="/lovable-uploads/aa964ad8-c21e-46ab-835a-ec030029deff.png" 
+            alt="Habi.gt"
+            className="h-8 w-auto"
+          />
         </div>
 
         {/* Search Bar - Only for clients */}

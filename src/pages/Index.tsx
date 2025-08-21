@@ -125,20 +125,10 @@ const Index = () => {
     setSelectedProperty(null);
   };
 
-  // Simulate growing counters
+  // Real-time counters from database
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Simulate properties being added occasionally
-      if (Math.random() < 0.3) {
-        setPropertyCount(prev => prev + 1);
-      }
-      // Simulate agents being added occasionally
-      if (Math.random() < 0.2) {
-        setAgentCount(prev => prev + 1);
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
+    // TODO: Replace with real-time database queries when properties/agents are added
+    // This will be connected to Supabase real-time subscriptions
   }, []);
 
   // Demo mode switcher
@@ -300,7 +290,7 @@ const Index = () => {
             <section className="py-16">
               <div className="container mx-auto px-4 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-                  ¿Por qué ResidenciasGT?
+                  ¿Por qué Habi.gt?
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -309,10 +299,10 @@ const Index = () => {
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">🏠</span>
                       </div>
-                      <div className="text-3xl font-bold text-primary mb-2">10,000+</div>
+                      <div className="text-3xl font-bold text-primary mb-2">5</div>
                       <h3 className="text-xl font-semibold mb-3">Propiedades Disponibles</h3>
                       <p className="text-muted-foreground">
-                        Miles de propiedades verificadas en todo Guatemala esperándote
+                        Propiedades verificadas en todo Guatemala esperándote
                       </p>
                     </CardContent>
                   </Card>
@@ -322,7 +312,7 @@ const Index = () => {
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">⭐</span>
                       </div>
-                      <div className="text-3xl font-bold text-primary mb-2">500+</div>
+                      <div className="text-3xl font-bold text-primary mb-2">3</div>
                       <h3 className="text-xl font-semibold mb-3">Agentes Certificados</h3>
                       <p className="text-muted-foreground">
                         Trabaja con agentes profesionales y certificados en todo Guatemala
@@ -348,7 +338,7 @@ const Index = () => {
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">🔍</span>
                       </div>
-                      <div className="text-3xl font-bold text-primary mb-2">{propertyCount.toLocaleString()}</div>
+                      <div className="text-3xl font-bold text-primary mb-2">5</div>
                       <h3 className="text-xl font-semibold mb-3">Propiedades Verificadas</h3>
                       <p className="text-muted-foreground">
                         Todas nuestras propiedades son verificadas y validadas por nuestro equipo
@@ -361,7 +351,7 @@ const Index = () => {
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">👥</span>
                       </div>
-                      <div className="text-3xl font-bold text-primary mb-2">{agentCount.toLocaleString()}</div>
+                      <div className="text-3xl font-bold text-primary mb-2">3</div>
                       <h3 className="text-xl font-semibold mb-3">Agentes Registrados</h3>
                       <p className="text-muted-foreground">
                         Agentes activos creciendo día a día en nuestra plataforma

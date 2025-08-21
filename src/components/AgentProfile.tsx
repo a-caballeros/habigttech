@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -220,44 +221,47 @@ const AgentProfile = () => {
           {/* Agent-specific actions */}
           <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-950/20 dark:to-emerald-900/20 border-emerald-200 dark:border-emerald-800">
             <CardHeader>
-              <CardTitle className="text-emerald-700 dark:text-emerald-300">🏢 Panel de Agente Inmobiliario</CardTitle>
+              <CardTitle className="text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
+                🏢 Panel de Agente Inmobiliario
+                <Badge className="bg-emerald-600 text-white">AGENTE</Badge>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Button 
                   size="lg"
-                  className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white h-12"
                   onClick={() => navigate('/add-property')}
                 >
                   <Plus className="h-5 w-5" />
-                  🏠 Subir Propiedad
+                  🏠 Agregar Nueva Propiedad
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20"
+                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
                   onClick={() => navigate('/dashboard')}
                 >
                   <BarChart3 className="h-5 w-5" />
-                  📊 Mi Dashboard
+                  📊 Mi Dashboard de Ventas
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20"
+                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
                   onClick={() => navigate('/subscription')}
                 >
-                  ⭐ Plan Premium
+                  ⭐ Gestionar Suscripción
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20"
+                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
                 >
-                  📱 Ver Mi Portfolio
+                  📱 Mi Portfolio Profesional
                 </Button>
               </div>
             </CardContent>

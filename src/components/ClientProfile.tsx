@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
@@ -195,42 +196,45 @@ const ClientProfile = () => {
           {/* Quick Actions for Clients */}
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 border-blue-200 dark:border-blue-800">
             <CardHeader>
-              <CardTitle className="text-blue-700 dark:text-blue-300">🏠 Panel de Cliente</CardTitle>
+              <CardTitle className="text-blue-700 dark:text-blue-300 flex items-center gap-2">
+                🏠 Panel de Cliente
+                <Badge className="bg-blue-600 text-white">CLIENTE</Badge>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Button 
                   size="lg"
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 h-12"
                   onClick={() => navigate('/')}
                 >
                   <Search className="h-5 w-5" />
-                  🔍 Explorar Propiedades
+                  🔍 Buscar Propiedades
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20"
+                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20 h-12"
                 >
                   <Heart className="h-5 w-5" />
-                  💙 Mis Favoritos
+                  💙 Propiedades Guardadas
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20"
+                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20 h-12"
                 >
-                  📞 Contactar Agentes
+                  📞 Consultas Enviadas
                 </Button>
                 
                 <Button 
                   variant="outline" 
                   size="lg"
-                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20"
+                  className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20 h-12"
                 >
-                  🔔 Alertas Personalizadas
+                  🔔 Recibir Notificaciones
                 </Button>
               </div>
             </CardContent>

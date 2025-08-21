@@ -57,6 +57,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { toast } = useToast();
 
   const userType: 'client' | 'agent' = profile?.user_type === 'agent' ? 'agent' : 'client';
+  
+  // Debug log to see what's happening
+  console.log('AuthContext Debug:', {
+    user: user?.id,
+    profile,
+    userType,
+    profileUserType: profile?.user_type
+  });
 
   const fetchProfile = async (userId: string) => {
     try {

@@ -88,7 +88,7 @@ const AgentDashboard = () => {
   const activeProperties = properties.filter(p => p.status === 'active').length;
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className="min-h-screen bg-background p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -101,7 +101,7 @@ const AgentDashboard = () => {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -170,16 +170,17 @@ const AgentDashboard = () => {
         {/* Properties Management */}
         <Card>
           <CardHeader>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <CardTitle className="text-xl">Gestión de Propiedades</CardTitle>
-              <Button className="flex items-center gap-2">
+              <Button className="flex items-center gap-2 w-full sm:w-auto">
                 <Plus className="h-4 w-4" />
-                Agregar Nueva Propiedad
+                <span className="hidden sm:inline">Agregar Nueva</span>
+                <span className="sm:hidden">Nueva Propiedad</span>
               </Button>
             </div>
             
             {/* Search and Filters */}
-            <div className="flex gap-4 mt-4">
+            <div className="flex flex-col sm:flex-row gap-4 mt-4">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input 
@@ -189,7 +190,7 @@ const AgentDashboard = () => {
                   className="pl-10"
                 />
               </div>
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
                 <Filter className="h-4 w-4" />
                 Filtros
               </Button>
@@ -199,22 +200,22 @@ const AgentDashboard = () => {
           <CardContent>
             <div className="space-y-4">
               {properties.map((property) => (
-                <div key={property.id} className="flex items-center gap-4 p-4 border rounded-lg transition-smooth hover:shadow-soft">
+                <div key={property.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border rounded-lg transition-smooth hover:shadow-soft">
                   {/* Property Image */}
                   <img 
                     src={property.image}
                     alt={property.title}
-                    className="w-20 h-20 rounded-lg object-cover"
+                    className="w-full sm:w-20 h-40 sm:h-20 rounded-lg object-cover"
                   />
 
                   {/* Property Info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="font-semibold text-foreground truncate">{property.title}</h3>
+                  <div className="flex-1 min-w-0 w-full">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-2">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-foreground">{property.title}</h3>
                         <p className="text-sm text-muted-foreground">{property.location}</p>
                       </div>
-                      <div className="text-right">
+                      <div className="text-left sm:text-right">
                         <p className="font-bold text-lg text-foreground">{property.price}</p>
                         <Badge className={statusColors[property.status]}>
                           {statusLabels[property.status]}
@@ -223,7 +224,7 @@ const AgentDashboard = () => {
                     </div>
 
                     {/* Statistics */}
-                    <div className="flex items-center gap-6 text-sm">
+                    <div className="flex flex-wrap items-center gap-3 md:gap-6 text-sm">
                       <div className="flex items-center gap-1 text-muted-foreground">
                         <Eye className="h-4 w-4" />
                         {property.views} vistas
@@ -236,7 +237,7 @@ const AgentDashboard = () => {
                         <MessageCircle className="h-4 w-4" />
                         {property.messages} mensajes
                       </div>
-                      <span className="text-muted-foreground">
+                      <span className="text-muted-foreground text-xs sm:text-sm">
                         Publicado: {new Date(property.datePosted).toLocaleDateString()}
                       </span>
                     </div>

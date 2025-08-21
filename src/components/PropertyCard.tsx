@@ -166,8 +166,16 @@ const PropertyCard = ({
                 </div>
               </div>
             </div>
-            <Button variant="outline" size="sm">
-              Ver Detalles
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Aquí se puede agregar lógica para contactar al agente
+                console.log('Contactar agente:', agent.name);
+              }}
+            >
+              Contactar
             </Button>
           </div>
         </CardContent>

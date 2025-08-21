@@ -142,7 +142,7 @@ const Auth = () => {
     <div className="min-h-screen bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">ResidenciasGT</CardTitle>
+          <CardTitle className="text-2xl font-bold">Habi.gt</CardTitle>
           <CardDescription>
             Tu plataforma inmobiliaria en Guatemala
           </CardDescription>
@@ -198,22 +198,14 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 gap-2">
                   <Button 
                     variant="outline" 
-                    onClick={() => handleSocialLogin('facebook')}
+                    onClick={() => window.location.href = 'https://supabase.com/dashboard/project/yhvtpfrzlxgyiienlbuh/auth/providers'}
                     disabled={loading}
                   >
-                    <Facebook className="mr-2 h-4 w-4" />
-                    Facebook
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => handleSocialLogin('twitter')}
-                    disabled={loading}
-                  >
-                    <Twitter className="mr-2 h-4 w-4" />
-                    Twitter
+                    <Mail className="mr-2 h-4 w-4" />
+                    Gmail
                   </Button>
                 </div>
               </TabsContent>
@@ -270,22 +262,14 @@ const Auth = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 gap-2">
                   <Button 
                     variant="outline" 
-                    onClick={() => handleSocialLogin('facebook')}
+                    onClick={() => window.location.href = 'https://supabase.com/dashboard/project/yhvtpfrzlxgyiienlbuh/auth/providers'}
                     disabled={loading}
                   >
-                    <Facebook className="mr-2 h-4 w-4" />
-                    Facebook
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => handleSocialLogin('twitter')}
-                    disabled={loading}
-                  >
-                    <Twitter className="mr-2 h-4 w-4" />
-                    Twitter
+                    <Mail className="mr-2 h-4 w-4" />
+                    Gmail
                   </Button>
                 </div>
               </TabsContent>

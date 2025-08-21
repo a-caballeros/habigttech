@@ -48,9 +48,11 @@ const HeroSection = () => {
             />
             <Button 
               size="lg" 
-              className="absolute inset-y-0 right-0 m-1 px-8"
+              className="absolute inset-y-0 right-0 m-1 px-4 md:px-8"
+              onClick={() => console.log('Buscar:', searchQuery)}
             >
-              Buscar
+              <Search className="h-4 w-4 md:hidden" />
+              <span className="hidden md:inline">Buscar</span>
             </Button>
           </div>
         </div>

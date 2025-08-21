@@ -102,8 +102,10 @@ const Subscription = () => {
       const { error: signUpError } = await signUp(
         signupData.email,
         signupData.password,
-        'agent',
-        signupData.fullName
+        {
+          user_type: 'agent',
+          full_name: signupData.fullName
+        }
       );
 
       if (signUpError) {

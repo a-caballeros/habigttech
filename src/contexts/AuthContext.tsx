@@ -1,16 +1,32 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+
+interface Profile {
+  id: string;
+  user_type: string;
+  full_name: string | null;
+  phone: string | null;
+  email: string | null;
+  avatar_url: string | null;
+  role: string;
+  created_at: string;
+  updated_at: string;
+}
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
-  userType: 'client' | 'agent' | null;
+  profile: Profile | null;
+  userType: 'client' | 'agent';
   loading: boolean;
+  signUp: (email: string, password: string, userData?: any) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, userType: 'client' | 'agent', fullName?: string) => Promise<{ error: any }>;
-  signInWithProvider: (provider: 'facebook' | 'twitter') => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  signInWithProvider: (provider: 'facebook' | 'twitter' | 'google') => Promise<{ error: any }>;
+  sendOTP: (phone: string) => Promise<{ error: any }>;
+  verifyOTP: (phone: string, token: string) => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,11 +39,37 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [userType, setUserType] = useState<'client' | 'agent' | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  const userType: 'client' | 'agent' = profile?.user_type === 'agent' ? 'agent' : 'client';
+
+  const fetchProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching profile:', error);
+        return;
+      }
+
+      setProfile(data);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  };
 
   useEffect(() => {
     // Set up auth state listener
@@ -37,40 +79,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch user profile to get user type
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('user_type')
-            .eq('id', session.user.id)
-            .single();
-          
-          setUserType((profile?.user_type as 'client' | 'agent') || null);
+          // Defer profile fetching to avoid deadlock
+          setTimeout(() => {
+            fetchProfile(session.user.id);
+          }, 0);
         } else {
-          setUserType(null);
+          setProfile(null);
         }
         
         setLoading(false);
       }
     );
 
-    // Check for existing session
+    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        setTimeout(() => {
+          fetchProfile(session.user.id);
+        }, 0);
+      }
+      
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
-  };
-
-  const signUp = async (email: string, password: string, userType: 'client' | 'agent', fullName?: string) => {
+  const signUp = async (email: string, password: string, userData = {}) => {
     const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signUp({
@@ -78,47 +116,147 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       password,
       options: {
         emailRedirectTo: redirectUrl,
-        data: {
-          user_type: userType,
-          full_name: fullName || ''
-        }
+        data: userData
       }
     });
+
+    if (error) {
+      toast({
+        title: "Error de registro",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Registro exitoso",
+        description: "Revisa tu email para verificar tu cuenta",
+      });
+    }
+
     return { error };
   };
 
-  const signInWithProvider = async (provider: 'facebook' | 'twitter') => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: provider,
-      options: {
-        redirectTo: redirectUrl
-      }
+  const signIn = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
+
+    if (error) {
+      toast({
+        title: "Error de inicio de sesión",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Bienvenido",
+        description: "Has iniciado sesión correctamente",
+      });
+    }
+
     return { error };
   };
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
+    
     if (error) {
-      console.error('Error signing out:', error);
+      toast({
+        title: "Error",
+        description: "No se pudo cerrar sesión",
+        variant: "destructive",
+      });
     } else {
-      // Force redirect to auth page
-      window.location.href = '/auth';
+      toast({
+        title: "Sesión cerrada",
+        description: "Has cerrado sesión correctamente",
+      });
     }
+  };
+
+  const signInWithProvider = async (provider: 'facebook' | 'twitter' | 'google') => {
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: provider === 'twitter' ? 'twitter' : provider,
+      options: {
+        redirectTo: redirectUrl
+      }
+    });
+
+    if (error) {
+      toast({
+        title: "Error de autenticación social",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+
+    return { error };
+  };
+
+  const sendOTP = async (phone: string) => {
+    const { error } = await supabase.auth.signInWithOtp({
+      phone: phone,
+    });
+
+    if (error) {
+      toast({
+        title: "Error enviando SMS",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "SMS enviado",
+        description: "Revisa tu teléfono para el código de verificación",
+      });
+    }
+
+    return { error };
+  };
+
+  const verifyOTP = async (phone: string, token: string) => {
+    const { error } = await supabase.auth.verifyOtp({
+      phone: phone,
+      token: token,
+      type: 'sms'
+    });
+
+    if (error) {
+      toast({
+        title: "Error verificando código",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Verificación exitosa",
+        description: "Has iniciado sesión correctamente",
+      });
+    }
+
+    return { error };
   };
 
   const value = {
     user,
     session,
+    profile,
     userType,
     loading,
-    signIn,
     signUp,
-    signInWithProvider,
+    signIn,
     signOut,
+    signInWithProvider,
+    sendOTP,
+    verifyOTP,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Filter, X } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface PropertyFiltersProps {
   onFiltersChange?: (filters: any) => void;
@@ -37,6 +38,30 @@ const PropertyFilters = ({ onFiltersChange }: PropertyFiltersProps) => {
         ? prev.filter(f => f !== feature)
         : [...prev, feature]
     );
+  };
+
+  const applyFilters = () => {
+    const filters = {
+      priceRange,
+      selectedFeatures
+    };
+    if (onFiltersChange) {
+      onFiltersChange(filters);
+    }
+    toast({
+      title: "Filtros aplicados",
+      description: "Los filtros han sido aplicados a la búsqueda.",
+    });
+    setIsOpen(false);
+  };
+
+  const clearFilters = () => {
+    setPriceRange([0, 5000000]);
+    setSelectedFeatures([]);
+    toast({
+      title: "Filtros limpiados",
+      description: "Todos los filtros han sido eliminados.",
+    });
   };
 
   if (!isOpen) {
@@ -168,10 +193,10 @@ const PropertyFilters = ({ onFiltersChange }: PropertyFiltersProps) => {
 
         {/* Buttons */}
         <div className="flex flex-col space-y-2 pt-4">
-          <Button className="w-full">
+          <Button className="w-full" onClick={applyFilters}>
             Aplicar Filtros
           </Button>
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" onClick={clearFilters}>
             Limpiar Filtros
           </Button>
         </div>

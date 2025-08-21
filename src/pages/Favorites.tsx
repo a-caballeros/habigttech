@@ -3,10 +3,13 @@ import { Heart, MapPin, Bed, Bath, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
+import property1 from "@/assets/property1.jpg";
+import property2 from "@/assets/property2.jpg";
 
 const Favorites = () => {
-  const [favorites] = useState([
+  const [favorites, setFavorites] = useState([
     {
       id: 1,
       title: "Casa en Zona 14",
@@ -15,7 +18,7 @@ const Favorites = () => {
       bedrooms: 3,
       bathrooms: 2,
       area: 180,
-      image: "/src/assets/property1.jpg",
+      image: property1,
       type: "Casa"
     },
     {
@@ -26,13 +29,25 @@ const Favorites = () => {
       bedrooms: 2,
       bathrooms: 1,
       area: 120,
-      image: "/src/assets/property2.jpg",
+      image: property2,
       type: "Apartamento"
     }
   ]);
 
   const removeFavorite = (id: number) => {
-    console.log('Removing favorite:', id);
+    setFavorites(favorites.filter(fav => fav.id !== id));
+    toast({
+      title: "Eliminado de favoritos",
+      description: "La propiedad ha sido removida de tus favoritos.",
+    });
+  };
+
+  const viewDetails = (id: number) => {
+    window.location.hash = `#propiedad/${id}`;
+    toast({
+      title: "Navegando a detalles",
+      description: "Cargando información de la propiedad...",
+    });
   };
 
   return (
@@ -40,7 +55,7 @@ const Favorites = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
+        <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-foreground mb-2">Mis Favoritos</h1>
           <p className="text-muted-foreground">
             {favorites.length} propiedades guardadas
@@ -97,7 +112,12 @@ const Favorites = () => {
               </CardContent>
               
               <CardFooter className="p-4 pt-0">
-                <Button className="w-full">Ver Detalles</Button>
+                <Button 
+                  className="w-full" 
+                  onClick={() => viewDetails(property.id)}
+                >
+                  Ver Detalles
+                </Button>
               </CardFooter>
             </Card>
           ))}

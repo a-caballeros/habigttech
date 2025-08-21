@@ -1,8 +1,9 @@
-import { Heart, MapPin, Bed, Bath, Square, Car, Eye, Star } from "lucide-react";
+import { Heart, MapPin, Bed, Bath, Square, Car, Eye, Star, MessageCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
 
 interface PropertyCardProps {
   id: string;
@@ -38,10 +39,17 @@ const PropertyCard = ({
   views,
   isFavorite = false,
   isPromoted = false,
-  onClick 
+  onClick
 }: PropertyCardProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [favorite, setFavorite] = useState(isFavorite);
+
+  const handleAgentContact = () => {
+    toast({
+      title: "Contactar agente",
+      description: `Iniciando contacto con ${agent.name}...`,
+    });
+  };
 
   const tierColors = {
     bronze: 'tier-bronze',
@@ -171,10 +179,10 @@ const PropertyCard = ({
               size="sm"
               onClick={(e) => {
                 e.stopPropagation();
-                // Aquí se puede agregar lógica para contactar al agente
-                console.log('Contactar agente:', agent.name);
+                handleAgentContact();
               }}
             >
+              <MessageCircle className="h-4 w-4 mr-1" />
               Contactar
             </Button>
           </div>

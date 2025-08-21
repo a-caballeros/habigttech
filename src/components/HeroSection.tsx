@@ -46,14 +46,19 @@ const HeroSection = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-12 pr-4 py-6 text-lg bg-white/95 backdrop-blur border-0 shadow-strong focus:bg-white transition-smooth"
             />
-            <Button 
-              size="lg" 
-              className="absolute inset-y-0 right-0 m-1 px-4 md:px-8"
-              onClick={() => console.log('Buscar:', searchQuery)}
-            >
-              <Search className="h-4 w-4 md:hidden" />
-              <span className="hidden md:inline">Buscar</span>
-            </Button>
+        <Button 
+          size="lg" 
+          className="absolute inset-y-0 right-0 m-1 px-4 md:px-8"
+          onClick={() => {
+            if (searchQuery.trim()) {
+              // Implementar búsqueda real
+              window.location.hash = `#buscar?q=${encodeURIComponent(searchQuery)}`;
+            }
+          }}
+        >
+          <Search className="h-4 w-4 md:hidden" />
+          <span className="hidden md:inline">Buscar</span>
+        </Button>
           </div>
         </div>
 
@@ -64,6 +69,9 @@ const HeroSection = () => {
               key={location}
               variant="outline" 
               className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur transition-smooth"
+              onClick={() => {
+                window.location.hash = `#buscar?q=${encodeURIComponent(location)}`;
+              }}
             >
               <MapPin className="h-4 w-4 mr-2" />
               {location}

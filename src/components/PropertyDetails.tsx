@@ -10,6 +10,7 @@ import {
   Wifi, Dumbbell, Waves, Shield, 
   TreePine, PawPrint, Star
 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface PropertyDetailsProps {
   property: {
@@ -42,6 +43,50 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const handleShare = () => {
+    navigator.share?.({
+      title: property.title,
+      text: `${property.title} - ${property.price}`,
+      url: window.location.href,
+    }).catch(() => {
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Enlace copiado",
+        description: "El enlace de la propiedad ha sido copiado al portapapeles.",
+      });
+    });
+  };
+
+  const handleCall = () => {
+    window.open(`tel:${property.agent.phone}`, '_self');
+    toast({
+      title: "Iniciando llamada",
+      description: `Llamando a ${property.agent.name}...`,
+    });
+  };
+
+  const handleMessage = () => {
+    window.location.hash = '#messages';
+    toast({
+      title: "Abrir chat",
+      description: `Iniciando conversación con ${property.agent.name}`,
+    });
+  };
+
+  const handleScheduleVisit = () => {
+    toast({
+      title: "Agendar visita",
+      description: "Redirigiendo al calendario de citas...",
+    });
+  };
+
+  const handleContactAgent = () => {
+    toast({
+      title: "Contactar agente",
+      description: "Abriendo opciones de contacto...",
+    });
+  };
 
   const tierColors = {
     bronze: 'text-amber-600',
@@ -98,6 +143,7 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
             <Button 
               variant="secondary" 
               size="sm"
+              onClick={handleShare}
               className="bg-white/90 hover:bg-white"
             >
               <Share2 className="h-4 w-4" />
@@ -244,15 +290,15 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Button size="sm" className="flex items-center">
+                  <Button size="sm" className="flex items-center" onClick={handleCall}>
                     <Phone className="h-4 w-4 mr-1" />
                     Llamar
                   </Button>
-                  <Button variant="outline" size="sm" className="flex items-center">
+                  <Button variant="outline" size="sm" className="flex items-center" onClick={handleMessage}>
                     <MessageCircle className="h-4 w-4 mr-1" />
                     Mensaje
                   </Button>
-                  <Button variant="outline" size="sm" className="flex items-center">
+                  <Button variant="outline" size="sm" className="flex items-center" onClick={handleScheduleVisit}>
                     <Calendar className="h-4 w-4 mr-1" />
                     Agendar Visita
                   </Button>
@@ -265,7 +311,7 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
 
       {/* Floating Contact Button */}
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
-        <Button size="lg" className="shadow-strong">
+        <Button size="lg" className="shadow-strong" onClick={handleContactAgent}>
           <MessageCircle className="h-5 w-5 mr-2" />
           Contactar Agente
         </Button>

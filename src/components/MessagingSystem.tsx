@@ -9,6 +9,11 @@ import {
   Search, Filter, Archive
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "@/hooks/use-toast";
+import agent1 from "@/assets/agent1.jpg";
+import agent2 from "@/assets/agent2.jpg";
+import property1 from "@/assets/property1.jpg";
+import property2 from "@/assets/property2.jpg";
 
 interface Message {
   id: string;
@@ -33,14 +38,15 @@ const MessagingSystem = () => {
   const [selectedChat, setSelectedChat] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [archivedConversations, setArchivedConversations] = useState<string[]>([]);
 
   const [conversations] = useState<Conversation[]>([
     {
       id: '1',
       contactName: 'Carlos Mendoza',
-      contactPhoto: '/api/placeholder/40/40',
+      contactPhoto: agent1,
       propertyTitle: 'Casa Colonial en Antigua',
-      propertyImage: '/api/placeholder/60/40',
+      propertyImage: property1,
       lastMessage: '¿Podríamos agendar una visita para este fin de semana?',
       timestamp: '10:30 AM',
       unreadCount: 2,
@@ -68,9 +74,9 @@ const MessagingSystem = () => {
     {
       id: '2',
       contactName: 'Ana Rodríguez',
-      contactPhoto: '/api/placeholder/40/40',
+      contactPhoto: agent2,
       propertyTitle: 'Apartamento Moderno Zona 14',
-      propertyImage: '/api/placeholder/60/40',
+      propertyImage: property2,
       lastMessage: 'Perfecto. Nos vemos el sábado a las 3 PM.',
       timestamp: 'Ayer',
       unreadCount: 0,
@@ -98,9 +104,9 @@ const MessagingSystem = () => {
     {
       id: '3',
       contactName: 'Roberto García',
-      contactPhoto: '/api/placeholder/40/40',
+      contactPhoto: agent1,
       propertyTitle: 'Villa con Piscina',
-      propertyImage: '/api/placeholder/60/40',
+      propertyImage: property1,
       lastMessage: '¿Incluye los muebles del área social?',
       timestamp: 'Lun',
       unreadCount: 1,
@@ -119,8 +125,25 @@ const MessagingSystem = () => {
 
   const sendMessage = () => {
     if (!newMessage.trim()) return;
-    // Here you would normally send the message to your backend
+    toast({
+      title: "Mensaje enviado",
+      description: "Tu mensaje ha sido enviado correctamente.",
+    });
     setNewMessage("");
+  };
+
+  const handleFilter = () => {
+    toast({
+      title: "Aplicar filtros",
+      description: "Funcionalidad de filtros en desarrollo.",
+    });
+  };
+
+  const handleArchive = () => {
+    toast({
+      title: "Ver archivadas", 
+      description: "Mostrando conversaciones archivadas.",
+    });
   };
 
   // Inbox View
@@ -130,13 +153,13 @@ const MessagingSystem = () => {
         <Card>
           <CardHeader>
             <div className="flex justify-between items-center">
-              <CardTitle className="text-xl">Mensajes</CardTitle>
+              <CardTitle className="text-xl text-center">Mensajes</CardTitle>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={handleFilter}>
                   <Filter className="h-4 w-4 mr-1" />
                   Filtros
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={handleArchive}>
                   <Archive className="h-4 w-4 mr-1" />
                   Archivadas
                 </Button>

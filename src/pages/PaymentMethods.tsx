@@ -32,7 +32,7 @@ const PaymentMethods = () => {
             <h1 className="text-3xl font-bold text-foreground mb-2">Formas de pago</h1>
             {selectedPlan && (
               <p className="text-muted-foreground">
-                Plan seleccionado: <span className="font-semibold">{selectedPlan.name}</span> - {billingCycle}
+                Plan seleccionado: <span className="font-semibold">{selectedPlan.name}</span> - {billingCycle === 'monthly' ? 'Mensual' : 'Anual'} - {new Intl.NumberFormat('es-GT', { style: 'currency', currency: 'GTQ' }).format(billingCycle === 'monthly' ? selectedPlan.monthly_price : selectedPlan.annual_price)}
               </p>
             )}
           </div>

@@ -1,14 +1,24 @@
-# Robots.txt for Habi.gt - Real Estate Platform Guatemala
-# Optimized for search engines and social media crawlers
+# Robots.txt for Habi.gt - Inmobiliaria #1 Guatemala
+# Optimized for maximum search engine visibility and real estate SEO
 
+# Google crawlers - high priority
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
 
+User-agent: Googlebot-Image
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-News
+Allow: /
+
+# Bing crawler
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
+# Social media crawlers for property sharing
 User-agent: Twitterbot
 Allow: /
 
@@ -21,18 +31,49 @@ Allow: /
 User-agent: WhatsApp
 Allow: /
 
+User-agent: TelegramBot
+Allow: /
+
+# Real estate specific crawlers
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+# All other crawlers
 User-agent: *
 Allow: /
 Crawl-delay: 2
 
-# Block admin and private areas
+# Block admin, private areas and development files
 Disallow: /admin/
 Disallow: /api/
 Disallow: /private/
+Disallow: /_vite/
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /src/
 
-# Allow important files
+# Allow important SEO files and image assets
 Allow: /robots.txt
 Allow: /sitemap.xml
+Allow: /sitemap-*.xml
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /og-image.jpg
+Allow: /favicon.ico
 
-# Sitemap location
+# Multiple sitemap locations for comprehensive coverage
 Sitemap: https://habi.gt/sitemap.xml
+Sitemap: https://habi.gt/sitemap-properties.xml
+Sitemap: https://habi.gt/sitemap-locations.xml
+Sitemap: https://habi.gt/sitemap-agents.xml
+
+# Host specification for international SEO
+Host: https://habi.gt

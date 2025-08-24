@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  <!-- Property Category Pages -->
+  <url>
+    <loc>https://habi.gt/casas-en-venta</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/apartamentos-en-alquiler</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/terrenos-en-venta</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/condominios</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/oficinas-en-alquiler</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/locales-comerciales</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/propiedades-de-lujo</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/inversion-inmobiliaria</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Price Range Pages -->
+  <url>
+    <loc>https://habi.gt/propiedades-menos-100k</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/propiedades-100k-300k</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/propiedades-300k-500k</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/propiedades-mas-500k</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

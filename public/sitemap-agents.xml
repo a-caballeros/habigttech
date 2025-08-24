@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+  <!-- Agent Services Pages -->
+  <url>
+    <loc>https://habi.gt/agentes-inmobiliarios</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/agentes-guatemala-city</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/agentes-antigua-guatemala</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/agentes-quetzaltenango</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Services Pages -->
+  <url>
+    <loc>https://habi.gt/servicios-inmobiliarios</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/asesoria-inmobiliaria</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/valuacion-propiedades</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/gestion-propiedades</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Information Pages -->
+  <url>
+    <loc>https://habi.gt/como-vender-casa</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/como-comprar-casa</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/creditos-hipotecarios-guatemala</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://habi.gt/tendencias-mercado-inmobiliario</loc>
+    <lastmod>2024-08-24T15:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

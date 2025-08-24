@@ -76,17 +76,20 @@ const Index = () => {
     setSelectedProperty(null);
   };
 
-  // Clear any pending user type on mount and do NOT redirect existing users
+  // Redirect new agents to subscription page
   useEffect(() => {
-    // Clear pending user type immediately to prevent any redirect loops
-    const pendingUserType = localStorage.getItem('pending_user_type');
-    if (pendingUserType) {
-      console.log('Clearing pending user type to prevent redirect loop:', pendingUserType);
-      localStorage.removeItem('pending_user_type');
+    if (!authLoading && !subscriptionLoading && user && authUserType === 'agent') {
+      console.log('Checking agent subscription status for redirect:', { 
+        hasActiveSubscription, 
+        userType: authUserType 
+      });
+      
+      if (!hasActiveSubscription) {
+        console.log('Agent has no active subscription, redirecting to pricing');
+        navigate('/subscription');
+      }
     }
-  }, []); // Run only once on mount
-
-  // No automatic redirects for existing users - they should only be redirected manually
+  }, [user, authUserType, authLoading, subscriptionLoading, hasActiveSubscription, navigate]);
 
   // Real-time counters from database
   useEffect(() => {

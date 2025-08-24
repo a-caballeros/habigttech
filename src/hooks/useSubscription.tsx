@@ -17,7 +17,10 @@ export const useSubscription = () => {
   });
 
   const checkSubscription = async () => {
+    console.log('checkSubscription called:', { user: user?.id, userType });
+    
     if (!user || userType !== 'agent') {
+      console.log('Not an agent or no user, setting no subscription');
       setSubscription({
         hasActiveSubscription: false,
         currentTier: null,
@@ -50,6 +53,8 @@ export const useSubscription = () => {
         return;
       }
 
+      console.log('Subscription query result:', { data, hasActive: !!data });
+      
       setSubscription({
         hasActiveSubscription: !!data,
         currentTier: data?.subscription_tiers?.name || null,

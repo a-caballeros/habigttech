@@ -14,11 +14,15 @@ const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleAddProperty = () => {
-    if (userType === 'agent' && !hasActiveSubscription) {
+    console.log('handleAddProperty called:', { userType, hasActiveSubscription, subscriptionLoading });
+    
+    if (userType === 'agent' && !subscriptionLoading && !hasActiveSubscription) {
       // Navigate to subscription page for agents without active subscription
+      console.log('Redirecting agent to subscription page');
       navigate('/subscription');
     } else {
       // Navigate to add property page for subscribed agents
+      console.log('Navigating to add property');
       navigate('/add-property');
     }
   };

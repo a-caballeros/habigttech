@@ -108,6 +108,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             return;
           }
         }
+      } else {
+        // If profile exists but we have a pending user type, update it
+        const pendingUserType = localStorage.getItem('pending_user_type');
+        if (pendingUserType && data.user_type !== pendingUserType) {
+          console.log('Updating existing profile with pending user type:', pendingUserType);
+          
+          const { data: updatedProfile, error: updateError } = await supabase
+            .from('profiles')
+            .update({
+              user_type: pendingUserType,
+              role: pendingUserType
+            })
+            .eq('id', userId)
+            .select()
+            .maybeSingle();
+            
+          localStorage.removeItem('pending_user_type');
+          
+          if (updateError) {
+            console.error('Error updating profile:', updateError);
+            setProfile(data);
+          } else {
+            setProfile(updatedProfile);
+            return;
+          }
+        }
       }
 
       setProfile(data);

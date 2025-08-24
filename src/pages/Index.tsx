@@ -76,26 +76,17 @@ const Index = () => {
     setSelectedProperty(null);
   };
 
-  // Handle agent subscription redirect only for new signups
+  // Clear any pending user type on mount and do NOT redirect existing users
   useEffect(() => {
-    if (!authLoading && user) {
-      // Check if this is a new agent from OAuth (has pending user type)
-      const pendingUserType = localStorage.getItem('pending_user_type');
-      console.log('Checking pending user type:', { pendingUserType, userType: authUserType, hasActiveSubscription, subscriptionLoading });
-      
-      if (pendingUserType === 'agent') {
-        localStorage.removeItem('pending_user_type');
-        // Only redirect if agent doesn't have active subscription
-        if (!subscriptionLoading && !hasActiveSubscription) {
-          console.log('Redirecting new agent to subscription');
-          navigate('/subscription');
-        } else {
-          console.log('Agent has subscription, not redirecting');
-        }
-        return;
-      }
+    // Clear pending user type immediately to prevent any redirect loops
+    const pendingUserType = localStorage.getItem('pending_user_type');
+    if (pendingUserType) {
+      console.log('Clearing pending user type to prevent redirect loop:', pendingUserType);
+      localStorage.removeItem('pending_user_type');
     }
-  }, [authLoading, user, navigate, authUserType, hasActiveSubscription, subscriptionLoading]);
+  }, []); // Run only once on mount
+
+  // No automatic redirects for existing users - they should only be redirected manually
 
   // Real-time counters from database
   useEffect(() => {

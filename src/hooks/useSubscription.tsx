@@ -71,6 +71,7 @@ export const useSubscription = () => {
   };
 
   useEffect(() => {
+    console.log('useSubscription useEffect triggered:', { user: user?.id, userType });
     checkSubscription();
   }, [user, userType]);
 

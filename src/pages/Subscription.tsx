@@ -186,14 +186,7 @@ const Subscription = () => {
   };
 
   const getPropertyLimitText = (limit: number | null) => {
-    if (!limit) return 'Propiedades ilimitadas';
-    
-    // Convert the database limits to the display text requested
-    if (limit === 5) return 'Agrega hasta 5 propiedades/mes';
-    if (limit === 15) return 'Agrega hasta 10 propiedades/mes';
-    if (limit === 50) return 'Agrega hasta 15 propiedades/mes';
-    
-    return `Agrega hasta ${limit} propiedades/mes`;
+    return limit ? `${limit} propiedades/mes` : 'Propiedades ilimitadas';
   };
 
   // Show loading if we're checking user state

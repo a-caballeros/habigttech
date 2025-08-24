@@ -8,6 +8,9 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Subscription from "./pages/Subscription";
+import PaymentMethods from "./pages/PaymentMethods";
+import PayPalPayment from "./pages/PayPalPayment";
+import BinancePayment from "./pages/BinancePayment";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Favorites from "./pages/Favorites";
@@ -29,6 +32,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/subscription" element={<Subscription />} />
+            <Route path="/payment-methods" element={<PaymentMethods />} />
+            <Route path="/payment/paypal" element={<PayPalPayment />} />
+            <Route path="/payment/binance" element={<BinancePayment />} />
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />

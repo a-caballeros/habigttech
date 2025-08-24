@@ -108,82 +108,15 @@ const Subscription = () => {
       setError('Por favor selecciona un plan');
       return;
     }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      if (signupData) {
-        // This is a new user registration flow - signUp with agent metadata
-        const { error: signUpError } = await signUp(
-          signupData.email,
-          signupData.password,
-          {
-            user_type: 'agent',
-            full_name: signupData.fullName,
-            tier_id: selectedTier,
-            billing_cycle: billingCycle
-          }
-        );
-
-        if (signUpError) {
-          setError(signUpError.message);
-          setLoading(false);
-          return;
-        }
-
-        // Show success message and redirect to login
-        setError('');
-        alert('Registro exitoso. Revisa tu correo para verificar tu cuenta antes de iniciar sesión.');
-        navigate('/auth');
-      } else {
-        // This is an existing user subscribing
-        // Create/update the subscription
-        const { error: subscriptionError } = await supabase
-          .from('agent_subscriptions')
-          .upsert({
-            agent_id: user?.id,
-            tier_id: selectedTier,
-            billing_cycle: billingCycle,
-            status: 'active',
-            current_period_end: new Date(Date.now() + (billingCycle === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).toISOString(),
-            updated_at: new Date().toISOString()
-          }, {
-            onConflict: 'agent_id'
-          });
-
-        if (subscriptionError) {
-          setError('Error al procesar la suscripción: ' + subscriptionError.message);
-          setLoading(false);
-          return;
-        }
-
-        // Update user profile to agent for all tiers
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .update({ 
-            user_type: 'agent',
-            role: 'agent'
-          })
-          .eq('id', user?.id);
-
-        if (profileError) {
-          console.error('Error updating profile:', profileError);
-          setError('Error al actualizar el perfil: ' + profileError.message);
-          setLoading(false);
-          return;
-        }
-
-        alert('¡Suscripción activada exitosamente!');
-        
-        // Force reload to refresh the auth context with updated profile
-        window.location.href = '/';
+    
+    // Redirect to payment methods page with selected plan data
+    navigate('/payment-methods', {
+      state: {
+        selectedPlan: selectedTier,
+        billingCycle: billingCycle,
+        signupData: signupData
       }
-    } catch (error) {
-      setError('Error durante el proceso. Por favor intenta de nuevo.');
-    }
-
-    setLoading(false);
+    });
   };
 
   const formatPrice = (price: number) => {

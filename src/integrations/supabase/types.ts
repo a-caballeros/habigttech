@@ -101,7 +101,7 @@ export type Database = {
           preferred_property_type?: string | null
           role?: string | null
           updated_at?: string
-          user_type: string
+          user_type?: string
         }
         Update: {
           agency?: string | null

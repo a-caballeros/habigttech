@@ -106,13 +106,15 @@ const Subscription = () => {
 
     try {
       if (signupData) {
-        // This is a new user registration flow
+        // This is a new user registration flow - signUp with agent metadata
         const { error: signUpError } = await signUp(
           signupData.email,
           signupData.password,
           {
             user_type: 'agent',
-            full_name: signupData.fullName
+            full_name: signupData.fullName,
+            tier_id: selectedTier,
+            billing_cycle: billingCycle
           }
         );
 
@@ -128,9 +130,8 @@ const Subscription = () => {
         navigate('/auth');
       } else {
         // This is an existing user subscribing
-        // Here you would integrate with Stripe or your payment processor
-        // For now, we'll simulate the subscription process using upsert
-        const { error } = await supabase
+        // Create/update the subscription
+        const { error: subscriptionError } = await supabase
           .from('agent_subscriptions')
           .upsert({
             agent_id: user?.id,
@@ -143,13 +144,13 @@ const Subscription = () => {
             onConflict: 'agent_id'
           });
 
-        if (error) {
-          setError('Error al procesar la suscripción: ' + error.message);
+        if (subscriptionError) {
+          setError('Error al procesar la suscripción: ' + subscriptionError.message);
           setLoading(false);
           return;
         }
 
-        // Update user profile to agent
+        // Update user profile to agent for all tiers
         const { error: profileError } = await supabase
           .from('profiles')
           .update({ 
@@ -160,10 +161,15 @@ const Subscription = () => {
 
         if (profileError) {
           console.error('Error updating profile:', profileError);
+          setError('Error al actualizar el perfil: ' + profileError.message);
+          setLoading(false);
+          return;
         }
 
         alert('¡Suscripción activada exitosamente!');
-        navigate('/');
+        
+        // Force reload to refresh the auth context with updated profile
+        window.location.href = '/';
       }
     } catch (error) {
       setError('Error durante el proceso. Por favor intenta de nuevo.');

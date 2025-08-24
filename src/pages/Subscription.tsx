@@ -129,19 +129,22 @@ const Subscription = () => {
       } else {
         // This is an existing user subscribing
         // Here you would integrate with Stripe or your payment processor
-        // For now, we'll simulate the subscription process
+        // For now, we'll simulate the subscription process using upsert
         const { error } = await supabase
           .from('agent_subscriptions')
-          .insert({
+          .upsert({
             agent_id: user?.id,
             tier_id: selectedTier,
             billing_cycle: billingCycle,
             status: 'active',
-            current_period_end: new Date(Date.now() + (billingCycle === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).toISOString()
+            current_period_end: new Date(Date.now() + (billingCycle === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).toISOString(),
+            updated_at: new Date().toISOString()
+          }, {
+            onConflict: 'agent_id'
           });
 
         if (error) {
-          setError('Error al procesar la suscripción');
+          setError('Error al procesar la suscripción: ' + error.message);
           setLoading(false);
           return;
         }

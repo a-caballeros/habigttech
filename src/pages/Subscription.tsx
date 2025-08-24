@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { useSubscription } from '@/hooks/useSubscription';
 import { Check, Crown, Star, Award, Diamond } from 'lucide-react';
 
 interface SubscriptionTier {
@@ -21,7 +22,8 @@ interface SubscriptionTier {
 const Subscription = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signUp, user } = useAuth();
+  const { signUp, user, userType } = useAuth();
+  const { hasActiveSubscription } = useSubscription();
   const [tiers, setTiers] = useState<SubscriptionTier[]>([]);
   const [selectedTier, setSelectedTier] = useState<string>('');
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
@@ -36,7 +38,13 @@ const Subscription = () => {
   } | null;
 
   useEffect(() => {
-    // Allow existing agents to access subscription page
+    // If user is already an agent with active subscription, redirect to dashboard
+    if (user && userType === 'agent' && hasActiveSubscription && !signupData) {
+      navigate('/');
+      return;
+    }
+
+    // Allow existing agents without subscription to access subscription page
     if (user && !signupData) {
       // This is an existing user accessing the subscription page
       fetchSubscriptionTiers();
@@ -54,7 +62,7 @@ const Subscription = () => {
     }
 
     fetchSubscriptionTiers();
-  }, [user, signupData, navigate]);
+  }, [user, userType, hasActiveSubscription, signupData, navigate]);
 
   const fetchSubscriptionTiers = async () => {
     const { data, error } = await supabase
@@ -186,7 +194,7 @@ const Subscription = () => {
   };
 
   const getPropertyLimitText = (limit: number | null) => {
-    return limit ? `${limit} propiedades/mes` : 'Propiedades ilimitadas';
+    return limit ? `Agrega hasta ${limit} propiedades/mes` : 'Propiedades ilimitadas';
   };
 
   // Show loading if we're checking user state

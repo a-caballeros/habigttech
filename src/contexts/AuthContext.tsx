@@ -86,39 +86,51 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       console.log('Profile fetched from DB:', data);
 
-      // If no profile exists and we have a pending user type from OAuth
+      // If no profile exists, create one
       if (!data) {
+        console.log('No profile exists, creating new profile');
+        
+        // Check for pending user type from OAuth or use metadata from signup
         const pendingUserType = localStorage.getItem('pending_user_type');
+        const userTypeFromMetadata = user?.user_metadata?.user_type;
+        const finalUserType = pendingUserType || userTypeFromMetadata || 'client';
+        
+        console.log('Creating profile with user_type:', finalUserType, {
+          fromPending: pendingUserType,
+          fromMetadata: userTypeFromMetadata,
+          final: finalUserType
+        });
+        
+        const { data: newProfile, error: createError } = await supabase
+          .from('profiles')
+          .insert({
+            id: userId,
+            user_type: finalUserType,
+            role: finalUserType,
+            full_name: user?.user_metadata?.full_name || user?.user_metadata?.name || null,
+            email: user?.email || null
+          })
+          .select()
+          .maybeSingle();
+          
         if (pendingUserType) {
-          console.log('Creating profile with pending user type:', pendingUserType);
-          
-          // Create the profile with the correct user type
-          const { data: newProfile, error: createError } = await supabase
-            .from('profiles')
-            .insert({
-              id: userId,
-              user_type: pendingUserType,
-              role: pendingUserType,
-              full_name: user?.user_metadata?.full_name || user?.user_metadata?.name || null,
-              email: user?.email || null
-            })
-            .select()
-            .maybeSingle();
-            
           localStorage.removeItem('pending_user_type');
-          
-          if (createError) {
-            console.error('Error creating profile:', createError);
-          } else {
-            setProfile(newProfile);
-            return;
-          }
+        }
+        
+        if (createError) {
+          console.error('Error creating profile:', createError);
+        } else {
+          console.log('Profile created successfully:', newProfile);
+          setProfile(newProfile);
+          return;
         }
       } else {
+        console.log('Profile exists:', data);
+        
         // If profile exists but we have a pending user type, update it
         const pendingUserType = localStorage.getItem('pending_user_type');
         if (pendingUserType && data.user_type !== pendingUserType) {
-          console.log('Updating existing profile with pending user type:', pendingUserType);
+          console.log('Updating existing profile from', data.user_type, 'to', pendingUserType);
           
           const { data: updatedProfile, error: updateError } = await supabase
             .from('profiles')
@@ -136,6 +148,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             console.error('Error updating profile:', updateError);
             setProfile(data);
           } else {
+            console.log('Profile updated successfully:', updatedProfile);
             setProfile(updatedProfile);
             return;
           }

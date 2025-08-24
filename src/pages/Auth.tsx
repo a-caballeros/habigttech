@@ -39,25 +39,22 @@ const Auth = () => {
     
     setLoading(true);
     
-    // If user is signing up as agent, redirect to subscription page
-    if (userType === 'agent') {
-      navigate('/subscription', {
-        state: {
-          email,
-          password,
-          fullName
-        }
-      });
-    } else {
-      const { error } = await signUp(email, password, {
-        full_name: fullName,
-        user_type: userType
-      });
-      
-      if (!error) {
+    // Create user account first, then redirect to subscription for agents
+    const { error } = await signUp(email, password, {
+      full_name: fullName,
+      user_type: userType
+    });
+    
+    if (!error) {
+      if (userType === 'agent') {
+        // For agents, redirect to subscription page after successful signup
+        navigate('/subscription');
+      } else {
+        // For clients, go to home page
         navigate('/');
       }
     }
+    
     setLoading(false);
   };
 

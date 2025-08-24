@@ -157,7 +157,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -173,6 +173,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         title: "Bienvenido",
         description: "Has iniciado sesión correctamente",
       });
+      
+      // Wait a bit for the profile to be fetched
+      setTimeout(() => {
+        if (data.user) {
+          fetchProfile(data.user.id);
+        }
+      }, 500);
     }
 
     return { error };

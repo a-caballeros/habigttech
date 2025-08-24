@@ -260,6 +260,7 @@ const AgentProfile = () => {
                   variant="outline" 
                   size="lg"
                   className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
+                  onClick={() => window.open(`/agent-portfolio/${user?.id}`, '_blank')}
                 >
                   📱 Mi Portfolio Profesional
                 </Button>

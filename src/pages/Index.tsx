@@ -81,13 +81,21 @@ const Index = () => {
     if (!authLoading && user) {
       // Check if this is a new agent from OAuth (has pending user type)
       const pendingUserType = localStorage.getItem('pending_user_type');
+      console.log('Checking pending user type:', { pendingUserType, userType: authUserType, hasActiveSubscription, subscriptionLoading });
+      
       if (pendingUserType === 'agent') {
         localStorage.removeItem('pending_user_type');
-        navigate('/subscription');
+        // Only redirect if agent doesn't have active subscription
+        if (!subscriptionLoading && !hasActiveSubscription) {
+          console.log('Redirecting new agent to subscription');
+          navigate('/subscription');
+        } else {
+          console.log('Agent has subscription, not redirecting');
+        }
         return;
       }
     }
-  }, [authLoading, user, navigate]);
+  }, [authLoading, user, navigate, authUserType, hasActiveSubscription, subscriptionLoading]);
 
   // Real-time counters from database
   useEffect(() => {

@@ -45,9 +45,9 @@ const BinancePayment = () => {
               {selectedPlan && (
                 <Alert>
                   <AlertDescription>
-                    <strong>Plan seleccionado:</strong> {selectedPlan.name} - {billingCycle}
+                    <strong>Plan seleccionado:</strong> {selectedPlan.name} - {billingCycle === 'monthly' ? 'Mensual' : 'Anual'}
                     <br />
-                    <strong>Monto:</strong> ${billingCycle === 'monthly' ? selectedPlan.monthly_price : selectedPlan.annual_price} USD
+                    <strong>Monto:</strong> {new Intl.NumberFormat('es-GT', { style: 'currency', currency: 'GTQ' }).format(billingCycle === 'monthly' ? selectedPlan.monthly_price : selectedPlan.annual_price)}
                   </AlertDescription>
                 </Alert>
               )}
@@ -92,7 +92,7 @@ const BinancePayment = () => {
                 <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg">
                   <p className="text-sm text-amber-800">
                     <strong>Nota:</strong> Puedes pagar con USDT, BUSD, BTC, ETH o cualquier criptomoneda disponible en Binance Pay. 
-                    El equivalente en USD será calculado automáticamente.
+                    El equivalente en GTQ será calculado automáticamente.
                   </p>
                 </div>
               </div>

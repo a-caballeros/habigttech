@@ -45,9 +45,9 @@ const PayPalPayment = () => {
               {selectedPlan && (
                 <Alert>
                   <AlertDescription>
-                    <strong>Plan seleccionado:</strong> {selectedPlan.name} - {billingCycle}
+                    <strong>Plan seleccionado:</strong> {selectedPlan.name} - {billingCycle === 'monthly' ? 'Mensual' : 'Anual'}
                     <br />
-                    <strong>Monto:</strong> ${billingCycle === 'monthly' ? selectedPlan.monthly_price : selectedPlan.annual_price} USD
+                    <strong>Monto:</strong> {new Intl.NumberFormat('es-GT', { style: 'currency', currency: 'GTQ' }).format(billingCycle === 'monthly' ? selectedPlan.monthly_price : selectedPlan.annual_price)}
                   </AlertDescription>
                 </Alert>
               )}

@@ -161,7 +161,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       password,
       options: {
         emailRedirectTo: redirectUrl,
-        data: userData
+        data: userData,
+        captchaToken: null // Disable captcha temporarily
       }
     });
 

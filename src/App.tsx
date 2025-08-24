@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import HelpAgent from "@/components/HelpAgent";
+import AnalyticsProvider from "@/components/AnalyticsProvider";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Subscription from "./pages/Subscription";
@@ -24,12 +26,14 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
+    <AnalyticsProvider>
+      <PerformanceMonitor />
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/subscription" element={<Subscription />} />
@@ -69,10 +73,11 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <HelpAgent />
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+            <HelpAgent />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </AnalyticsProvider>
   </QueryClientProvider>
 );
 

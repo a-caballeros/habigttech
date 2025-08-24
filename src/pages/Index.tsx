@@ -7,6 +7,7 @@ import PropertyFilters from "@/components/PropertyFilters";
 import PropertyDetails from "@/components/PropertyDetails";
 import AgentDashboard from "@/components/AgentDashboard";
 import MessagingSystem from "@/components/MessagingSystem";
+import SEOHead from "@/components/SEOHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -278,8 +279,32 @@ const Index = () => {
     }
   };
 
+  // Structured data for homepage
+  const homepageStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Habi.gt",
+    "url": "https://habi.gt",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://habi.gt/?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Habi.gt",
+      "logo": "https://habi.gt/logo-horizontal.png"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="Habi.gt - Encuentra tu hogar ideal en Guatemala | Bienes Raíces"
+        description="🏠 La plataforma líder en bienes raíces de Guatemala. Encuentra casas, apartamentos y propiedades en venta y alquiler. +1000 propiedades verificadas en todo el país. ¡Tu hogar ideal te espera!"
+        keywords="bienes raíces Guatemala, casas en venta Guatemala, apartamentos Guatemala, propiedades Guatemala, inmobiliaria Guatemala, real estate Guatemala, vivienda Guatemala, comprar casa Guatemala, alquiler Guatemala, Antigua Guatemala, Ciudad de Guatemala"
+        structuredData={homepageStructuredData}
+      />
       <Navigation />
       
       {renderCurrentView()}

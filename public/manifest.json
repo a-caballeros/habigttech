@@ -1,0 +1,39 @@
+{
+  "name": "Habi.gt - Bienes Raíces Guatemala",
+  "short_name": "Habi.gt",
+  "description": "La plataforma líder en bienes raíces de Guatemala. Encuentra tu hogar ideal.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/src/assets/favicon-isotipo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/assets/favicon-isotipo.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/src/assets/favicon-isotipo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["business", "finance", "lifestyle"],
+  "lang": "es-GT",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "platform": "wide"
+    }
+  ]
+}

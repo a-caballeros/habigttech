@@ -256,7 +256,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     }
 
-    return { error };
+    return { error, data };
   };
 
   const signOut = async () => {

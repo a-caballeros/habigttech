@@ -61,9 +61,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Debug log to see what's happening
   console.log('AuthContext Debug:', {
     user: user ? { id: user.id, email: user.email } : null,
-    profile,
+    profile: profile ? { id: profile.id, user_type: profile.user_type, full_name: profile.full_name } : null,
     userType,
-    profileUserType: profile?.user_type
+    profileUserType: profile?.user_type,
+    loading
   });
 
   const fetchProfile = async (userId: string) => {

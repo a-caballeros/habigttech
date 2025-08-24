@@ -149,6 +149,19 @@ const Subscription = () => {
           return;
         }
 
+        // Update user profile to agent
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({ 
+            user_type: 'agent',
+            role: 'agent'
+          })
+          .eq('id', user?.id);
+
+        if (profileError) {
+          console.error('Error updating profile:', profileError);
+        }
+
         alert('¡Suscripción activada exitosamente!');
         navigate('/');
       }

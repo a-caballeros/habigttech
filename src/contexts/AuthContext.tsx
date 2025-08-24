@@ -30,7 +30,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, userData?: any) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
-  signInWithProvider: (provider: 'facebook' | 'twitter' | 'google') => Promise<{ error: any }>;
+  signInWithProvider: (provider: 'facebook' | 'twitter' | 'google', userType?: string) => Promise<{ error: any }>;
   sendOTP: (phone: string) => Promise<{ error: any }>;
   verifyOTP: (phone: string, token: string) => Promise<{ error: any }>;
 }
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   
   // Debug log to see what's happening
   console.log('AuthContext Debug:', {
-    user: user?.id,
+    user: user ? { id: user.id, email: user.email } : null,
     profile,
     userType,
     profileUserType: profile?.user_type
@@ -194,13 +194,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const signInWithProvider = async (provider: 'facebook' | 'twitter' | 'google') => {
+  const signInWithProvider = async (provider: 'facebook' | 'twitter' | 'google', userType?: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider === 'twitter' ? 'twitter' : provider,
       options: {
-        redirectTo: redirectUrl
+        redirectTo: redirectUrl,
+        ...(userType && {
+          data: {
+            user_type: userType
+          }
+        })
       }
     });
 

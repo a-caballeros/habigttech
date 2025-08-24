@@ -115,8 +115,8 @@ const Subscription = () => {
       }
 
       // Note: In a real implementation, you would integrate with a payment processor
-      // like Stripe here. For now, we'll show a success message.
-      setError('Registro exitoso. Revisa tu correo para confirmar tu cuenta. Una vez confirmada, podrás proceder con el pago de tu suscripción.');
+      // like Stripe here. For now, we'll show a success message and redirect to login.
+      setError('Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
       
     } catch (error) {
       setError('Error durante el registro. Por favor intenta de nuevo.');

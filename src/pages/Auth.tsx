@@ -74,7 +74,7 @@ const Auth = () => {
 
   const handleGoogleLogin = async () => {
     setLoading(true);
-    await signInWithProvider('google');
+    await signInWithProvider('google', userType);
     setLoading(false);
   };
 

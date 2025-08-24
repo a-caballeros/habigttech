@@ -69,6 +69,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const fetchProfile = async (userId: string) => {
     try {
+      console.log('fetchProfile called for userId:', userId);
+      const pendingUserType = localStorage.getItem('pending_user_type');
+      console.log('Current pending_user_type in localStorage:', pendingUserType);
+      
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -79,6 +83,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         console.error('Error fetching profile:', error);
         return;
       }
+
+      console.log('Profile fetched from DB:', data);
 
       // If no profile exists and we have a pending user type from OAuth
       if (!data) {

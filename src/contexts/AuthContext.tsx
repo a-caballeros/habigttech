@@ -174,12 +174,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         description: "Has iniciado sesión correctamente",
       });
       
-      // Wait a bit for the profile to be fetched
-      setTimeout(() => {
-        if (data.user) {
-          fetchProfile(data.user.id);
-        }
-      }, 500);
+      // Fetch profile immediately to determine user type for redirection
+      if (data.user) {
+        await fetchProfile(data.user.id);
+      }
     }
 
     return { error };

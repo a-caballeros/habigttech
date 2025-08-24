@@ -36,12 +36,19 @@ const Subscription = () => {
   } | null;
 
   useEffect(() => {
-    if (user) {
+    // Allow existing agents to access subscription page
+    if (user && !signupData) {
+      // This is an existing user accessing the subscription page
+      fetchSubscriptionTiers();
+      return;
+    }
+
+    if (user && signupData) {
       navigate('/');
       return;
     }
 
-    if (!signupData) {
+    if (!signupData && !user) {
       navigate('/auth');
       return;
     }
@@ -89,7 +96,7 @@ const Subscription = () => {
   };
 
   const handleSubscribe = async () => {
-    if (!selectedTier || !signupData) {
+    if (!selectedTier) {
       setError('Por favor selecciona un plan');
       return;
     }
@@ -98,29 +105,52 @@ const Subscription = () => {
     setError('');
 
     try {
-      // First, sign up the user
-      const { error: signUpError } = await signUp(
-        signupData.email,
-        signupData.password,
-        {
-          user_type: 'agent',
-          full_name: signupData.fullName
+      if (signupData) {
+        // This is a new user registration flow
+        const { error: signUpError } = await signUp(
+          signupData.email,
+          signupData.password,
+          {
+            user_type: 'agent',
+            full_name: signupData.fullName
+          }
+        );
+
+        if (signUpError) {
+          setError(signUpError.message);
+          setLoading(false);
+          return;
         }
-      );
 
-      if (signUpError) {
-        setError(signUpError.message);
-        setLoading(false);
-        return;
+        // Show success message and redirect to login
+        setError('');
+        alert('Registro exitoso. Revisa tu correo para verificar tu cuenta antes de iniciar sesión.');
+        navigate('/auth');
+      } else {
+        // This is an existing user subscribing
+        // Here you would integrate with Stripe or your payment processor
+        // For now, we'll simulate the subscription process
+        const { error } = await supabase
+          .from('agent_subscriptions')
+          .insert({
+            agent_id: user?.id,
+            tier_id: selectedTier,
+            billing_cycle: billingCycle,
+            status: 'active',
+            current_period_end: new Date(Date.now() + (billingCycle === 'monthly' ? 30 : 365) * 24 * 60 * 60 * 1000).toISOString()
+          });
+
+        if (error) {
+          setError('Error al procesar la suscripción');
+          setLoading(false);
+          return;
+        }
+
+        alert('¡Suscripción activada exitosamente!');
+        navigate('/');
       }
-
-      // Show success message and redirect to login
-      setError('');
-      alert('Registro exitoso. Revisa tu correo para verificar tu cuenta antes de iniciar sesión.');
-      navigate('/auth');
-      
     } catch (error) {
-      setError('Error durante el registro. Por favor intenta de nuevo.');
+      setError('Error durante el proceso. Por favor intenta de nuevo.');
     }
 
     setLoading(false);
@@ -137,7 +167,8 @@ const Subscription = () => {
     return limit ? `${limit} propiedades/mes` : 'Propiedades ilimitadas';
   };
 
-  if (!signupData) {
+  // Show loading if we're checking user state
+  if (!signupData && !user) {
     return null;
   }
 
@@ -147,7 +178,10 @@ const Subscription = () => {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Planes de Suscripción para Agentes</h1>
           <p className="text-muted-foreground">
-            Elige el plan que mejor se adapte a tus necesidades profesionales
+            {signupData 
+              ? "Elige el plan que mejor se adapte a tus necesidades profesionales"
+              : "Actualiza tu plan para acceder a todas las funcionalidades"
+            }
           </p>
         </div>
 
@@ -254,16 +288,16 @@ const Subscription = () => {
             size="lg"
             className="px-8 py-3"
           >
-            {loading ? 'Procesando...' : 'Registrarse y Suscribirse'}
+            {loading ? 'Procesando...' : (signupData ? 'Registrarse y Suscribirse' : 'Suscribirse')}
           </Button>
           
           <div className="mt-4">
             <Button 
               variant="ghost" 
-              onClick={() => navigate('/auth')}
+              onClick={() => navigate(signupData ? '/auth' : '/')}
               disabled={loading}
             >
-              Volver al registro
+              {signupData ? 'Volver al registro' : 'Volver al inicio'}
             </Button>
           </div>
         </div>

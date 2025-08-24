@@ -1,15 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin, Plus } from "lucide-react";
+import { Search, MapPin, Plus, Crown } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSubscription } from "@/hooks/useSubscription";
 import heroImage from "@/assets/hero-guatemala.jpg";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const { userType } = useAuth();
+  const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleAddProperty = () => {
+    if (userType === 'agent' && !hasActiveSubscription) {
+      // Navigate to subscription page for agents without active subscription
+      navigate('/subscription');
+    } else {
+      // Navigate to add property page for subscribed agents
+      navigate('/add-property');
+    }
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -43,14 +55,26 @@ const HeroSection = () => {
           <div className="max-w-2xl mx-auto mb-12 text-center">
             <Button 
               size="lg" 
-              className="bg-success hover:bg-success/90 text-white px-8 py-6 text-lg font-semibold shadow-lg"
-              onClick={() => navigate('/add-property')}
+              className={`px-8 py-6 text-lg font-semibold shadow-lg ${
+                hasActiveSubscription 
+                  ? "bg-success hover:bg-success/90 text-white" 
+                  : "bg-primary hover:bg-primary/90 text-white"
+              }`}
+              onClick={handleAddProperty}
+              disabled={subscriptionLoading}
             >
-              <Plus className="h-5 w-5 mr-2" />
-              Agregar Nueva Propiedad
+              {hasActiveSubscription ? (
+                <Plus className="h-5 w-5 mr-2" />
+              ) : (
+                <Crown className="h-5 w-5 mr-2" />
+              )}
+              {hasActiveSubscription ? "Agregar Nueva Propiedad" : "Suscribirse para Agregar Propiedades"}
             </Button>
             <p className="text-white/80 mt-4 text-sm">
-              Publica tus propiedades y conecta con clientes potenciales
+              {hasActiveSubscription 
+                ? "Publica tus propiedades y conecta con clientes potenciales"
+                : "Necesitas una suscripción activa para publicar propiedades"
+              }
             </p>
           </div>
         ) : (

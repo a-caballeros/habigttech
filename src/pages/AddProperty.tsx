@@ -5,7 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
-import { ArrowLeft, Upload, MapPin, Home, DollarSign } from "lucide-react";
+import { useSubscription } from "@/hooks/useSubscription";
+import { ArrowLeft, Upload, MapPin, Home, Crown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,6 +32,7 @@ type PropertyForm = z.infer<typeof propertySchema>;
 const AddProperty = () => {
   const navigate = useNavigate();
   const { user, userType } = useAuth();
+  const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,6 +45,30 @@ const AddProperty = () => {
           <h1 className="text-2xl font-bold mb-4">Acceso Restringido</h1>
           <p className="text-muted-foreground mb-4">Esta funcionalidad es solo para agentes inmobiliarios.</p>
           <Button onClick={() => navigate('/')}>Volver al Inicio</Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect agents without subscription to pricing
+  if (userType === 'agent' && !subscriptionLoading && !hasActiveSubscription) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <Crown className="h-16 w-16 mx-auto text-primary mb-4" />
+          <h1 className="text-2xl font-bold mb-4">Suscripción Requerida</h1>
+          <p className="text-muted-foreground mb-6">
+            Necesitas una suscripción activa para publicar propiedades.
+          </p>
+          <div className="space-y-4">
+            <Button onClick={() => navigate('/subscription')} size="lg">
+              Ver Planes de Suscripción
+            </Button>
+            <Button variant="outline" onClick={() => navigate('/')}>
+              Volver al Inicio
+            </Button>
+          </div>
         </div>
       </div>
     );

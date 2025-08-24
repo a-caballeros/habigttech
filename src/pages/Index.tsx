@@ -78,11 +78,17 @@ const Index = () => {
 
   // Handle agent subscription redirect
   useEffect(() => {
-    if (!authLoading && !subscriptionLoading && user && authUserType === 'agent' && !hasActiveSubscription) {
+    if (!authLoading && user) {
       // Check if this is a new agent from OAuth (has pending user type)
       const pendingUserType = localStorage.getItem('pending_user_type');
       if (pendingUserType === 'agent') {
         localStorage.removeItem('pending_user_type');
+        navigate('/subscription');
+        return;
+      }
+      
+      // Also check if user is an agent without subscription
+      if (!subscriptionLoading && authUserType === 'agent' && !hasActiveSubscription) {
         navigate('/subscription');
       }
     }

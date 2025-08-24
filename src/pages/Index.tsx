@@ -76,7 +76,7 @@ const Index = () => {
     setSelectedProperty(null);
   };
 
-  // Handle agent subscription redirect
+  // Handle agent subscription redirect only for new signups
   useEffect(() => {
     if (!authLoading && user) {
       // Check if this is a new agent from OAuth (has pending user type)
@@ -86,13 +86,8 @@ const Index = () => {
         navigate('/subscription');
         return;
       }
-      
-      // Also check if user is an agent without subscription
-      if (!subscriptionLoading && authUserType === 'agent' && !hasActiveSubscription) {
-        navigate('/subscription');
-      }
     }
-  }, [authLoading, subscriptionLoading, user, authUserType, hasActiveSubscription, navigate]);
+  }, [authLoading, user, navigate]);
 
   // Real-time counters from database
   useEffect(() => {

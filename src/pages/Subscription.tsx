@@ -109,10 +109,13 @@ const Subscription = () => {
       return;
     }
     
+    // Find the selected tier object
+    const selectedTierData = tiers.find(tier => tier.id === selectedTier);
+    
     // Redirect to payment methods page with selected plan data
     navigate('/payment-methods', {
       state: {
-        selectedPlan: selectedTier,
+        selectedPlan: selectedTierData,
         billingCycle: billingCycle,
         signupData: signupData
       }

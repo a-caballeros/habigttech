@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import PropertyCard from "@/components/PropertyCard";
@@ -10,6 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSubscription } from "@/hooks/useSubscription";
 
 // Import images
 import property1 from "@/assets/property1.jpg";
@@ -22,6 +25,10 @@ type ViewType = 'home' | 'property-details' | 'agent-dashboard' | 'messages';
 type UserType = 'client' | 'agent';
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { user, userType: authUserType, loading: authLoading } = useAuth();
+  const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
+  
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [userType, setUserType] = useState<UserType>('client');
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
@@ -68,6 +75,18 @@ const Index = () => {
     setCurrentView('home');
     setSelectedProperty(null);
   };
+
+  // Handle agent subscription redirect
+  useEffect(() => {
+    if (!authLoading && !subscriptionLoading && user && authUserType === 'agent' && !hasActiveSubscription) {
+      // Check if this is a new agent from OAuth (has pending user type)
+      const pendingUserType = localStorage.getItem('pending_user_type');
+      if (pendingUserType === 'agent') {
+        localStorage.removeItem('pending_user_type');
+        navigate('/subscription');
+      }
+    }
+  }, [authLoading, subscriptionLoading, user, authUserType, hasActiveSubscription, navigate]);
 
   // Real-time counters from database
   useEffect(() => {

@@ -74,7 +74,14 @@ const Auth = () => {
 
   const handleGoogleLogin = async () => {
     setLoading(true);
-    await signInWithProvider('google', userType);
+    
+    // Store user type in localStorage for after OAuth redirect
+    localStorage.setItem('pending_user_type', userType);
+    
+    const { error } = await signInWithProvider('google', userType);
+    if (error) {
+      localStorage.removeItem('pending_user_type');
+    }
     setLoading(false);
   };
 

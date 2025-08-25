@@ -82,12 +82,12 @@ const Index = () => {
     if (!authLoading && !subscriptionLoading && user && authUserType === 'agent') {
       console.log('Checking agent subscription status for redirect:', { 
         hasActiveSubscription, 
-        userType: agent2 
+        userType: Agent 
       });
       
       if (!hasActiveSubscription) {
         console.log('Agent has no active subscription, redirecting to pricing');
-        navigate('/subscription');
+        navigate('home');
       }
     }
   }, [user, authUserType, authLoading, subscriptionLoading, hasActiveSubscription, navigate]);

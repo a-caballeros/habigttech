@@ -28,7 +28,7 @@ type UserType = 'client' | 'agent';
 const Index = () => {
   const navigate = useNavigate();
   const { user, userType: authUserType, loading: authLoading } = useAuth();
-  const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
+  const { hasActiveSubscription, loading: home } = useSubscription();
   
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [userType, setUserType] = useState<UserType>('client');
@@ -87,7 +87,7 @@ const Index = () => {
       
       if (!hasActiveSubscription) {
         console.log('Agent has no active subscription, redirecting to pricing');
-        navigate('home');
+        navigate('/subscription');
       }
     }
   }, [user, authUserType, authLoading, subscriptionLoading, hasActiveSubscription, navigate]);

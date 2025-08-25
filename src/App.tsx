@@ -14,6 +14,7 @@ import Subscription from "./pages/Subscription";
 import PaymentMethods from "./pages/PaymentMethods";
 import PayPalPayment from "./pages/PayPalPayment";
 import BinancePayment from "./pages/BinancePayment";
+import AdminUserManagement from "./components/AdminUserManagement";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Favorites from "./pages/Favorites";
@@ -68,6 +69,11 @@ const App = () => (
             <Route path="/add-property" element={
               <ProtectedRoute>
                 <AddProperty />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin-users" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminUserManagement />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

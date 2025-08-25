@@ -264,6 +264,17 @@ const AgentProfile = () => {
                 >
                   📱 Mi Portfolio Profesional
                 </Button>
+                
+                {profile?.role === 'admin' && (
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="flex items-center gap-2 border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-300 dark:hover:bg-red-950/20 h-12 col-span-full"
+                    onClick={() => navigate('/admin-users')}
+                  >
+                    🔐 Gestionar Usuarios (ADMIN)
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>

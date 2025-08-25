@@ -13,7 +13,7 @@ const AgentSubscriptionGuard = ({ children }: AgentSubscriptionGuardProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Only check for agents and when not loading
+    // Only check for agents (not admins) and when not loading
     if (!authLoading && !subscriptionLoading && userType === 'agent' && !hasActiveSubscription) {
       console.log('Agent without subscription detected, redirecting to pricing');
       navigate('/subscription');

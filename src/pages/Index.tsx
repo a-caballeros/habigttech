@@ -28,7 +28,7 @@ type UserType = 'client' | 'agent';
 const Index = () => {
   const navigate = useNavigate();
   const { user, userType: authUserType, loading: authLoading } = useAuth();
-  const { hasActiveSubscription, loading: home } = useSubscription();
+  const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
   
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [userType, setUserType] = useState<UserType>('client');
@@ -82,7 +82,7 @@ const Index = () => {
     if (!authLoading && !subscriptionLoading && user && authUserType === 'agent') {
       console.log('Checking agent subscription status for redirect:', { 
         hasActiveSubscription, 
-        userType: Agent 
+        userType: authUserType 
       });
       
       if (!hasActiveSubscription) {

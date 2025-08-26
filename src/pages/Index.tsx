@@ -77,20 +77,24 @@ const Index = () => {
     setSelectedProperty(null);
   };
 
-  // Redirect new agents to subscription page
+  // Check if user is super admin
+  const isSuperAdmin = user?.email === 'caballerosalfonso@gmail.com';
+
+  // Redirect new agents to subscription page (except super admin)
   useEffect(() => {
-    if (!authLoading && !subscriptionLoading && user && authUserType === 'agent') {
+    if (!authLoading && !subscriptionLoading && user && authUserType === 'agent' && !isSuperAdmin) {
       console.log('Checking agent subscription status for redirect:', { 
         hasActiveSubscription, 
-        userType: authUserType 
+        userType: authUserType,
+        isSuperAdmin 
       });
       
       if (!hasActiveSubscription) {
-        console.log('Agent has no active subscription, redirecting to pricing');
-        navigate('/subscription');
+        console.log('Agent has no active subscription, but will be handled by AgentSubscriptionGuard');
+        // Don't redirect here, let AgentSubscriptionGuard handle it
       }
     }
-  }, [user, authUserType, authLoading, subscriptionLoading, hasActiveSubscription, navigate]);
+  }, [user, authUserType, authLoading, subscriptionLoading, hasActiveSubscription, isSuperAdmin]);
 
   // Real-time counters from database
   useEffect(() => {
@@ -263,12 +267,20 @@ const Index = () => {
                   <Card className="text-center">
                     <CardContent className="p-8">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">💬</span>
+                        <span className="text-2xl">🏪</span>
                       </div>
-                      <h3 className="text-xl font-semibold mb-3">Comunicación Directa</h3>
-                      <p className="text-muted-foreground">
-                        Sistema de mensajería interno para comunicarte directamente con agentes
-                      </p>
+                      <h3 className="text-xl font-semibold mb-3">Tu Marca Aquí</h3>
+                      <div className="space-y-2">
+                        <div className="h-20 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center text-sm text-muted-foreground">
+                          Slide 1 - Tu marca aquí
+                        </div>
+                        <div className="h-20 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center text-sm text-muted-foreground">
+                          Slide 2 - Tu marca aquí
+                        </div>
+                        <div className="h-20 bg-gradient-to-r from-accent/20 to-primary/20 rounded-lg flex items-center justify-center text-sm text-muted-foreground">
+                          Slide 3 - Tu marca aquí
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>

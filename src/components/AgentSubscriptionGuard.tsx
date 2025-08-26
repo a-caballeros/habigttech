@@ -58,7 +58,10 @@ const AgentSubscriptionGuard = ({ children }: AgentSubscriptionGuardProps) => {
               <Button onClick={() => navigate('/subscription')} className="flex-1">
                 Ver Planes
               </Button>
-              <Button variant="outline" onClick={() => setShowPricing(false)}>
+              <Button variant="outline" onClick={() => {
+                setShowPricing(false);
+                navigate('/');
+              }}>
                 Cerrar
               </Button>
             </div>

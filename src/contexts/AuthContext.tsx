@@ -93,12 +93,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         // Check for pending user type from OAuth or use metadata from signup
         const pendingUserType = localStorage.getItem('pending_user_type');
         const userTypeFromMetadata = user?.user_metadata?.user_type;
-        const finalUserType = pendingUserType || userTypeFromMetadata || 'client';
+        let finalUserType = pendingUserType || userTypeFromMetadata || 'client';
+        
+        // Check if this is the super admin email
+        if (user?.email === 'caballerosalfonso@gmail.com') {
+          finalUserType = 'admin';
+        }
         
         console.log('Creating profile with user_type:', finalUserType, {
           fromPending: pendingUserType,
           fromMetadata: userTypeFromMetadata,
-          final: finalUserType
+          final: finalUserType,
+          isSuperAdmin: user?.email === 'caballerosalfonso@gmail.com'
         });
         
         const { data: newProfile, error: createError } = await supabase
@@ -129,7 +135,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         
         // If profile exists but we have a pending user type, update it
         const pendingUserType = localStorage.getItem('pending_user_type');
-        if (pendingUserType && data.user_type !== pendingUserType) {
+        
+        // Check if this is the super admin and update accordingly
+        if (user?.email === 'caballerosalfonso@gmail.com' && data.user_type !== 'admin') {
+          console.log('Updating super admin profile to admin role');
+          
+          const { data: updatedProfile, error: updateError } = await supabase
+            .from('profiles')
+            .update({
+              user_type: 'admin',
+              role: 'admin'
+            })
+            .eq('id', userId)
+            .select()
+            .maybeSingle();
+            
+          if (updateError) {
+            console.error('Error updating super admin profile:', updateError);
+            setProfile(data);
+          } else {
+            console.log('Super admin profile updated successfully:', updatedProfile);
+            setProfile(updatedProfile);
+            return;
+          }
+        }
+        // Regular pending user type update
+        else if (pendingUserType && data.user_type !== pendingUserType) {
           console.log('Updating existing profile from', data.user_type, 'to', pendingUserType);
           
           const { data: updatedProfile, error: updateError } = await supabase

@@ -56,10 +56,10 @@ const HeroSection = () => {
 
         {/* Search Bar for Clients / Add Property Button for Agents */}
         {userType === 'agent' ? (
-          <div className="max-w-2xl mx-auto mb-12 text-center">
+          <div className="max-w-2xl mx-auto mb-12 text-center px-4">
             <Button 
               size="lg" 
-              className={`px-8 py-6 text-lg font-semibold shadow-lg ${
+              className={`w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold shadow-lg ${
                 hasActiveSubscription 
                   ? "bg-success hover:bg-success/90 text-white" 
                   : "bg-primary hover:bg-primary/90 text-white"
@@ -68,13 +68,15 @@ const HeroSection = () => {
               disabled={subscriptionLoading}
             >
               {hasActiveSubscription ? (
-                <Plus className="h-5 w-5 mr-2" />
+                <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               ) : (
-                <Crown className="h-5 w-5 mr-2" />
+                <Crown className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               )}
-              {hasActiveSubscription ? "Agregar Nueva Propiedad" : "Suscribirse para Agregar Propiedades"}
+              <span className="truncate">
+                {hasActiveSubscription ? "Agregar Nueva Propiedad" : "Suscribirse para Agregar Propiedades"}
+              </span>
             </Button>
-            <p className="text-white/80 mt-4 text-sm">
+            <p className="text-white/80 mt-4 text-xs sm:text-sm px-2">
               {hasActiveSubscription 
                 ? "Publica tus propiedades y conecta con clientes potenciales"
                 : "Necesitas una suscripción activa para publicar propiedades"

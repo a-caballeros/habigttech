@@ -264,21 +264,29 @@ const Index = () => {
                     </CardContent>
                   </Card>
 
-                  <Card className="text-center">
+                  <Card className="text-center overflow-hidden">
                     <CardContent className="p-8">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">🏪</span>
                       </div>
                       <h3 className="text-xl font-semibold mb-3">Tu Marca Aquí</h3>
-                      <div className="space-y-2">
-                        <div className="h-20 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center text-sm text-muted-foreground">
-                          Slide 1 - Tu marca aquí
-                        </div>
-                        <div className="h-20 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center text-sm text-muted-foreground">
-                          Slide 2 - Tu marca aquí
-                        </div>
-                        <div className="h-20 bg-gradient-to-r from-accent/20 to-primary/20 rounded-lg flex items-center justify-center text-sm text-muted-foreground">
-                          Slide 3 - Tu marca aquí
+                      <div className="relative h-32 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg overflow-hidden">
+                        <div className="animate-slide-carousel flex">
+                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-primary/30 to-primary-glow/30 flex items-center justify-center text-white font-semibold">
+                            Slide 1 - Tu marca aquí
+                          </div>
+                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-secondary/30 to-accent/30 flex items-center justify-center text-white font-semibold">
+                            Slide 2 - Tu marca aquí
+                          </div>
+                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-accent/30 to-primary/30 flex items-center justify-center text-white font-semibold">
+                            Slide 3 - Tu marca aquí
+                          </div>
+                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-primary-glow/30 to-secondary/30 flex items-center justify-center text-white font-semibold">
+                            Slide 4 - Tu marca aquí
+                          </div>
+                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-accent/30 to-primary-glow/30 flex items-center justify-center text-white font-semibold">
+                            Slide 5 - Tu marca aquí
+                          </div>
                         </div>
                       </div>
                     </CardContent>

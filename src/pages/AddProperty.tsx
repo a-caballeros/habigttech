@@ -50,8 +50,8 @@ const AddProperty = () => {
     );
   }
 
-  // Redirect agents without subscription to pricing
-  if (userType === 'agent' && !subscriptionLoading && !hasActiveSubscription) {
+  // Redirect agents without subscription to pricing (except super admin)
+  if (userType === 'agent' && !subscriptionLoading && !hasActiveSubscription && user?.email !== 'caballerosalfonso@gmail.com') {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />

@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { 
   Plus, Eye, Heart, MessageCircle, MoreHorizontal,
-  TrendingUp, Home, Users, DollarSign,
+  TrendingUp, Home, Users, DollarSign, ArrowLeft,
   Edit3, Pause, Trash2, Megaphone, Search, Filter
 } from "lucide-react";
 import { 
@@ -27,8 +28,8 @@ interface Property {
 }
 
 const AgentDashboard = () => {
+  const navigate = useNavigate();
   const [properties] = useState<Property[]>([]);
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const statusColors = {
@@ -55,8 +56,18 @@ const AgentDashboard = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
+          <div className="flex items-center gap-4 mb-4">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => navigate('/dashboard')}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Regresar
+            </Button>
+          </div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Panel de Agente
+            Panel de Ventas
           </h1>
           <p className="text-muted-foreground">
             Gestiona tus propiedades y revisa el rendimiento de tus listados.
@@ -140,7 +151,10 @@ const AgentDashboard = () => {
           <CardHeader>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <CardTitle className="text-xl">Gestión de Propiedades</CardTitle>
-              <Button className="flex items-center gap-2 w-full sm:w-auto">
+              <Button 
+                className="flex items-center gap-2 w-full sm:w-auto"
+                onClick={() => navigate('/add-property')}
+              >
                 <Plus className="h-4 w-4" />
                 <span className="hidden sm:inline">Agregar Nueva</span>
                 <span className="sm:hidden">Nueva Propiedad</span>
@@ -177,7 +191,10 @@ const AgentDashboard = () => {
                     <p className="text-muted-foreground mb-6">
                       Comienza agregando tu primera propiedad para empezar a recibir consultas
                     </p>
-                    <Button className="flex items-center gap-2">
+                    <Button 
+                      className="flex items-center gap-2"
+                      onClick={() => navigate('/add-property')}
+                    >
                       <Plus className="h-4 w-4" />
                       Agregar Primera Propiedad
                     </Button>

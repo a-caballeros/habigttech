@@ -21,6 +21,7 @@ import Favorites from "./pages/Favorites";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import AddProperty from "./pages/AddProperty";
+import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -74,6 +75,11 @@ const App = () => (
             <Route path="/admin-users" element={
               <ProtectedRoute requiredRole="admin">
                 <AdminUserManagement />
+              </ProtectedRoute>
+            } />
+            <Route path="/portfolio" element={
+              <ProtectedRoute>
+                <Portfolio />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -202,13 +202,15 @@ const AgentProfile = () => {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-4">
-                <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center">
-                  <span className="text-2xl">👤</span>
-                </div>
+                <img
+                  src={profile?.avatar_url || "/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png"}
+                  alt="Avatar"
+                  className="w-20 h-20 rounded-full object-cover"
+                />
                 <div className="flex-1">
                   <Button variant="outline" className="flex items-center gap-2">
                     <Upload className="h-4 w-4" />
-                    Subir Nueva Foto
+                    Cambiar Foto
                   </Button>
                   <p className="text-sm text-muted-foreground mt-1">
                     JPG, PNG hasta 2MB
@@ -247,20 +249,22 @@ const AgentProfile = () => {
                   📊 Mi Dashboard de Ventas
                 </Button>
                 
-                <Button 
-                  variant="outline" 
-                  size="lg"
-                  className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
-                  onClick={() => navigate('/subscription')}
-                >
-                  ⭐ Gestionar Suscripción
-                </Button>
+                {profile?.role !== 'admin' && (
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
+                    onClick={() => navigate('/subscription')}
+                  >
+                    ⭐ Gestionar Suscripción
+                  </Button>
+                )}
                 
                 <Button 
                   variant="outline" 
                   size="lg"
                   className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
-                  onClick={() => window.open(`/agent-portfolio/${user?.id}`, '_blank')}
+                  onClick={() => navigate('/portfolio')}
                 >
                   📱 Mi Portfolio Profesional
                 </Button>

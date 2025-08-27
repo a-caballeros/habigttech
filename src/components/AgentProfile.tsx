@@ -208,7 +208,27 @@ const AgentProfile = () => {
                   className="w-20 h-20 rounded-full object-cover"
                 />
                 <div className="flex-1">
-                  <Button variant="outline" className="flex items-center gap-2">
+                <Button 
+                    variant="outline" 
+                    className="flex items-center gap-2"
+                    onClick={() => {
+                      // Create a hidden file input
+                      const input = document.createElement('input');
+                      input.type = 'file';
+                      input.accept = 'image/*';
+                      input.onchange = async (e) => {
+                        const file = (e.target as HTMLInputElement).files?.[0];
+                        if (file) {
+                          // TODO: Implement image upload to Supabase storage
+                          toast({
+                            title: "Funcionalidad en desarrollo",
+                            description: "La carga de imágenes estará disponible pronto.",
+                          });
+                        }
+                      };
+                      input.click();
+                    }}
+                  >
                     <Upload className="h-4 w-4" />
                     Cambiar Foto
                   </Button>

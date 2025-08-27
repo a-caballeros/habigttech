@@ -9,12 +9,18 @@ import heroImage from "@/assets/hero-guatemala.jpg";
 
 const HeroSection = () => {
   const navigate = useNavigate();
-  const { userType } = useAuth();
+  const { userType, profile } = useAuth();
   const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleAddProperty = () => {
-    console.log('handleAddProperty called:', { userType, hasActiveSubscription, subscriptionLoading });
+    console.log('handleAddProperty called:', { userType, hasActiveSubscription, subscriptionLoading, role: profile?.role });
+    
+    // Super admin bypass subscription check
+    if (profile?.role === 'admin') {
+      navigate('/add-property');
+      return;
+    }
     
     if (userType === 'agent' && !subscriptionLoading && !hasActiveSubscription) {
       // Navigate to subscription page for agents without active subscription
@@ -60,24 +66,24 @@ const HeroSection = () => {
             <Button 
               size="lg" 
               className={`w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold shadow-lg ${
-                hasActiveSubscription 
+                hasActiveSubscription || profile?.role === 'admin'
                   ? "bg-success hover:bg-success/90 text-white" 
                   : "bg-primary hover:bg-primary/90 text-white"
               }`}
               onClick={handleAddProperty}
               disabled={subscriptionLoading}
             >
-              {hasActiveSubscription ? (
+              {hasActiveSubscription || profile?.role === 'admin' ? (
                 <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               ) : (
                 <Crown className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               )}
               <span className="truncate">
-                {hasActiveSubscription ? "Agregar Nueva Propiedad" : "Suscribirse para Agregar Propiedades"}
+                {hasActiveSubscription || profile?.role === 'admin' ? "Agregar Nueva Propiedad" : "Suscribirse para Agregar Propiedades"}
               </span>
             </Button>
             <p className="text-white/80 mt-4 text-xs sm:text-sm px-2">
-              {hasActiveSubscription 
+              {hasActiveSubscription || profile?.role === 'admin'
                 ? "Publica tus propiedades y conecta con clientes potenciales"
                 : "Necesitas una suscripción activa para publicar propiedades"
               }

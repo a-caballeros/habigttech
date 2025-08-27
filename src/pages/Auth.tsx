@@ -7,8 +7,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
-import { Mail, Eye, EyeOff } from "lucide-react";
+import { Mail, Eye, EyeOff, AlertCircle } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Auth = () => {
   const [userType, setUserType] = useState<'client' | 'agent'>('client');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const [loading, setLoading] = useState(false);
 
@@ -32,27 +34,35 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    
     if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      setError("Las contraseñas no coinciden");
       return;
     }
     
     setLoading(true);
     
-    // Create user account first, then redirect to subscription for agents
-    const { error } = await signUp(email, password, {
-      full_name: fullName,
-      user_type: userType
-    });
-    
-    if (!error) {
-      if (userType === 'agent') {
-        // For agents, redirect to subscription page after successful signup
-        navigate('/subscription');
+    try {
+      // Create user account first, then redirect to subscription for agents
+      const { error } = await signUp(email, password, {
+        full_name: fullName,
+        user_type: userType
+      });
+      
+      if (error) {
+        setError(error.message || "Error al crear la cuenta");
       } else {
-        // For clients, go to home page
-        navigate('/');
+        if (userType === 'agent') {
+          // For agents, redirect to subscription page after successful signup
+          navigate('/subscription');
+        } else {
+          // For clients, go to home page
+          navigate('/');
+        }
       }
+    } catch (err) {
+      setError("Error inesperado al crear la cuenta");
     }
     
     setLoading(false);
@@ -60,25 +70,42 @@ const Auth = () => {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
-    const { error } = await signIn(email, password);
     
-    if (!error) {
-      navigate('/');
+    try {
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        setError(error.message || "Error al iniciar sesión");
+      } else {
+        navigate('/');
+      }
+    } catch (err) {
+      setError("Error inesperado al iniciar sesión");
     }
+    
     setLoading(false);
   };
 
   const handleGoogleLogin = async () => {
+    setError(null);
     setLoading(true);
     
-    // Store user type in localStorage for after OAuth redirect
-    localStorage.setItem('pending_user_type', userType);
-    
-    const { error } = await signInWithProvider('google', userType);
-    if (error) {
+    try {
+      // Store user type in localStorage for after OAuth redirect
+      localStorage.setItem('pending_user_type', userType);
+      
+      const { error } = await signInWithProvider('google', userType);
+      if (error) {
+        localStorage.removeItem('pending_user_type');
+        setError(error.message || "Error al conectar con Google");
+      }
+    } catch (err) {
       localStorage.removeItem('pending_user_type');
+      setError("Error inesperado al conectar con Google");
     }
+    
     setLoading(false);
   };
 
@@ -108,6 +135,12 @@ const Auth = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {error && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
             <Tabs defaultValue="google" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="google">Google</TabsTrigger>

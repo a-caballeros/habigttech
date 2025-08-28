@@ -1,26 +1,21 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
-import HeroSection from "@/components/HeroSection";
-import PropertyCard from "@/components/PropertyCard";
-import PropertyFilters from "@/components/PropertyFilters";
+import PremiumHeroSection from "@/components/PremiumHeroSection";
+import PremiumFeaturesSection from "@/components/PremiumFeaturesSection";
+import PremiumPropertiesSection from "@/components/PremiumPropertiesSection";
 import PropertyDetails from "@/components/PropertyDetails";
 import AgentDashboard from "@/components/AgentDashboard";
 import MessagingSystem from "@/components/MessagingSystem";
 import SEOHead from "@/components/SEOHead";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
 
-// Import images
+// Import images for property details demo
 import property1 from "@/assets/property1.jpg";
 import property2 from "@/assets/property2.jpg";
 import property3 from "@/assets/property3.jpg";
 import agent1 from "@/assets/agent1.jpg";
-import agent2 from "@/assets/agent2.jpg";
 
 type ViewType = 'home' | 'property-details' | 'agent-dashboard' | 'messages';
 type UserType = 'client' | 'agent';
@@ -119,192 +114,21 @@ const Index = () => {
       default:
         return (
           <>
-            <HeroSection />
-            
-            {/* Featured Properties Section */}
-            <section className="py-16 bg-muted/30">
-              <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                    Propiedades Destacadas
-                  </h2>
-                  <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Descubre las mejores propiedades disponibles en Guatemala, 
-                    cuidadosamente seleccionadas por nuestros agentes expertos
-                  </p>
-                </div>
-
-                {/* Properties Grid with Filters */}
-                <div className="flex gap-8">
-                  {/* Sidebar with Filters */}
-                  <div className="hidden lg:block w-80 flex-shrink-0">
-                    <PropertyFilters />
-                  </div>
-
-                  {/* Properties Grid */}
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center mb-6">
-                      <p className="text-muted-foreground">
-                        {sampleProperties.length} propiedades encontradas
-                      </p>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" className="lg:hidden">
-                          Filtros
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                      {sampleProperties.length === 0 ? (
-                        <div className="col-span-full text-center py-12">
-                          <div className="mb-4">
-                            <span className="text-6xl mb-4 block">🏠</span>
-                            <h3 className="text-lg font-semibold text-foreground mb-2">
-                              No hay propiedades disponibles
-                            </h3>
-                            <p className="text-muted-foreground">
-                              Las propiedades aparecerán aquí cuando los agentes las publiquen
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        sampleProperties.map((property) => (
-                          <PropertyCard
-                            key={property.id}
-                            {...property}
-                            onClick={() => handlePropertyClick(property.id)}
-                          />
-                        ))
-                      )}
-                    </div>
-
-                    {/* Load More - Only show if there are properties */}
-                    {sampleProperties.length > 0 && (
-                      <div className="text-center mt-12">
-                        <Button variant="outline" size="lg">
-                          Ver Más Propiedades
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Features Section */}
-            <section className="py-16">
-              <div className="container mx-auto px-4 text-center">
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-                  ¿Por qué Habi.gt?
-                </h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                  <Card className="text-center">
-                    <CardContent className="p-8">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">🏠</span>
-                      </div>
-                      <div className="text-3xl font-bold text-primary mb-2">{propertyCount}</div>
-                      <h3 className="text-xl font-semibold mb-3">Propiedades Disponibles</h3>
-                      <p className="text-muted-foreground">
-                        Propiedades verificadas en todo Guatemala esperándote
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="text-center">
-                    <CardContent className="p-8">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">⭐</span>
-                      </div>
-                      <div className="text-3xl font-bold text-primary mb-2">{Math.floor(agentCount * 0.6)}</div>
-                      <h3 className="text-xl font-semibold mb-3">Agentes Certificados</h3>
-                      <p className="text-muted-foreground">
-                        Trabaja con agentes profesionales y certificados en todo Guatemala
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="text-center">
-                    <CardContent className="p-8">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">📍</span>
-                      </div>
-                      <div className="text-3xl font-bold text-primary mb-2">22</div>
-                      <h3 className="text-xl font-semibold mb-3">Departamentos Cubiertos</h3>
-                      <p className="text-muted-foreground">
-                        Cobertura nacional en todos los departamentos de Guatemala
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="text-center">
-                    <CardContent className="p-8">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">🔍</span>
-                      </div>
-                      <div className="text-3xl font-bold text-primary mb-2">{Math.floor(propertyCount * 0.8)}</div>
-                      <h3 className="text-xl font-semibold mb-3">Propiedades Verificadas</h3>
-                      <p className="text-muted-foreground">
-                        Todas nuestras propiedades son verificadas y validadas por nuestro equipo
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="text-center">
-                    <CardContent className="p-8">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">👥</span>
-                      </div>
-                      <div className="text-3xl font-bold text-primary mb-2">{agentCount}</div>
-                      <h3 className="text-xl font-semibold mb-3">Agentes Registrados</h3>
-                      <p className="text-muted-foreground">
-                        Agentes activos creciendo día a día en nuestra plataforma
-                      </p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="text-center overflow-hidden">
-                    <CardContent className="p-8">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">🏪</span>
-                      </div>
-                      <h3 className="text-xl font-semibold mb-3">Tu Marca Aquí</h3>
-                      <div className="relative h-32 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg overflow-hidden">
-                        <div className="animate-slide-carousel flex">
-                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-primary/30 to-primary-glow/30 flex items-center justify-center text-white font-semibold">
-                            Slide 1 - Tu marca aquí
-                          </div>
-                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-secondary/30 to-accent/30 flex items-center justify-center text-white font-semibold">
-                            Slide 2 - Tu marca aquí
-                          </div>
-                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-accent/30 to-primary/30 flex items-center justify-center text-white font-semibold">
-                            Slide 3 - Tu marca aquí
-                          </div>
-                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-primary-glow/30 to-secondary/30 flex items-center justify-center text-white font-semibold">
-                            Slide 4 - Tu marca aquí
-                          </div>
-                          <div className="flex-shrink-0 w-full h-32 bg-gradient-to-r from-accent/30 to-primary-glow/30 flex items-center justify-center text-white font-semibold">
-                            Slide 5 - Tu marca aquí
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            </section>
+            <PremiumHeroSection />
+            <PremiumPropertiesSection />
+            <PremiumFeaturesSection />
           </>
         );
     }
   };
 
-  // Structured data for homepage
+  // Enhanced structured data for homepage
   const homepageStructuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Habi.gt",
+    "name": "Habi.gt - Plataforma Inmobiliaria Premium",
     "url": "https://habi.gt",
+    "description": "La plataforma líder en bienes raíces de Guatemala con tecnología de vanguardia",
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://habi.gt/?search={search_term_string}",
@@ -313,16 +137,20 @@ const Index = () => {
     "publisher": {
       "@type": "Organization",
       "name": "Habi.gt",
-      "logo": "https://habi.gt/logo-horizontal.png"
+      "logo": "https://habi.gt/logo-horizontal.png",
+      "sameAs": [
+        "https://facebook.com/habi.gt",
+        "https://instagram.com/habi.gt"
+      ]
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-hidden">
       <SEOHead 
-        title="Habi.gt - Encuentra tu hogar ideal en Guatemala | Bienes Raíces"
-        description="🏠 La plataforma líder en bienes raíces de Guatemala. Encuentra casas, apartamentos y propiedades en venta y alquiler. +1000 propiedades verificadas en todo el país. ¡Tu hogar ideal te espera!"
-        keywords="bienes raíces Guatemala, casas en venta Guatemala, apartamentos Guatemala, propiedades Guatemala, inmobiliaria Guatemala, real estate Guatemala, vivienda Guatemala, comprar casa Guatemala, alquiler Guatemala, Antigua Guatemala, Ciudad de Guatemala"
+        title="Habi.gt - Plataforma Inmobiliaria Premium | Encuentra tu Hogar Ideal en Guatemala"
+        description="🏠 Descubre la experiencia inmobiliaria más avanzada de Guatemala. +2,847 propiedades verificadas, agentes certificados y tecnología de vanguardia. Tu hogar ideal te espera en Habi.gt"
+        keywords="bienes raíces Guatemala, casas premium Guatemala, apartamentos exclusivos Guatemala, propiedades verificadas Guatemala, inmobiliaria tecnología Guatemala, real estate premium Guatemala, agentes certificados Guatemala, Antigua Guatemala propiedades, Ciudad Guatemala inmobiliaria"
         structuredData={homepageStructuredData}
       />
       <Navigation />

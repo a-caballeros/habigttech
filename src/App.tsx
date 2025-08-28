@@ -14,7 +14,7 @@ import Subscription from "./pages/Subscription";
 import PaymentMethods from "./pages/PaymentMethods";
 import PayPalPayment from "./pages/PayPalPayment";
 import BinancePayment from "./pages/BinancePayment";
-import AdminUserManagement from "./components/AdminUserManagement";
+import AdminUsers from "./pages/AdminUsers";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Favorites from "./pages/Favorites";
@@ -73,8 +73,8 @@ const App = () => (
               </ProtectedRoute>
             } />
             <Route path="/admin-users" element={
-              <ProtectedRoute>
-                <AdminUserManagement />
+              <ProtectedRoute requiredRole="admin">
+                <AdminUsers />
               </ProtectedRoute>
             } />
             <Route path="/portfolio" element={

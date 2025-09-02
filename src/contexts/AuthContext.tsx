@@ -33,6 +33,7 @@ interface AuthContextType {
   signInWithProvider: (provider: 'facebook' | 'twitter' | 'google', userType?: string) => Promise<{ error: any }>;
   sendOTP: (phone: string) => Promise<{ error: any }>;
   verifyOTP: (phone: string, token: string) => Promise<{ error: any }>;
+  refetchProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -377,6 +378,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return { error };
   };
 
+  const refetchProfile = async () => {
+    if (user?.id) {
+      await fetchProfile(user.id);
+    }
+  };
+
   const value = {
     user,
     session,
@@ -389,6 +396,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     signInWithProvider,
     sendOTP,
     verifyOTP,
+    refetchProfile,
   };
 
   return (

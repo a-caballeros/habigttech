@@ -27,9 +27,19 @@ type AgentProfileForm = z.infer<typeof agentProfileSchema>;
 
 const AgentProfile = () => {
   const navigate = useNavigate();
-  const { user, profile } = useAuth();
+  const { user, profile, refetchProfile } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleRefreshProfile = async () => {
+    if (refetchProfile) {
+      await refetchProfile();
+      toast({
+        title: "Perfil actualizado",
+        description: "Los datos de tu perfil han sido refrescados.",
+      });
+    }
+  };
 
   const form = useForm<AgentProfileForm>({
     resolver: zodResolver(agentProfileSchema),
@@ -136,13 +146,24 @@ const AgentProfile = () => {
                   )}
                 </div>
                 
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Guardando..." : "Guardar Cambios"}
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    type="submit" 
+                    className="flex-1" 
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Guardando..." : "Guardar Cambios"}
+                  </Button>
+                  
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleRefreshProfile}
+                    disabled={isLoading}
+                  >
+                    🔄 Refrescar
+                  </Button>
+                </div>
               </form>
             </CardContent>
           </Card>

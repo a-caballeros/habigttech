@@ -71,8 +71,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const fetchProfile = async (userId: string) => {
     try {
       console.log('fetchProfile called for userId:', userId);
-      const pendingUserType = localStorage.getItem('pending_user_type');
-      console.log('Current pending_user_type in localStorage:', pendingUserType);
       
       const { data, error } = await supabase
         .from('profiles')
@@ -91,10 +89,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (!data) {
         console.log('No profile exists, creating new profile');
         
-        // Check for pending user type from OAuth or use metadata from signup
-        const pendingUserType = localStorage.getItem('pending_user_type');
-        const userTypeFromMetadata = user?.user_metadata?.user_type;
-        let finalUserType = pendingUserType || userTypeFromMetadata || 'client';
+        let finalUserType = 'client';
         
         // Check if this is the super admin email
         if (user?.email === 'caballerosalfonso@gmail.com') {
@@ -102,9 +97,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
         
         console.log('Creating profile with user_type:', finalUserType, {
-          fromPending: pendingUserType,
-          fromMetadata: userTypeFromMetadata,
-          final: finalUserType,
           isSuperAdmin: user?.email === 'caballerosalfonso@gmail.com'
         });
         
@@ -119,10 +111,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           })
           .select()
           .maybeSingle();
-          
-        if (pendingUserType) {
-          localStorage.removeItem('pending_user_type');
-        }
         
         if (createError) {
           console.error('Error creating profile:', createError);
@@ -134,12 +122,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       } else {
         console.log('Profile exists:', data);
         
-        // If profile exists but we have a pending user type, update it
-        const pendingUserType = localStorage.getItem('pending_user_type');
-        
-        // Check if this is the super admin and update accordingly
+        // ALWAYS check if this is the super admin and ensure admin role
         if (user?.email === 'caballerosalfonso@gmail.com' && data.user_type !== 'admin') {
-          console.log('Updating super admin profile to admin role');
+          console.log('Ensuring super admin profile has admin role');
           
           const { data: updatedProfile, error: updateError } = await supabase
             .from('profiles')
@@ -156,31 +141,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setProfile(data);
           } else {
             console.log('Super admin profile updated successfully:', updatedProfile);
-            setProfile(updatedProfile);
-            return;
-          }
-        }
-        // Regular pending user type update
-        else if (pendingUserType && data.user_type !== pendingUserType) {
-          console.log('Updating existing profile from', data.user_type, 'to', pendingUserType);
-          
-          const { data: updatedProfile, error: updateError } = await supabase
-            .from('profiles')
-            .update({
-              user_type: pendingUserType,
-              role: pendingUserType
-            })
-            .eq('id', userId)
-            .select()
-            .maybeSingle();
-            
-          localStorage.removeItem('pending_user_type');
-          
-          if (updateError) {
-            console.error('Error updating profile:', updateError);
-            setProfile(data);
-          } else {
-            console.log('Profile updated successfully:', updatedProfile);
             setProfile(updatedProfile);
             return;
           }

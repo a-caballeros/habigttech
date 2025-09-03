@@ -17,7 +17,8 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
       return;
     }
 
-    if (!loading && requiredRole && profile?.role !== requiredRole) {
+    // Only redirect for role mismatch if profile is fully loaded and user exists
+    if (!loading && user && profile && requiredRole && profile?.role !== requiredRole) {
       navigate('/');
       return;
     }

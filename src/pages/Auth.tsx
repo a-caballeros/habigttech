@@ -79,7 +79,12 @@ const Auth = () => {
       if (error) {
         setError(error.message || "Error al iniciar sesión");
       } else {
-        navigate('/');
+        // Check if it's the super admin email and redirect appropriately
+        if (email === 'caballerosalfonso@gmail.com') {
+          navigate('/admin-users');
+        } else {
+          navigate('/');
+        }
       }
     } catch (err) {
       setError("Error inesperado al iniciar sesión");

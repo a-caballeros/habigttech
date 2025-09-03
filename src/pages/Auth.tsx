@@ -13,7 +13,7 @@ import { Mail, Eye, EyeOff, AlertCircle } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { signUp, signIn, signInWithProvider, user } = useAuth();
+  const { signUp, signIn, signInWithProvider, user, userType: authUserType } = useAuth();
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +28,11 @@ const Auth = () => {
 
   // Redirect if already authenticated
   if (user) {
-    navigate('/');
+    if (authUserType === 'admin') {
+      navigate('/admin-users');
+    } else {
+      navigate('/');
+    }
     return null;
   }
 

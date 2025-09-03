@@ -25,7 +25,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   profile: Profile | null;
-  userType: 'client' | 'agent';
+  userType: 'client' | 'agent' | 'admin';
   loading: boolean;
   signUp: (email: string, password: string, userData?: any) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const userType: 'client' | 'agent' = profile?.user_type === 'agent' ? 'agent' : 'client';
+  const userType: 'client' | 'agent' | 'admin' = profile?.user_type as 'client' | 'agent' | 'admin' || 'client';
   
   // Debug log to see what's happening
   console.log('AuthContext Debug:', {

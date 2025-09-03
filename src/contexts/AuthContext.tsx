@@ -68,9 +68,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     loading
   });
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string, userEmail?: string) => {
     try {
-      console.log('fetchProfile called for userId:', userId);
+      console.log('fetchProfile called for userId:', userId, 'userEmail:', userEmail);
       
       const { data, error } = await supabase
         .from('profiles')
@@ -85,19 +85,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       console.log('Profile fetched from DB:', data);
 
+      // Check if this is the super admin email (use parameter or current user)
+      const currentUserEmail = userEmail || user?.email;
+      const isSuperAdmin = currentUserEmail === 'caballerosalfonso@gmail.com';
+      
+      console.log('Super admin check:', { currentUserEmail, isSuperAdmin });
+
       // If no profile exists, create one
       if (!data) {
         console.log('No profile exists, creating new profile');
         
-        let finalUserType = 'client';
-        
-        // Check if this is the super admin email
-        if (user?.email === 'caballerosalfonso@gmail.com') {
-          finalUserType = 'admin';
-        }
+        let finalUserType = isSuperAdmin ? 'admin' : 'client';
         
         console.log('Creating profile with user_type:', finalUserType, {
-          isSuperAdmin: user?.email === 'caballerosalfonso@gmail.com'
+          isSuperAdmin,
+          currentUserEmail
         });
         
         const { data: newProfile, error: createError } = await supabase
@@ -107,7 +109,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             user_type: finalUserType,
             role: finalUserType,
             full_name: user?.user_metadata?.full_name || user?.user_metadata?.name || null,
-            email: user?.email || null
+            email: currentUserEmail || null
           })
           .select()
           .maybeSingle();
@@ -123,7 +125,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         console.log('Profile exists:', data);
         
         // ALWAYS check if this is the super admin and ensure admin role
-        if (user?.email === 'caballerosalfonso@gmail.com' && data.user_type !== 'admin') {
+        if (isSuperAdmin && data.user_type !== 'admin') {
           console.log('Ensuring super admin profile has admin role');
           
           const { data: updatedProfile, error: updateError } = await supabase
@@ -163,7 +165,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (session?.user) {
           // Defer profile fetching to avoid deadlock
           setTimeout(() => {
-            fetchProfile(session.user.id);
+            fetchProfile(session.user.id, session.user.email);
           }, 0);
         } else {
           setProfile(null);
@@ -180,7 +182,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       
       if (session?.user) {
         setTimeout(() => {
-          fetchProfile(session.user.id);
+          fetchProfile(session.user.id, session.user.email);
         }, 0);
       }
       
@@ -244,7 +246,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       
       // Fetch profile immediately to determine user type for redirection
       if (data.user) {
-        await fetchProfile(data.user.id);
+        await fetchProfile(data.user.id, data.user.email);
       }
     }
 
@@ -340,7 +342,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const refetchProfile = async () => {
     if (user?.id) {
-      await fetchProfile(user.id);
+      await fetchProfile(user.id, user.email);
     }
   };
 

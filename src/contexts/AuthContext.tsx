@@ -164,8 +164,31 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         
         if (session?.user) {
           // Defer profile fetching to avoid deadlock
-          setTimeout(() => {
-            fetchProfile(session.user.id, session.user.email);
+          setTimeout(async () => {
+            await fetchProfile(session.user.id, session.user.email);
+            
+            // Handle OAuth user type after login/signup
+            if (event === 'SIGNED_IN') {
+              const pendingUserType = localStorage.getItem('pending_user_type');
+              if (pendingUserType && pendingUserType !== 'client') {
+                // Update profile with the correct user type
+                try {
+                  await supabase
+                    .from('profiles')
+                    .update({
+                      user_type: pendingUserType,
+                      role: pendingUserType
+                    })
+                    .eq('id', session.user.id);
+                  
+                  // Refetch profile to get updated data
+                  await fetchProfile(session.user.id, session.user.email);
+                  localStorage.removeItem('pending_user_type');
+                } catch (error) {
+                  console.error('Error updating OAuth user type:', error);
+                }
+              }
+            }
           }, 0);
         } else {
           setProfile(null);

@@ -1,15 +1,14 @@
 import { useAuth } from "@/contexts/AuthContext";
 import ClientProfile from "@/components/ClientProfile";
 import AgentProfile from "@/components/AgentProfile";
+import AdminProfile from "@/components/AdminProfile";
 import AgentSubscriptionGuard from "@/components/AgentSubscriptionGuard";
 
 const Profile = () => {
   const { userType } = useAuth();
 
   if (userType === 'admin') {
-    // Redirect to admin users page for admin users
-    window.location.href = '/admin-users';
-    return null;
+    return <AdminProfile />;
   }
 
   if (userType === 'agent') {

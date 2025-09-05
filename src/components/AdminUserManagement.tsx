@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, XCircle, Users, UserCheck } from 'lucide-react';
+import { CheckCircle, XCircle, Users, UserCheck, Trash2 } from 'lucide-react';
 
 interface PendingUser {
   id: string;
@@ -149,6 +149,42 @@ const AdminUserManagement = () => {
       toast({
         title: 'Error',
         description: 'No se pudo rechazar el usuario',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const deleteUser = async (userId: string, userEmail: string) => {
+    try {
+      // Delete from profiles table first
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', userId);
+
+      if (profileError) throw profileError;
+
+      // Delete from pending_registrations if exists
+      await supabase
+        .from('pending_registrations')
+        .delete()
+        .eq('user_id', userId);
+
+      // Note: We cannot delete from auth.users table via the client
+      // The user will remain in auth but without a profile
+
+      toast({
+        title: 'Usuario Eliminado',
+        description: `El usuario ${userEmail} ha sido eliminado del sistema`,
+      });
+
+      fetchPendingUsers();
+      fetchAllUsers();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast({
+        title: 'Error',
+        description: 'No se pudo eliminar el usuario',
         variant: 'destructive',
       });
     }
@@ -297,6 +333,7 @@ const AdminUserManagement = () => {
                 <TableHead>Tipo</TableHead>
                 <TableHead>Rol</TableHead>
                 <TableHead>Fecha de Registro</TableHead>
+                <TableHead>Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -316,6 +353,36 @@ const AdminUserManagement = () => {
                   </TableCell>
                   <TableCell>
                     {new Date(user.created_at).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {user.user_type !== 'admin' && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button size="sm" variant="destructive">
+                            <Trash2 className="h-4 w-4 mr-1" />
+                            Eliminar
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Eliminar Usuario</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              ¿Estás seguro de que quieres eliminar permanentemente a {user.email}? 
+                              Esta acción no se puede deshacer.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => deleteUser(user.id, user.email)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Eliminar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

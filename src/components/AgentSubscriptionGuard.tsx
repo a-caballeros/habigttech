@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useAgentApproval } from '@/hooks/useAgentApproval';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
@@ -12,6 +13,7 @@ interface AgentSubscriptionGuardProps {
 const AgentSubscriptionGuard = ({ children }: AgentSubscriptionGuardProps) => {
   const { user, userType, loading: authLoading } = useAuth();
   const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
+  const { isApproved, loading: approvalLoading } = useAgentApproval();
   const navigate = useNavigate();
   const [showPricing, setShowPricing] = useState(false);
 
@@ -20,14 +22,17 @@ const AgentSubscriptionGuard = ({ children }: AgentSubscriptionGuardProps) => {
 
   useEffect(() => {
     // Only check for agents (not admins or super admin) and when not loading
-    if (!authLoading && !subscriptionLoading && userType === 'agent' && !isSuperAdmin && !hasActiveSubscription) {
-      console.log('Agent without subscription detected, showing pricing');
+    // Allow access if agent is approved by admin or is super admin or has active subscription
+    if (!authLoading && !subscriptionLoading && !approvalLoading && userType === 'agent' && !isSuperAdmin && !hasActiveSubscription && !isApproved) {
+      console.log('Agent without subscription or approval detected, showing pricing');
       setShowPricing(true);
+    } else if (isApproved || isSuperAdmin || hasActiveSubscription) {
+      setShowPricing(false);
     }
-  }, [userType, hasActiveSubscription, authLoading, subscriptionLoading, isSuperAdmin]);
+  }, [userType, hasActiveSubscription, isApproved, authLoading, subscriptionLoading, approvalLoading, isSuperAdmin]);
 
   // Show loading while checking
-  if (authLoading || subscriptionLoading) {
+  if (authLoading || subscriptionLoading || approvalLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>

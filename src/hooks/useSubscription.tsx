@@ -30,7 +30,8 @@ export const useSubscription = () => {
     }
 
     try {
-      const { data, error } = await supabase
+      // First check for active subscription
+      const { data: subscriptionData, error: subscriptionError } = await supabase
         .from('agent_subscriptions')
         .select(`
           status,
@@ -43,21 +44,49 @@ export const useSubscription = () => {
         .eq('status', 'active')
         .maybeSingle();
 
-      if (error) {
-        console.error('Error checking subscription:', error);
-        setSubscription({
-          hasActiveSubscription: false,
-          currentTier: null,
-          loading: false,
-        });
-        return;
+      if (subscriptionError) {
+        console.error('Error checking subscription:', subscriptionError);
       }
 
-      console.log('Subscription query result:', { data, hasActive: !!data });
+      // Also check for admin-assigned tier
+      const { data: tierAssignmentData, error: tierError } = await supabase
+        .from('agent_tier_assignments')
+        .select(`
+          tier_id,
+          is_active,
+          subscription_tiers (
+            name
+          )
+        `)
+        .eq('agent_id', user.id)
+        .eq('is_active', true)
+        .maybeSingle();
+
+      if (tierError) {
+        console.error('Error checking tier assignment:', tierError);
+      }
+
+      const hasSubscription = !!subscriptionData;
+      const hasTierAssignment = !!tierAssignmentData;
+      const hasActiveAccess = hasSubscription || hasTierAssignment;
+
+      let currentTierName = null;
+      if (tierAssignmentData?.subscription_tiers?.name) {
+        currentTierName = tierAssignmentData.subscription_tiers.name;
+      } else if (subscriptionData?.subscription_tiers?.name) {
+        currentTierName = subscriptionData.subscription_tiers.name;
+      }
+
+      console.log('Subscription check result:', { 
+        hasSubscription, 
+        hasTierAssignment, 
+        hasActiveAccess,
+        currentTierName 
+      });
       
       setSubscription({
-        hasActiveSubscription: !!data,
-        currentTier: data?.subscription_tiers?.name || null,
+        hasActiveSubscription: hasActiveAccess,
+        currentTier: currentTierName,
         loading: false,
       });
     } catch (error) {

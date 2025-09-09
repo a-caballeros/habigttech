@@ -156,19 +156,37 @@ const AdminUserManagement = () => {
 
   const deleteUser = async (userId: string, userEmail: string) => {
     try {
-      // Delete from profiles table first
-      const { error: profileError } = await supabase
-        .from('profiles')
+      // Delete from agent_tier_assignments if exists
+      await supabase
+        .from('agent_tier_assignments')
         .delete()
-        .eq('id', userId);
+        .eq('agent_id', userId);
 
-      if (profileError) throw profileError;
+      // Delete from agent_subscriptions if exists
+      await supabase
+        .from('agent_subscriptions')
+        .delete()
+        .eq('agent_id', userId);
+
+      // Delete from properties if exists
+      await supabase
+        .from('properties')
+        .delete()
+        .eq('agent_id', userId);
 
       // Delete from pending_registrations if exists
       await supabase
         .from('pending_registrations')
         .delete()
         .eq('user_id', userId);
+
+      // Delete from profiles table last
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('id', userId);
+
+      if (profileError) throw profileError;
 
       // Note: We cannot delete from auth.users table via the client
       // The user will remain in auth but without a profile

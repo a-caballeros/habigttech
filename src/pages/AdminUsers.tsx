@@ -1,9 +1,11 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AdminUserManagement from "@/components/AdminUserManagement";
+import AdminTierManagement from "@/components/AdminTierManagement";
 
 const AdminUsers = () => {
   const { profile } = useAuth();
@@ -26,10 +28,21 @@ const AdminUsers = () => {
             <ArrowLeft className="h-4 w-4" />
             Volver al Perfil
           </Button>
-          <h1 className="text-2xl font-bold">Administración de Usuarios</h1>
+          <h1 className="text-2xl font-bold">Administración del Sistema</h1>
         </div>
         
-        <AdminUserManagement />
+        <Tabs defaultValue="users" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="users">Gestión de Usuarios</TabsTrigger>
+            <TabsTrigger value="tiers">Gestión de Tiers</TabsTrigger>
+          </TabsList>
+          <TabsContent value="users" className="mt-6">
+            <AdminUserManagement />
+          </TabsContent>
+          <TabsContent value="tiers" className="mt-6">
+            <AdminTierManagement />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

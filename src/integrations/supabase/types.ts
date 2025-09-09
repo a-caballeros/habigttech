@@ -68,6 +68,44 @@ export type Database = {
           },
         ]
       }
+      agent_tier_assignments: {
+        Row: {
+          agent_id: string
+          assigned_at: string
+          assigned_by: string
+          id: string
+          is_active: boolean
+          notes: string | null
+          tier_id: string
+        }
+        Insert: {
+          agent_id: string
+          assigned_at?: string
+          assigned_by: string
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          tier_id: string
+        }
+        Update: {
+          agent_id?: string
+          assigned_at?: string
+          assigned_by?: string
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          tier_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_tier_assignments_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pending_registrations: {
         Row: {
           approved_at: string | null

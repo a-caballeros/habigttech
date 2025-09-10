@@ -64,23 +64,23 @@ const PropertyCard = ({
   };
 
   return (
-    <Card className={`group cursor-pointer transition-smooth hover:shadow-medium ${isPromoted ? 'ring-2 ring-primary ring-opacity-20' : ''}`} onClick={onClick}>
-      <div className="relative overflow-hidden rounded-t-lg">
+    <Card className="group cursor-pointer transition-all duration-300 hover:shadow-medium border border-border overflow-hidden" onClick={onClick}>
+      <div className="relative overflow-hidden">
         {/* Image Carousel */}
         <div className="aspect-[4/3] bg-muted relative">
           <img 
             src={images[currentImageIndex]} 
             alt={title}
-            className="w-full h-full object-cover transition-smooth group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           
           {/* Image Navigation Dots */}
           {images.length > 1 && (
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+            <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1">
               {images.map((_, index) => (
                 <button
                   key={index}
-                  className={`w-2 h-2 rounded-full transition-smooth ${
+                  className={`w-2 h-2 rounded-full transition-colors ${
                     index === currentImageIndex ? 'bg-white' : 'bg-white/50'
                   }`}
                   onClick={(e) => {
@@ -94,16 +94,16 @@ const PropertyCard = ({
           
           {/* Promoted Badge */}
           {isPromoted && (
-            <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground">
+            <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground shadow-soft">
               Destacada
             </Badge>
           )}
           
           {/* Favorite Button */}
           <Button
-            variant="ghost"
+            variant="secondary"
             size="sm"
-            className="absolute top-2 right-2 bg-white/90 hover:bg-white"
+            className="absolute top-3 right-3 h-8 w-8 rounded-full shadow-soft bg-white/90 p-0"
             onClick={(e) => {
               e.stopPropagation();
               setFavorite(!favorite);
@@ -113,52 +113,50 @@ const PropertyCard = ({
           </Button>
         </div>
         
-        <CardContent className="p-4">
-          {/* Price */}
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="font-bold text-lg text-foreground">{price}</h3>
+        <CardContent className="p-5">
+          {/* Price and Views */}
+          <div className="flex justify-between items-start mb-3">
+            <h3 className="font-bold text-xl text-foreground">{price}</h3>
             <div className="flex items-center text-sm text-muted-foreground">
-              <Eye className="h-3 w-3 mr-1" />
+              <Eye className="h-4 w-4 mr-1" />
               {views}
             </div>
           </div>
           
           {/* Title */}
-          <h4 className="font-semibold text-foreground mb-1 line-clamp-1">{title}</h4>
+          <h4 className="font-semibold text-foreground mb-2 line-clamp-2 leading-tight">{title}</h4>
           
           {/* Location */}
-          <div className="flex items-center text-muted-foreground mb-3">
-            <MapPin className="h-4 w-4 mr-1" />
+          <div className="flex items-center text-muted-foreground mb-4">
+            <MapPin className="h-4 w-4 mr-2" />
             <span className="text-sm">{location}</span>
           </div>
           
           {/* Property Features */}
-          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center">
-                <Bed className="h-4 w-4 mr-1" />
-                {bedrooms}
-              </div>
-              <div className="flex items-center">
-                <Bath className="h-4 w-4 mr-1" />
-                {bathrooms}
-              </div>
-              <div className="flex items-center">
-                <Square className="h-4 w-4 mr-1" />
-                {area}m²
-              </div>
-              {parking > 0 && (
-                <div className="flex items-center">
-                  <Car className="h-4 w-4 mr-1" />
-                  {parking}
-                </div>
-              )}
+          <div className="flex items-center justify-between py-3 border-t border-border">
+            <div className="flex items-center space-x-1 text-muted-foreground text-sm">
+              <Bed className="h-4 w-4" />
+              <span>{bedrooms}</span>
             </div>
+            <div className="flex items-center space-x-1 text-muted-foreground text-sm">
+              <Bath className="h-4 w-4" />
+              <span>{bathrooms}</span>
+            </div>
+            <div className="flex items-center space-x-1 text-muted-foreground text-sm">
+              <Square className="h-4 w-4" />
+              <span>{area}m²</span>
+            </div>
+            {parking > 0 && (
+              <div className="flex items-center space-x-1 text-muted-foreground text-sm">
+                <Car className="h-4 w-4" />
+                <span>{parking}</span>
+              </div>
+            )}
           </div>
           
           {/* Agent Info */}
-          <div className="flex items-center justify-between pt-3 border-t">
-            <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-between pt-4">
+            <div className="flex items-center space-x-2">
               <img 
                 src={agent.photo} 
                 alt={agent.name}
@@ -177,12 +175,12 @@ const PropertyCard = ({
             <Button 
               variant="outline" 
               size="sm"
+              className="text-xs px-3 py-1"
               onClick={(e) => {
                 e.stopPropagation();
                 handleAgentContact();
               }}
             >
-              <MessageCircle className="h-4 w-4 mr-1" />
               Contactar
             </Button>
           </div>

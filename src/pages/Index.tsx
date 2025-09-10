@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navigation from "@/components/Navigation";
-import PremiumHeroSection from "@/components/PremiumHeroSection";
-import PremiumFeaturesSection from "@/components/PremiumFeaturesSection";
-import PremiumPropertiesSection from "@/components/PremiumPropertiesSection";
+import MinimalistNavigation from "@/components/MinimalistNavigation";
+import MinimalistHeroSection from "@/components/MinimalistHeroSection";
+import FeaturedSections from "@/components/FeaturedSections";
 import PropertyDetails from "@/components/PropertyDetails";
 import AgentDashboard from "@/components/AgentDashboard";
 import MessagingSystem from "@/components/MessagingSystem";
@@ -114,9 +113,8 @@ const Index = () => {
       default:
         return (
           <>
-            <PremiumHeroSection />
-            <PremiumPropertiesSection />
-            <PremiumFeaturesSection />
+            <MinimalistHeroSection />
+            <FeaturedSections />
           </>
         );
     }
@@ -153,7 +151,7 @@ const Index = () => {
         keywords="bienes raíces Guatemala, casas premium Guatemala, apartamentos exclusivos Guatemala, propiedades verificadas Guatemala, inmobiliaria tecnología Guatemala, real estate premium Guatemala, agentes certificados Guatemala, Antigua Guatemala propiedades, Ciudad Guatemala inmobiliaria"
         structuredData={homepageStructuredData}
       />
-      <Navigation />
+      <MinimalistNavigation />
       
       {renderCurrentView()}
     </div>

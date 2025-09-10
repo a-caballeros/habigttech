@@ -157,44 +157,84 @@ const FeaturedSections = () => {
           </div>
         </section>
 
-        {/* Registration Sections */}
+        {/* Registration Sections - Enhanced */}
         <section>
+          <div className="text-center mb-12">
+            <h2 className="font-heading text-3xl md:text-4xl font-semibold mb-4">Únete a Habi.gt</h2>
+            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+              Forma parte de la comunidad inmobiliaria más exclusiva de Guatemala
+            </p>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Agent Registration */}
-            <Card className="p-8 text-center bg-gradient-to-br from-primary to-primary-light text-primary-foreground">
-              <Building className="h-12 w-12 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Registro Agente</h3>
-              <p className="mb-6 opacity-90">
-                Únete a nuestra plataforma como agente inmobiliario y conecta con miles de clientes potenciales
+            {/* Agent Registration - Enhanced */}
+            <div className="group bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-3xl p-10 text-center shadow-elegant hover:shadow-strong transition-all duration-500 hover:scale-[1.02]">
+              <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-primary/30 transition-all duration-300">
+                <Building className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="font-heading text-2xl font-semibold mb-4 text-foreground">Registro de Agente</h3>
+              <p className="font-body text-muted-foreground mb-6 leading-relaxed max-w-sm mx-auto">
+                Únete a nuestra red de agentes profesionales. Accede a herramientas exclusivas 
+                y conecta con clientes potenciales.
               </p>
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                  <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
+                  Herramientas profesionales
+                </div>
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                  <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
+                  Dashboard personalizado
+                </div>
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                  <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
+                  Red de clientes exclusiva
+                </div>
+              </div>
               <Button 
-                variant="secondary" 
                 size="lg" 
-                className="w-full"
+                className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg font-medium"
                 onClick={() => navigate('/auth?type=agent')}
               >
                 Registrarse como Agente
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            </Card>
+            </div>
 
-            {/* Client Registration */}
-            <Card className="p-8 text-center bg-gradient-to-br from-accent to-accent/80 text-accent-foreground">
-              <Users className="h-12 w-12 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Registro Cliente</h3>
-              <p className="mb-6 opacity-90">
-                Crea tu cuenta gratuita y accede a funciones exclusivas para encontrar tu hogar ideal
+            {/* Client Registration - Enhanced */}
+            <div className="group bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-3xl p-10 text-center shadow-elegant hover:shadow-strong transition-all duration-500 hover:scale-[1.02]">
+              <div className="w-20 h-20 bg-gradient-to-br from-accent to-accent/80 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-accent/30 transition-all duration-300">
+                <Users className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="font-heading text-2xl font-semibold mb-4 text-foreground">Registro de Cliente</h3>
+              <p className="font-body text-muted-foreground mb-6 leading-relaxed max-w-sm mx-auto">
+                Descubre propiedades exclusivas y accede a alertas personalizadas. 
+                Tu hogar ideal está esperándote.
               </p>
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                  <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
+                  Alertas personalizadas
+                </div>
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                  <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
+                  Propiedades exclusivas
+                </div>
+                <div className="flex items-center justify-center text-sm text-muted-foreground">
+                  <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
+                  Acceso prioritario
+                </div>
+              </div>
               <Button 
-                variant="secondary" 
                 size="lg" 
-                className="w-full"
+                variant="outline" 
+                className="w-full border-accent/30 text-accent hover:bg-accent hover:text-white shadow-lg font-medium"
                 onClick={() => navigate('/auth?type=client')}
               >
                 Registrarse como Cliente
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            </Card>
+            </div>
           </div>
         </section>
       </div>

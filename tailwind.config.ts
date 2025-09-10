@@ -85,8 +85,10 @@ export default {
 			},
 			fontFamily: {
 				'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-				'serif': ['Merriweather', 'serif'],
-				'display': ['Merriweather', 'serif'],
+				'serif': ['Playfair Display', 'serif'],
+				'display': ['Playfair Display', 'serif'],
+				'heading': ['Playfair Display', 'serif'],
+				'body': ['Inter', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

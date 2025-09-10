@@ -60,55 +60,55 @@ const MinimalistHeroSection = () => {
       {/* Search Bar Overlay */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4 z-10">
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+          <h1 className="font-heading text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
             Encuentra tu hogar ideal
           </h1>
-          <p className="text-lg md:text-xl text-white/90 font-light max-w-2xl mx-auto">
+          <p className="font-body text-lg md:text-xl text-white/90 font-light max-w-2xl mx-auto">
             La plataforma inmobiliaria más avanzada de Guatemala
           </p>
         </div>
 
-        {/* Search Form */}
-        <div className="bg-white rounded-2xl p-6 shadow-elegant">
+        {/* Search Form - Dark Theme */}
+        <div className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-elegant">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-muted-foreground mb-2">
+              <label className="block text-sm font-medium text-white/70 mb-2">
                 Ubicación
               </label>
               <Input
                 placeholder="Ciudad, zona o ubicación específica"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-0 bg-muted focus:bg-background"
+                className="border-0 bg-white/10 placeholder:text-white/50 text-white focus:bg-white/20 backdrop-blur-sm"
               />
             </div>
             <div className="md:w-48">
-              <label className="block text-sm font-medium text-muted-foreground mb-2">
+              <label className="block text-sm font-medium text-white/70 mb-2">
                 Tipo de propiedad
               </label>
-              <select className="w-full h-10 px-3 rounded-md border-0 bg-muted focus:bg-background text-sm">
-                <option>Casa</option>
-                <option>Apartamento</option>
-                <option>Terreno</option>
-                <option>Comercial</option>
+              <select className="w-full h-10 px-3 rounded-md border-0 bg-white/10 text-white focus:bg-white/20 text-sm backdrop-blur-sm">
+                <option className="bg-background text-foreground">Casa</option>
+                <option className="bg-background text-foreground">Apartamento</option>
+                <option className="bg-background text-foreground">Terreno</option>
+                <option className="bg-background text-foreground">Comercial</option>
               </select>
             </div>
             <div className="md:w-48">
-              <label className="block text-sm font-medium text-muted-foreground mb-2">
+              <label className="block text-sm font-medium text-white/70 mb-2">
                 Presupuesto
               </label>
-              <select className="w-full h-10 px-3 rounded-md border-0 bg-muted focus:bg-background text-sm">
-                <option>Cualquiera</option>
-                <option>Q300K - Q500K</option>
-                <option>Q500K - Q1M</option>
-                <option>Q1M - Q2M</option>
-                <option>Q2M+</option>
+              <select className="w-full h-10 px-3 rounded-md border-0 bg-white/10 text-white focus:bg-white/20 text-sm backdrop-blur-sm">
+                <option className="bg-background text-foreground">Cualquiera</option>
+                <option className="bg-background text-foreground">Q300K - Q500K</option>
+                <option className="bg-background text-foreground">Q500K - Q1M</option>
+                <option className="bg-background text-foreground">Q1M - Q2M</option>
+                <option className="bg-background text-foreground">Q2M+</option>
               </select>
             </div>
             <div className="md:w-auto flex items-end">
               <Button 
                 size="lg" 
-                className="w-full md:w-auto px-8 bg-accent hover:bg-accent/90"
+                className="w-full md:w-auto px-8 bg-white text-black hover:bg-white/90 font-medium"
               >
                 <Search className="h-5 w-5 mr-2" />
                 Buscar

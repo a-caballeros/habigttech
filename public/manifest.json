@@ -23,6 +23,11 @@
       "src": "/lovable-uploads/favicon-isotipo.png",
       "sizes": "1024x1024",
       "type": "image/png"
+    },
+    {
+      "src": "/lovable-uploads/favicon-isotipo.png",
+      "sizes": "1440x1440",
+      "type": "image/png"
     }
   ],
   "categories": ["business", "finance", "lifestyle"],

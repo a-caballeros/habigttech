@@ -57,40 +57,40 @@ const MinimalistHeroSection = () => {
         </Carousel>
       </div>
 
-      {/* Search Bar Overlay - Mobile Responsive */}
-      <div className="absolute inset-x-0 bottom-8 px-4 z-10">
+      {/* Search Bar Overlay - Mobile Responsive - Fixed positioning */}
+      <div className="absolute inset-x-0 bottom-4 sm:bottom-8 px-4 z-10">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-6 md:mb-8">
-            <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-2 md:mb-4 leading-tight px-4">
+          <div className="text-center mb-4 sm:mb-6 md:mb-8">
+            <h1 className="font-heading text-xl sm:text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-1 sm:mb-2 md:mb-4 leading-tight px-2 sm:px-4">
               Encuentra tu hogar ideal
             </h1>
-            <p className="font-body text-sm sm:text-base md:text-lg lg:text-xl text-white/90 font-light max-w-2xl mx-auto px-4">
+            <p className="font-body text-xs sm:text-sm md:text-lg lg:text-xl text-white/90 font-light max-w-2xl mx-auto px-2 sm:px-4">
               La plataforma inmobiliaria más avanzada de Guatemala
             </p>
           </div>
 
           {/* Search Form - Dark Theme Only */}
-          <div className="bg-black/30 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-elegant">
-            <div className="flex flex-col gap-3 md:gap-4">
+          <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 shadow-elegant">
+            <div className="flex flex-col gap-2 sm:gap-3 md:gap-4">
               {/* Mobile: Stack all inputs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                <div className="space-y-2">
-                  <label className="block text-xs md:text-sm font-medium text-white/80">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="block text-xs font-medium text-white/80">
                     Ubicación
                   </label>
                   <Input
                     placeholder="Ciudad, zona..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border-0 bg-white/15 placeholder:text-white/60 text-white focus:bg-white/25 backdrop-blur-sm h-10 text-sm"
+                    className="border-0 bg-white/15 placeholder:text-white/60 text-white focus:bg-white/25 backdrop-blur-sm h-8 sm:h-10 text-xs sm:text-sm"
                   />
                 </div>
                 
-                <div className="space-y-2">
-                  <label className="block text-xs md:text-sm font-medium text-white/80">
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="block text-xs font-medium text-white/80">
                     Tipo
                   </label>
-                  <select className="w-full h-10 px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-sm backdrop-blur-sm">
+                  <select className="w-full h-8 sm:h-10 px-2 sm:px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-xs sm:text-sm backdrop-blur-sm">
                     <option className="bg-background text-foreground">Casa</option>
                     <option className="bg-background text-foreground">Apartamento</option>
                     <option className="bg-background text-foreground">Terreno</option>
@@ -98,11 +98,11 @@ const MinimalistHeroSection = () => {
                   </select>
                 </div>
                 
-                <div className="space-y-2">
-                  <label className="block text-xs md:text-sm font-medium text-white/80">
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="block text-xs font-medium text-white/80">
                     Presupuesto
                   </label>
-                  <select className="w-full h-10 px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-sm backdrop-blur-sm">
+                  <select className="w-full h-8 sm:h-10 px-2 sm:px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-xs sm:text-sm backdrop-blur-sm">
                     <option className="bg-background text-foreground">Cualquiera</option>
                     <option className="bg-background text-foreground">Q300K - Q500K</option>
                     <option className="bg-background text-foreground">Q500K - Q1M</option>
@@ -113,10 +113,10 @@ const MinimalistHeroSection = () => {
                 
                 <div className="flex items-end sm:col-span-2 lg:col-span-1">
                   <Button 
-                    size="lg" 
-                    className="w-full h-10 bg-white text-black hover:bg-white/90 font-medium text-sm"
+                    size="sm" 
+                    className="w-full h-8 sm:h-10 bg-white text-black hover:bg-white/90 font-medium text-xs sm:text-sm"
                   >
-                    <Search className="h-4 w-4 mr-2" />
+                    <Search className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Buscar
                   </Button>
                 </div>
@@ -126,8 +126,8 @@ const MinimalistHeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      {/* Scroll Indicator - Hidden on mobile */}
+      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block">
         <ChevronDown className="h-6 w-6 text-white" />
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,8 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Property {
   id: string;
@@ -29,8 +31,49 @@ interface Property {
 
 const AgentDashboard = () => {
   const navigate = useNavigate();
-  const [properties] = useState<Property[]>([]);
+  const { user } = useAuth();
+  const [properties, setProperties] = useState<Property[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // Fetch properties from database
+  useEffect(() => {
+    const fetchProperties = async () => {
+      if (!user) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('properties')
+          .select('*')
+          .eq('agent_id', user.id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        // Transform data to match our interface
+        const transformedProperties: Property[] = (data || []).map(prop => ({
+          id: prop.id,
+          title: prop.title,
+          price: `Q${prop.price?.toLocaleString()}`,
+          location: prop.location,
+          image: prop.images?.[0] || '/placeholder.svg',
+          status: prop.status as any || 'active',
+          views: 0, // This would need to be tracked separately
+          favorites: 0, // This would need to be tracked separately  
+          messages: 0, // This would need to be tracked separately
+          datePosted: prop.created_at
+        }));
+
+        setProperties(transformedProperties);
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, [user]);
 
   const statusColors = {
     active: 'bg-green-100 text-green-800 border-green-200',

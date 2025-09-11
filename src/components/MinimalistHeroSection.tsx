@@ -58,7 +58,7 @@ const MinimalistHeroSection = () => {
       </div>
 
       {/* Search Bar Overlay - Mobile Responsive - Fixed positioning */}
-      <div className="absolute inset-x-0 bottom-8 sm:bottom-16 px-4 z-10">
+      <div className="absolute inset-x-0 bottom-4 sm:bottom-8 px-4 z-10">
         <div className="max-w-4xl mx-auto">
           </div>
 

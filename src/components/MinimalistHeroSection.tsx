@@ -118,21 +118,68 @@ const MinimalistHeroSection = () => {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="bg-background py-16">
+      {/* Enhanced Search Section */}
+      <div className="bg-background py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold text-primary">{propertyCount.toLocaleString()}</div>
-              <p className="text-muted-foreground">Propiedades Activas</p>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Busca tu propiedad ideal
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Utiliza nuestros filtros avanzados para encontrar exactamente lo que buscas
+              </p>
             </div>
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold text-primary">{salesCount.toLocaleString()}</div>
-              <p className="text-muted-foreground">Ventas este Mes</p>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold text-primary">{clientCount.toLocaleString()}</div>
-              <p className="text-muted-foreground">Clientes Satisfechos</p>
+            
+            <div className="bg-card border border-border rounded-3xl p-8 shadow-elegant">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-foreground/80">
+                    Ubicación
+                  </label>
+                  <Input
+                    placeholder="Ciudad, zona..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-background border-border focus:border-accent"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-foreground/80">
+                    Tipo de propiedad
+                  </label>
+                  <select className="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground focus:border-accent text-sm">
+                    <option>Casa</option>
+                    <option>Apartamento</option>
+                    <option>Terreno</option>
+                    <option>Comercial</option>
+                  </select>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-foreground/80">
+                    Presupuesto
+                  </label>
+                  <select className="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground focus:border-accent text-sm">
+                    <option>Cualquiera</option>
+                    <option>Q300K - Q500K</option>
+                    <option>Q500K - Q1M</option>
+                    <option>Q1M - Q2M</option>
+                    <option>Q2M+</option>
+                  </select>
+                </div>
+                
+                <div className="flex items-end">
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium h-10"
+                  >
+                    <Search className="h-4 w-4 mr-2" />
+                    Buscar
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

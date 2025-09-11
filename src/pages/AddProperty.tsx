@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
+import ImageUpload from "@/components/ImageUpload";
 import { ArrowLeft, Upload, MapPin, Home, Crown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -35,6 +36,7 @@ const AddProperty = () => {
   const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   // Redirect non-agents
   if (userType !== 'agent') {
@@ -297,22 +299,21 @@ const AddProperty = () => {
             {/* Photos */}
             <Card>
               <CardHeader>
-                <CardTitle>Fotografías</CardTitle>
+                <CardTitle>Fotografías de la Propiedad</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                  <Upload className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Subir fotografías</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Arrastra y suelta tus fotos aquí, o haz clic para seleccionar
-                  </p>
-                  <Button variant="outline">
-                    Seleccionar Archivos
-                  </Button>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    JPG, PNG hasta 5MB por archivo. Máximo 10 fotos.
-                  </p>
-                </div>
+                <ImageUpload
+                  onImagesSelected={setSelectedImages}
+                  maxFiles={10}
+                  maxSize={5}
+                />
+                {selectedImages.length > 0 && (
+                  <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+                    <p className="text-sm text-muted-foreground">
+                      {selectedImages.length} imagen{selectedImages.length !== 1 ? 'es' : ''} seleccionada{selectedImages.length !== 1 ? 's' : ''}
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
 

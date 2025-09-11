@@ -13,22 +13,24 @@ const MinimalistNavigation = () => {
 
   const navigationItems = [
     { label: "Inicio", href: "/" },
-    { label: "Propiedades", href: "/properties" },
-    { label: "Sobre Nosotros", href: "/about" },
-    { label: "Contacto", href: "/contact" },
+    { label: "Propiedades", href: "/" },
+    { label: "Sobre Nosotros", href: "/" },
+    { label: "Contacto", href: "/" },
   ];
 
   const NavigationLinks = ({ mobile = false, onItemClick }: { mobile?: boolean; onItemClick?: () => void }) => (
     <nav className={mobile ? "flex flex-col space-y-4" : "hidden md:flex items-center space-x-8"}>
       {navigationItems.map((item) => (
-        <a
+        <button
           key={item.label}
-          href={item.href}
+          onClick={() => {
+            navigate(item.href);
+            onItemClick?.();
+          }}
           className="text-sm font-medium text-foreground hover:text-accent transition-colors"
-          onClick={onItemClick}
         >
           {item.label}
-        </a>
+        </button>
       ))}
     </nav>
   );
@@ -41,7 +43,7 @@ const MinimalistNavigation = () => {
           <img 
             src="/lovable-uploads/f1417da8-41e1-449e-b4c4-a0323e83c55e.png"
             alt="Habi.gt"
-            className="h-8 w-auto cursor-pointer"
+            className="h-12 w-auto cursor-pointer hover:scale-105 transition-transform"
             onClick={() => navigate('/')}
           />
         </div>

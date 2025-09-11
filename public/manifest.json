@@ -10,7 +10,7 @@
   "icons": [
     {
       "src": "/lovable-uploads/favicon-isotipo.png",
-      "sizes": "192x192",
+      "sizes": "50x50",
       "type": "image/png",
       "purpose": "any maskable"
     },
@@ -30,7 +30,7 @@
       "type": "image/png"
     }
   ],
-  "categories": ["business", "finance", "lifestyle"],
+  "categories": ["business", "finance", "lifestyle", "casas en venta en Ciudad de Guatemala", "Apartamentos en venta en Guatemala", "Bodegas en venta en Ciudad de Guatemala", "Oficinas en venta en Ciudad de Guatemala", "Propiedades de lujo en venta en la Ciudad de Guatemala"],
   "lang": "es-GT",
   "scope": "/",
   "screenshots": [

@@ -57,123 +57,64 @@ const MinimalistHeroSection = () => {
         </Carousel>
       </div>
 
-      {/* Search Bar Overlay */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4 z-10">
-        <div className="text-center mb-8">
-          <h1 className="font-heading text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
-            Encuentra tu hogar ideal
-          </h1>
-          <p className="font-body text-lg md:text-xl text-white/90 font-light max-w-2xl mx-auto">
-            La plataforma inmobiliaria más avanzada de Guatemala
-          </p>
-        </div>
-
-        {/* Search Form - Dark Theme */}
-        <div className="bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-elegant">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-white/70 mb-2">
-                Ubicación
-              </label>
-              <Input
-                placeholder="Ciudad, zona o ubicación específica"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-0 bg-white/10 placeholder:text-white/50 text-white focus:bg-white/20 backdrop-blur-sm"
-              />
-            </div>
-            <div className="md:w-48">
-              <label className="block text-sm font-medium text-white/70 mb-2">
-                Tipo de propiedad
-              </label>
-              <select className="w-full h-10 px-3 rounded-md border-0 bg-white/10 text-white focus:bg-white/20 text-sm backdrop-blur-sm">
-                <option className="bg-background text-foreground">Casa</option>
-                <option className="bg-background text-foreground">Apartamento</option>
-                <option className="bg-background text-foreground">Terreno</option>
-                <option className="bg-background text-foreground">Comercial</option>
-              </select>
-            </div>
-            <div className="md:w-48">
-              <label className="block text-sm font-medium text-white/70 mb-2">
-                Presupuesto
-              </label>
-              <select className="w-full h-10 px-3 rounded-md border-0 bg-white/10 text-white focus:bg-white/20 text-sm backdrop-blur-sm">
-                <option className="bg-background text-foreground">Cualquiera</option>
-                <option className="bg-background text-foreground">Q300K - Q500K</option>
-                <option className="bg-background text-foreground">Q500K - Q1M</option>
-                <option className="bg-background text-foreground">Q1M - Q2M</option>
-                <option className="bg-background text-foreground">Q2M+</option>
-              </select>
-            </div>
-            <div className="md:w-auto flex items-end">
-              <Button 
-                size="lg" 
-                className="w-full md:w-auto px-8 bg-white text-black hover:bg-white/90 font-medium"
-              >
-                <Search className="h-5 w-5 mr-2" />
-                Buscar
-              </Button>
-            </div>
+      {/* Search Bar Overlay - Mobile Responsive */}
+      <div className="absolute inset-x-0 bottom-8 px-4 z-10">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-6 md:mb-8">
+            <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-2 md:mb-4 leading-tight px-4">
+              Encuentra tu hogar ideal
+            </h1>
+            <p className="font-body text-sm sm:text-base md:text-lg lg:text-xl text-white/90 font-light max-w-2xl mx-auto px-4">
+              La plataforma inmobiliaria más avanzada de Guatemala
+            </p>
           </div>
-        </div>
-      </div>
 
-      {/* Enhanced Search Section */}
-      <div className="bg-background py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Busca tu propiedad ideal
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Utiliza nuestros filtros avanzados para encontrar exactamente lo que buscas
-              </p>
-            </div>
-            
-            <div className="bg-card border border-border rounded-3xl p-8 shadow-elegant">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Search Form - Dark Theme Only */}
+          <div className="bg-black/30 backdrop-blur-lg border border-white/20 rounded-2xl p-4 md:p-6 shadow-elegant">
+            <div className="flex flex-col gap-3 md:gap-4">
+              {/* Mobile: Stack all inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground/80">
+                  <label className="block text-xs md:text-sm font-medium text-white/80">
                     Ubicación
                   </label>
                   <Input
                     placeholder="Ciudad, zona..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-background border-border focus:border-accent"
+                    className="border-0 bg-white/15 placeholder:text-white/60 text-white focus:bg-white/25 backdrop-blur-sm h-10 text-sm"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground/80">
-                    Tipo de propiedad
+                  <label className="block text-xs md:text-sm font-medium text-white/80">
+                    Tipo
                   </label>
-                  <select className="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground focus:border-accent text-sm">
-                    <option>Casa</option>
-                    <option>Apartamento</option>
-                    <option>Terreno</option>
-                    <option>Comercial</option>
+                  <select className="w-full h-10 px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-sm backdrop-blur-sm">
+                    <option className="bg-background text-foreground">Casa</option>
+                    <option className="bg-background text-foreground">Apartamento</option>
+                    <option className="bg-background text-foreground">Terreno</option>
+                    <option className="bg-background text-foreground">Comercial</option>
                   </select>
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-foreground/80">
+                  <label className="block text-xs md:text-sm font-medium text-white/80">
                     Presupuesto
                   </label>
-                  <select className="w-full h-10 px-3 rounded-md border border-border bg-background text-foreground focus:border-accent text-sm">
-                    <option>Cualquiera</option>
-                    <option>Q300K - Q500K</option>
-                    <option>Q500K - Q1M</option>
-                    <option>Q1M - Q2M</option>
-                    <option>Q2M+</option>
+                  <select className="w-full h-10 px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-sm backdrop-blur-sm">
+                    <option className="bg-background text-foreground">Cualquiera</option>
+                    <option className="bg-background text-foreground">Q300K - Q500K</option>
+                    <option className="bg-background text-foreground">Q500K - Q1M</option>
+                    <option className="bg-background text-foreground">Q1M - Q2M</option>
+                    <option className="bg-background text-foreground">Q2M+</option>
                   </select>
                 </div>
                 
-                <div className="flex items-end">
+                <div className="flex items-end sm:col-span-2 lg:col-span-1">
                   <Button 
                     size="lg" 
-                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium h-10"
+                    className="w-full h-10 bg-white text-black hover:bg-white/90 font-medium text-sm"
                   >
                     <Search className="h-4 w-4 mr-2" />
                     Buscar

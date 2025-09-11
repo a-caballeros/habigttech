@@ -95,6 +95,31 @@ const AddProperty = () => {
     
     setIsLoading(true);
     try {
+      // First upload images if any
+      let imageUrls: string[] = [];
+      if (selectedImages.length > 0) {
+        for (const image of selectedImages) {
+          const fileExt = image.name.split('.').pop();
+          const fileName = `${Math.random()}.${fileExt}`;
+          const filePath = `properties/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from('property-images')
+            .upload(filePath, image);
+
+          if (uploadError) {
+            console.error('Error uploading image:', uploadError);
+            continue; // Skip this image and continue with others
+          }
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('property-images')
+            .getPublicUrl(filePath);
+
+          imageUrls.push(publicUrl);
+        }
+      }
+
       const { error } = await supabase
         .from('properties')
         .insert({
@@ -107,7 +132,8 @@ const AddProperty = () => {
           bedrooms: parseInt(data.bedrooms),
           bathrooms: parseFloat(data.bathrooms),
           area: parseInt(data.area),
-          status: 'active'
+          status: 'active',
+          images: imageUrls
         });
 
       if (error) throw error;

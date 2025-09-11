@@ -60,7 +60,8 @@ const MinimalistHeroSection = () => {
       {/* Search Bar Overlay - Mobile Responsive - Fixed positioning */}
       <div className="absolute inset-x-0 bottom-4 sm:bottom-8 px-4 z-10">
         <div className="max-w-4xl mx-auto">
-          </div>
+
+        </div>
 
           {/* Search Form - Dark Theme Only */}
           <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 shadow-elegant">

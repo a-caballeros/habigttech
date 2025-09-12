@@ -208,6 +208,8 @@ export type Database = {
           images: string[] | null
           location: string
           price: number
+          promoted: boolean
+          promoted_at: string | null
           property_type: string
           status: string
           title: string
@@ -224,6 +226,8 @@ export type Database = {
           images?: string[] | null
           location: string
           price: number
+          promoted?: boolean
+          promoted_at?: string | null
           property_type: string
           status?: string
           title: string
@@ -240,6 +244,8 @@ export type Database = {
           images?: string[] | null
           location?: string
           price?: number
+          promoted?: boolean
+          promoted_at?: string | null
           property_type?: string
           status?: string
           title?: string
@@ -289,6 +295,10 @@ export type Database = {
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_user_promotion_limit: {
+        Args: { user_id: string }
+        Returns: number
       }
     }
     Enums: {

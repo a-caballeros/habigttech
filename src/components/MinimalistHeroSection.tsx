@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ArrowRight, ChevronDown } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Search, ChevronDown } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -14,9 +14,6 @@ const MinimalistHeroSection = () => {
   const navigate = useNavigate();
   const { userType } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
-  const [propertyCount] = useState(0);
-  const [salesCount] = useState(0);
-  const [clientCount] = useState(0);
 
   // Featured properties for carousel
   const featuredProperties = [
@@ -57,31 +54,31 @@ const MinimalistHeroSection = () => {
         </Carousel>
       </div>
 
-      {/* Search Bar Overlay - Desktop-style responsiveness */}
-      <div className="absolute inset-x-0 bottom-4 sm:bottom-8 px-4 z-10">
+      {/* Search Bar Overlay - Consistent desktop-style positioning */}
+      <div className="absolute inset-x-0 bottom-16 px-4 z-10">
         <div className="max-w-4xl mx-auto">
           {/* Search Form - Dark Theme Only */}
-          <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 shadow-elegant">
-            <div className="flex flex-col gap-2 sm:gap-3 md:gap-4">
-              {/* Mobile: Stack all inputs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-                <div className="space-y-1 sm:space-y-2">
-                  <label className="block text-xs font-medium text-white/80">
+          <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-xl sm:rounded-2xl p-4 md:p-6 shadow-elegant">
+            <div className="flex flex-col gap-3 md:gap-4">
+              {/* Desktop-style grid layout for all screen sizes */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-white/80">
                     Ubicación
                   </label>
                   <Input
                     placeholder="Ciudad, zona..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border-0 bg-white/15 placeholder:text-white/60 text-white focus:bg-white/25 backdrop-blur-sm h-8 sm:h-10 text-xs sm:text-sm"
+                    className="border-0 bg-white/15 placeholder:text-white/60 text-white focus:bg-white/25 backdrop-blur-sm h-10 text-sm"
                   />
                 </div>
                 
-                <div className="space-y-1 sm:space-y-2">
-                  <label className="block text-xs font-medium text-white/80">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-white/80">
                     Tipo
                   </label>
-                  <select className="w-full h-8 sm:h-10 px-2 sm:px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-xs sm:text-sm backdrop-blur-sm">
+                  <select className="w-full h-10 px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-sm backdrop-blur-sm">
                     <option className="bg-background text-foreground">Casa</option>
                     <option className="bg-background text-foreground">Apartamento</option>
                     <option className="bg-background text-foreground">Terreno</option>
@@ -89,11 +86,11 @@ const MinimalistHeroSection = () => {
                   </select>
                 </div>
                 
-                <div className="space-y-1 sm:space-y-2">
-                  <label className="block text-xs font-medium text-white/80">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-white/80">
                     Presupuesto
                   </label>
-                  <select className="w-full h-8 sm:h-10 px-2 sm:px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-xs sm:text-sm backdrop-blur-sm">
+                  <select className="w-full h-10 px-3 rounded-md border-0 bg-white/15 text-white focus:bg-white/25 text-sm backdrop-blur-sm">
                     <option className="bg-background text-foreground">Cualquiera</option>
                     <option className="bg-background text-foreground">Q300K - Q500K</option>
                     <option className="bg-background text-foreground">Q500K - Q1M</option>
@@ -105,9 +102,9 @@ const MinimalistHeroSection = () => {
                 <div className="flex items-end sm:col-span-2 lg:col-span-1">
                   <Button 
                     size="sm" 
-                    className="w-full h-8 sm:h-10 bg-white text-black hover:bg-white/90 font-medium text-xs sm:text-sm"
+                    className="w-full h-10 bg-white text-black hover:bg-white/90 font-medium text-sm"
                   >
-                    <Search className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    <Search className="h-4 w-4 mr-2" />
                     Buscar
                   </Button>
                 </div>

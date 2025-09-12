@@ -75,6 +75,101 @@ const AgentDashboard = () => {
     fetchProperties();
   }, [user]);
 
+  // Property action handlers
+  const handleEditProperty = (propertyId: string) => {
+    navigate(`/edit-property/${propertyId}`);
+  };
+
+  const handleToggleStatus = async (propertyId: string, currentStatus: string) => {
+    try {
+      const newStatus = currentStatus === 'paused' ? 'active' : 'paused';
+      const { error } = await supabase
+        .from('properties')
+        .update({ status: newStatus })
+        .eq('id', propertyId);
+
+      if (error) throw error;
+
+      // Refresh properties
+      setProperties(prev => prev.map(p => 
+        p.id === propertyId 
+          ? { ...p, status: newStatus as any }
+          : p
+      ));
+    } catch (error) {
+      console.error('Error toggling property status:', error);
+    }
+  };
+
+  const handlePromoteProperty = async (propertyId: string) => {
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .update({ 
+          promoted: true,
+          promoted_at: new Date().toISOString()
+        })
+        .eq('id', propertyId);
+
+      if (error) throw error;
+
+      // Refresh properties
+      const fetchProperties = async () => {
+        if (!user) return;
+        
+        try {
+          const { data, error } = await supabase
+            .from('properties')
+            .select('*')
+            .eq('agent_id', user.id)
+            .order('created_at', { ascending: false });
+
+          if (error) throw error;
+
+          const transformedProperties: Property[] = (data || []).map(prop => ({
+            id: prop.id,
+            title: prop.title,
+            price: `Q${prop.price?.toLocaleString()}`,
+            location: prop.location,
+            image: prop.images?.[0] || '/placeholder.svg',
+            status: prop.status as any || 'active',
+            views: 0,
+            favorites: 0,
+            messages: 0,
+            datePosted: prop.created_at
+          }));
+
+          setProperties(transformedProperties);
+        } catch (error) {
+          console.error('Error fetching properties:', error);
+        }
+      };
+
+      fetchProperties();
+    } catch (error: any) {
+      console.error('Error promoting property:', error);
+      alert(error.message || 'Error al promocionar la propiedad');
+    }
+  };
+
+  const handleDeleteProperty = async (propertyId: string) => {
+    if (!confirm('¿Estás seguro de que quieres eliminar esta propiedad?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('properties')
+        .delete()
+        .eq('id', propertyId);
+
+      if (error) throw error;
+
+      // Remove from local state
+      setProperties(prev => prev.filter(p => p.id !== propertyId));
+    } catch (error) {
+      console.error('Error deleting property:', error);
+    }
+  };
+
   const statusColors = {
     active: 'bg-green-100 text-green-800 border-green-200',
     pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -296,19 +391,31 @@ const AgentDashboard = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="flex items-center gap-2">
+                        <DropdownMenuItem 
+                          className="flex items-center gap-2"
+                          onClick={() => handleEditProperty(property.id)}
+                        >
                           <Edit3 className="h-4 w-4" />
                           Editar
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="flex items-center gap-2">
+                        <DropdownMenuItem 
+                          className="flex items-center gap-2"
+                          onClick={() => handleToggleStatus(property.id, property.status)}
+                        >
                           <Pause className="h-4 w-4" />
                           {property.status === 'paused' ? 'Reactivar' : 'Pausar'}
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="flex items-center gap-2">
+                        <DropdownMenuItem 
+                          className="flex items-center gap-2"
+                          onClick={() => handlePromoteProperty(property.id)}
+                        >
                           <Megaphone className="h-4 w-4" />
                           Promocionar
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="flex items-center gap-2 text-destructive">
+                        <DropdownMenuItem 
+                          className="flex items-center gap-2 text-destructive"
+                          onClick={() => handleDeleteProperty(property.id)}
+                        >
                           <Trash2 className="h-4 w-4" />
                           Eliminar
                         </DropdownMenuItem>

@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
-import { Mail, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Mail, Eye, EyeOff, AlertCircle, Users, Building2 } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -164,25 +164,39 @@ const Auth = () => {
               {/* Google Login Tab */}
               <TabsContent value="google" className="space-y-4">
                 <div className="space-y-3">
-                  <div className="space-y-2">
-                    <Label>Tipo de usuario</Label>
-                    <div className="flex gap-2">
+                  <div className="space-y-3">
+                    <Label className="text-base font-medium">Selecciona tu perfil</Label>
+                    <div className="grid grid-cols-1 gap-3">
                       <Button
                         type="button"
                         variant={userType === 'client' ? 'default' : 'outline'}
-                        className="flex-1"
+                        className="h-auto p-4 flex-col items-start gap-2 text-left"
                         onClick={() => setUserType('client')}
                       >
-                        Cliente
+                        <div className="flex items-center gap-2 w-full">
+                          <Users className="h-5 w-5" />
+                          <span className="font-semibold">Cliente</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground text-left">
+                          Busca y encuentra tu hogar ideal. Conecta con agentes especializados.
+                        </p>
                       </Button>
                       <Button
                         type="button"
                         variant={userType === 'agent' ? 'default' : 'outline'}
-                        className="flex-1"
+                        className="h-auto p-4 flex-col items-start gap-2 text-left"
                         onClick={() => setUserType('agent')}
                       >
-                        Agente
-                        <Badge variant="secondary" className="ml-2">Pro</Badge>
+                        <div className="flex items-center gap-2 w-full justify-between">
+                          <div className="flex items-center gap-2">
+                            <Building2 className="h-5 w-5" />
+                            <span className="font-semibold">Agente Inmobiliario</span>
+                          </div>
+                          <Badge variant="secondary" className="text-xs">Pro</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground text-left">
+                          Publica propiedades y conecta con clientes potenciales. Acceso a herramientas profesionales.
+                        </p>
                       </Button>
                     </div>
                   </div>
@@ -291,25 +305,39 @@ const Auth = () => {
                         />
                       </div>
                       
-                      <div className="space-y-2">
-                        <Label>Tipo de usuario</Label>
-                        <div className="flex gap-2">
+                      <div className="space-y-3">
+                        <Label className="text-base font-medium">Selecciona tu perfil</Label>
+                        <div className="grid grid-cols-1 gap-3">
                           <Button
                             type="button"
                             variant={userType === 'client' ? 'default' : 'outline'}
-                            className="flex-1"
+                            className="h-auto p-4 flex-col items-start gap-2 text-left"
                             onClick={() => setUserType('client')}
                           >
-                            Cliente
+                            <div className="flex items-center gap-2 w-full">
+                              <Users className="h-5 w-5" />
+                              <span className="font-semibold">Cliente</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground text-left">
+                              Busca y encuentra tu hogar ideal. Conecta con agentes especializados.
+                            </p>
                           </Button>
                           <Button
                             type="button"
                             variant={userType === 'agent' ? 'default' : 'outline'}
-                            className="flex-1"
+                            className="h-auto p-4 flex-col items-start gap-2 text-left"
                             onClick={() => setUserType('agent')}
                           >
-                            Agente
-                            <Badge variant="secondary" className="ml-2">Pro</Badge>
+                            <div className="flex items-center gap-2 w-full justify-between">
+                              <div className="flex items-center gap-2">
+                                <Building2 className="h-5 w-5" />
+                                <span className="font-semibold">Agente Inmobiliario</span>
+                              </div>
+                              <Badge variant="secondary" className="text-xs">Pro</Badge>
+                            </div>
+                            <p className="text-xs text-muted-foreground text-left">
+                              Publica propiedades y conecta con clientes potenciales. Acceso a herramientas profesionales.
+                            </p>
                           </Button>
                         </div>
                       </div>

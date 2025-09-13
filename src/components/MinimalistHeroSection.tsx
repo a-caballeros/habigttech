@@ -26,12 +26,12 @@ const MinimalistHeroSection = () => {
   return (
     <section className="relative min-h-screen bg-background">
       {/* Hero Carousel */}
-      <div className="relative h-[70vh]">
+      <div className="relative h-screen">
         <Carousel className="w-full h-full">
           <CarouselContent>
             {featuredProperties.map((property) => (
               <CarouselItem key={property.id} className="relative">
-                <div className="relative h-[70vh] overflow-hidden">
+                <div className="relative h-screen overflow-hidden">
                   <img
                     src={property.image}
                     alt={property.title}
@@ -54,70 +54,10 @@ const MinimalistHeroSection = () => {
         </Carousel>
       </div>
 
-      {/* Search Bar Overlay - Fixed positioning for mobile/tablet */}
-      <div className="absolute inset-x-0 bottom-8 md:bottom-16 px-4 z-10">
-        <div className="max-w-4xl mx-auto">
-          {/* Search Form - Professional glassmorphism design */}
-          <div className="bg-card/95 dark:bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl lg:rounded-2xl p-3 md:p-6 shadow-elegant">
-            <div className="flex flex-col gap-3 md:gap-4">
-              {/* Responsive grid layout */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
-                <div className="space-y-1 md:space-y-2">
-                  <label className="block text-xs md:text-sm font-medium text-foreground/80">
-                    Ubicación
-                  </label>
-                  <Input
-                    placeholder="Ciudad, zona..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="h-9 md:h-10 text-sm bg-background/50 border-border/50 focus:bg-background"
-                  />
-                </div>
-                
-                <div className="space-y-1 md:space-y-2">
-                  <label className="block text-xs md:text-sm font-medium text-foreground/80">
-                    Tipo
-                  </label>
-                  <select className="w-full h-9 md:h-10 px-3 rounded-md bg-background/50 border border-border/50 text-foreground text-sm focus:bg-background focus:border-border">
-                    <option value="">Seleccionar</option>
-                    <option value="casa">Casa</option>
-                    <option value="apartamento">Apartamento</option>
-                    <option value="terreno">Terreno</option>
-                    <option value="comercial">Comercial</option>
-                  </select>
-                </div>
-                
-                <div className="space-y-1 md:space-y-2">
-                  <label className="block text-xs md:text-sm font-medium text-foreground/80">
-                    Presupuesto
-                  </label>
-                  <select className="w-full h-9 md:h-10 px-3 rounded-md bg-background/50 border border-border/50 text-foreground text-sm focus:bg-background focus:border-border">
-                    <option value="">Cualquiera</option>
-                    <option value="300-500">Q300K - Q500K</option>
-                    <option value="500-1000">Q500K - Q1M</option>
-                    <option value="1000-2000">Q1M - Q2M</option>
-                    <option value="2000+">Q2M+</option>
-                  </select>
-                </div>
-                
-                <div className="flex items-end md:col-span-2 lg:col-span-1">
-                  <Button 
-                    size="sm" 
-                    className="w-full h-9 md:h-10 bg-primary text-primary-foreground hover:bg-primary/90 font-medium text-sm shadow-md"
-                  >
-                    <Search className="h-4 w-4 mr-2" />
-                    Buscar
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Scroll Indicator - Hidden on mobile */}
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block">
-        <ChevronDown className="h-6 w-6 text-white" />
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <ChevronDown className="h-6 w-6 text-white drop-shadow-lg" />
       </div>
     </section>
   );

@@ -28,15 +28,15 @@ const Footer = () => {
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4 text-primary" />
                 <a 
-                  href="mailto:info@habi.gt" 
+                  href="mailto:webmaster@habigt.tech" 
                   className="hover:text-primary transition-colors"
                 >
-                  info@habi.gt
+                  webmaster@habigt.tech
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4 text-primary" />
-                <span>+502 2345-6789</span>
+                <span>+502 42457829</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4 text-primary" />

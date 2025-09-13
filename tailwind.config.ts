@@ -72,6 +72,10 @@ export default {
 					gold: 'hsl(var(--tier-gold))',
 					platinum: 'hsl(var(--tier-platinum))'
 				},
+				electric: {
+					DEFAULT: 'hsl(var(--electric))',
+					glow: 'hsl(var(--electric-glow))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

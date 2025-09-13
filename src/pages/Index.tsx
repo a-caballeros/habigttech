@@ -7,6 +7,7 @@ import PropertyDetails from "@/components/PropertyDetails";
 import AgentDashboard from "@/components/AgentDashboard";
 import MessagingSystem from "@/components/MessagingSystem";
 import SEOHead from "@/components/SEOHead";
+import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
 
@@ -144,16 +145,19 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen flex flex-col">
       <SEOHead 
-        title="Habi.gt - Plataforma Inmobiliaria Premium | Encuentra tu Hogar Ideal en Guatemala"
+        title="🏠 Habi.gt - Líder en Bienes Raíces Premium Guatemala | +2,847 Propiedades Verificadas"
         description="🏠 Descubre la experiencia inmobiliaria más avanzada de Guatemala. +2,847 propiedades verificadas, agentes certificados y tecnología de vanguardia. Tu hogar ideal te espera en Habi.gt"
         keywords="bienes raíces Guatemala, casas premium Guatemala, apartamentos exclusivos Guatemala, propiedades verificadas Guatemala, inmobiliaria tecnología Guatemala, real estate premium Guatemala, agentes certificados Guatemala, Antigua Guatemala propiedades, Ciudad Guatemala inmobiliaria"
         structuredData={homepageStructuredData}
       />
       <MinimalistNavigation />
       
-      {renderCurrentView()}
+      <main className="flex-1">
+        {renderCurrentView()}
+      </main>
+      <Footer />
     </div>
   );
 };

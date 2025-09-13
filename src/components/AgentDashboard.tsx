@@ -56,7 +56,7 @@ const AgentDashboard = () => {
           title: prop.title,
           price: `Q${prop.price?.toLocaleString()}`,
           location: prop.location,
-          image: prop.images?.[0] || '/placeholder.svg',
+          image: prop.images?.[0] || '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png',
           status: prop.status as any || 'active',
           views: 0, // This would need to be tracked separately
           favorites: 0, // This would need to be tracked separately  
@@ -131,7 +131,7 @@ const AgentDashboard = () => {
             title: prop.title,
             price: `Q${prop.price?.toLocaleString()}`,
             location: prop.location,
-            image: prop.images?.[0] || '/placeholder.svg',
+            image: prop.images?.[0] || '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png',
             status: prop.status as any || 'active',
             views: 0,
             favorites: 0,
@@ -346,6 +346,9 @@ const AgentDashboard = () => {
                       src={property.image}
                       alt={property.title}
                       className="w-full sm:w-20 h-40 sm:h-20 rounded-lg object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png';
+                      }}
                     />
 
                     {/* Property Info */}

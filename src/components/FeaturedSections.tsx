@@ -100,9 +100,12 @@ const FeaturedSections = () => {
               <Card key={property.id} className="group hover:shadow-lg transition-all duration-300">
                 <div className="relative overflow-hidden rounded-t-lg">
                   <img 
-                    src={property.images?.[0] || '/placeholder.svg'}
+                    src={property.images?.[0] || '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png'}
                     alt={property.title}
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.currentTarget.src = '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png';
+                    }}
                   />
                   <Button 
                     variant="ghost" 

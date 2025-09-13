@@ -44,8 +44,8 @@
     --warning-foreground: 0 0% 9%;
 
     /* Electric accent for links */
-    --electric: 214 100% 65%;
-    --electric-glow: 214 100% 75%;
+    --electric: 74 95% 44%;
+    --electric-glow: 74 95% 54%;
 
     /* UI Elements */
     --border: 220 13% 85%;
@@ -137,8 +137,8 @@
     --warning-foreground: 220 17% 9%;
 
     /* Electric accent for dark mode */
-    --electric: 214 100% 75%;
-    --electric-glow: 214 100% 85%;
+    --electric: 74 95% 54%;
+    --electric-glow: 74 95% 64%;
 
     /* UI Elements for dark */
     --border: 220 13% 20%;

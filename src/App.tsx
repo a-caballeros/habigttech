@@ -23,6 +23,9 @@ import Notifications from "./pages/Notifications";
 import AddProperty from "./pages/AddProperty";
 import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import FAQ from "./pages/FAQ";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +45,9 @@ const App = () => (
             <Route path="/payment-methods" element={<PaymentMethods />} />
             <Route path="/payment/paypal" element={<PayPalPayment />} />
             <Route path="/payment/binance" element={<BinancePayment />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />

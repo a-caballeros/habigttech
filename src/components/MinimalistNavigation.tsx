@@ -12,9 +12,10 @@ const MinimalistNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigationItems = [
-    { label: "Inicio", href: "/" },
     { label: "Propiedades", href: "/" },
-    { label: "Sobre Nosotros", href: "/" },
+    { label: "Sobre Nosotros", href: "/about" },
+    { label: "Términos y Condiciones", href: "/terms" },
+    { label: "FAQ's", href: "/faq" },
     { label: "Contacto", href: "/" },
   ];
 

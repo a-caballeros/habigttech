@@ -49,18 +49,30 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground">Enlaces Rápidos</h3>
             <div className="space-y-2">
-              <div className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+              <a 
+                href="/about" 
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+              >
                 Acerca de Nosotros
-              </div>
-              <div className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+              </a>
+              <a 
+                href="/terms" 
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+              >
                 Términos y Condiciones
-              </div>
-              <div className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
-                Política de Privacidad
-              </div>
-              <div className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+              </a>
+              <a 
+                href="/faq" 
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+              >
+                FAQ's
+              </a>
+              <a 
+                href="/support" 
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+              >
                 Soporte
-              </div>
+              </a>
             </div>
           </div>
         </div>

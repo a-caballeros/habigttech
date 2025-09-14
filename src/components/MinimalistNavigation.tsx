@@ -16,7 +16,7 @@ const MinimalistNavigation = () => {
     { label: "Sobre Nosotros", href: "/about" },
     { label: "Términos y Condiciones", href: "/terms" },
     { label: "FAQ's", href: "/faq" },
-    { label: "Contacto", href: "/" },
+    { label: "Contacto", href: "/contact" },
   ];
 
   const NavigationLinks = ({ mobile = false, onItemClick }: { mobile?: boolean; onItemClick?: () => void }) => (

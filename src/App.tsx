@@ -26,6 +26,8 @@ import NotFound from "./pages/NotFound";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import FAQ from "./pages/FAQ";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Support from "./pages/Support";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,8 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/terms" element={<TermsAndConditions />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/support" element={<Support />} />
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />

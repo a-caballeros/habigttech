@@ -12,7 +12,7 @@ interface SEOHeadProps {
 
 const SEOHead = ({ 
   title = "Habi.gt - Inmobiliaria #1 en Guatemala | Casas, Apartamentos, Propiedades en Venta y Alquiler",
-  description = "🏠 Inmobiliaria líder en Guatemala con +1,500 propiedades verificadas. Casas en venta, apartamentos en alquiler, terrenos y más. Encuentra tu hogar ideal en Guatemala City, Antigua, Xela y todo el país. Agentes expertos te acompañan.",
+  description = "Inmobiliaria líder en Guatemala con +1,500 propiedades verificadas. Casas en venta, apartamentos en alquiler, terrenos y más. Encuentra tu hogar ideal en Guatemala City, Antigua, Xela y todo el país. Agentes expertos te acompañan.",
   keywords = "inmobiliaria Guatemala, bienes raíces Guatemala, casas en venta Guatemala, apartamentos en alquiler Guatemala, propiedades Guatemala, real estate Guatemala, casas Guatemala City, apartamentos Zona 10, propiedades Antigua Guatemala, terrenos en venta Guatemala, condominios Guatemala, oficinas en alquiler Guatemala, locales comerciales Guatemala, inversión inmobiliaria Guatemala, agentes inmobiliarios Guatemala, corredores de bienes raíces Guatemala",
   image = "https://habi.gt/og-image.jpg",
   type = "website",

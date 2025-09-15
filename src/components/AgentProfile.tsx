@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Plus, BarChart3, MessageCircle, Upload } from "lucide-react";
+import { BusinessIcon, StarIcon, MobileIcon, TeamIcon } from "@/components/icons/ProfessionalIcons";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -265,7 +266,8 @@ const AgentProfile = () => {
           <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-950/20 dark:to-emerald-900/20 border-emerald-200 dark:border-emerald-800">
             <CardHeader>
               <CardTitle className="text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
-                🏢 Panel de Agente Inmobiliario
+                <BusinessIcon className="h-5 w-5 text-emerald-600" />
+                Panel de Agente Inmobiliario
                 <Badge className="bg-emerald-600 text-white">AGENTE</Badge>
               </CardTitle>
             </CardHeader>
@@ -277,7 +279,7 @@ const AgentProfile = () => {
                   onClick={() => navigate('/add-property')}
                 >
                   <Plus className="h-5 w-5" />
-                  🏠 Agregar Nueva Propiedad
+                  Agregar Nueva Propiedad
                 </Button>
                 
                 <Button 
@@ -287,7 +289,7 @@ const AgentProfile = () => {
                   onClick={() => navigate('/dashboard')}
                 >
                   <BarChart3 className="h-5 w-5" />
-                  📊 Mi Dashboard de Ventas
+                  Mi Dashboard de Ventas
                 </Button>
                 
                 {profile?.role !== 'admin' && (
@@ -297,7 +299,8 @@ const AgentProfile = () => {
                     className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
                     onClick={() => navigate('/subscription')}
                   >
-                    ⭐ Gestionar Suscripción
+                    <StarIcon className="h-4 w-4 mr-2" />
+                    Gestionar Suscripción
                   </Button>
                 )}
                 
@@ -307,7 +310,8 @@ const AgentProfile = () => {
                   className="flex items-center gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/20 h-12"
                   onClick={() => navigate('/portfolio')}
                 >
-                  📱 Mi Portfolio Profesional
+                  <MobileIcon className="h-4 w-4 mr-2" />
+                  Mi Portfolio Profesional
                 </Button>
                 
                 {profile?.role === 'admin' && (
@@ -327,7 +331,8 @@ const AgentProfile = () => {
                       className="flex items-center gap-2 border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-950/20 h-12"
                       onClick={() => navigate('/admin-users')}
                     >
-                      👥 Administrar Agentes
+                      <TeamIcon className="h-4 w-4 mr-2" />
+                      Administrar Agentes
                     </Button>
                   </>
                 )}

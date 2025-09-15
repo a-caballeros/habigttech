@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
 import { Mail, Eye, EyeOff, AlertCircle, Users, Building2 } from "lucide-react";
+import { PropertyIcon, BusinessIcon } from "@/components/icons/ProfessionalIcons";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -170,33 +171,29 @@ const Auth = () => {
                       <Button
                         type="button"
                         variant={userType === 'client' ? 'default' : 'outline'}
-                        className="h-auto p-4 flex-col items-start gap-2 text-left"
+                        className="h-16 p-6 flex items-center gap-3 text-left transition-all hover:scale-[1.02]"
                         onClick={() => setUserType('client')}
                       >
-                        <div className="flex items-center gap-2 w-full">
-                          <Users className="h-5 w-5" />
-                          <span className="font-semibold">Cliente</span>
+                        <PropertyIcon className="h-6 w-6" />
+                        <div>
+                          <span className="font-semibold text-base">Cliente</span>
+                          <p className="text-xs text-muted-foreground">Encuentra tu hogar ideal</p>
                         </div>
-                        <p className="text-xs text-muted-foreground text-left">
-                          Busca y encuentra tu hogar ideal. Conecta con agentes especializados.
-                        </p>
                       </Button>
                       <Button
                         type="button"
                         variant={userType === 'agent' ? 'default' : 'outline'}
-                        className="h-auto p-4 flex-col items-start gap-2 text-left"
+                        className="h-16 p-6 flex items-center gap-3 text-left transition-all hover:scale-[1.02]"
                         onClick={() => setUserType('agent')}
                       >
-                        <div className="flex items-center gap-2 w-full justify-between">
+                        <BusinessIcon className="h-6 w-6" />
+                        <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <Building2 className="h-5 w-5" />
-                            <span className="font-semibold">Agente Inmobiliario</span>
+                            <span className="font-semibold text-base">Agente Inmobiliario</span>
+                            <Badge variant="secondary" className="text-xs">Pro</Badge>
                           </div>
-                          <Badge variant="secondary" className="text-xs">Pro</Badge>
+                          <p className="text-xs text-muted-foreground">Gestiona propiedades profesionalmente</p>
                         </div>
-                        <p className="text-xs text-muted-foreground text-left">
-                          Publica propiedades y conecta con clientes potenciales. Acceso a herramientas profesionales.
-                        </p>
                       </Button>
                     </div>
                   </div>
@@ -311,33 +308,29 @@ const Auth = () => {
                           <Button
                             type="button"
                             variant={userType === 'client' ? 'default' : 'outline'}
-                            className="h-auto p-4 flex-col items-start gap-2 text-left"
+                            className="h-16 p-6 flex items-center gap-3 text-left transition-all hover:scale-[1.02]"
                             onClick={() => setUserType('client')}
                           >
-                            <div className="flex items-center gap-2 w-full">
-                              <Users className="h-5 w-5" />
-                              <span className="font-semibold">Cliente</span>
+                            <PropertyIcon className="h-6 w-6" />
+                            <div>
+                              <span className="font-semibold text-base">Cliente</span>
+                              <p className="text-xs text-muted-foreground">Encuentra tu hogar ideal</p>
                             </div>
-                            <p className="text-xs text-muted-foreground text-left">
-                              Busca y encuentra tu hogar ideal. Conecta con agentes especializados.
-                            </p>
                           </Button>
                           <Button
                             type="button"
                             variant={userType === 'agent' ? 'default' : 'outline'}
-                            className="h-auto p-4 flex-col items-start gap-2 text-left"
+                            className="h-16 p-6 flex items-center gap-3 text-left transition-all hover:scale-[1.02]"
                             onClick={() => setUserType('agent')}
                           >
-                            <div className="flex items-center gap-2 w-full justify-between">
+                            <BusinessIcon className="h-6 w-6" />
+                            <div className="flex-1">
                               <div className="flex items-center gap-2">
-                                <Building2 className="h-5 w-5" />
-                                <span className="font-semibold">Agente Inmobiliario</span>
+                                <span className="font-semibold text-base">Agente Inmobiliario</span>
+                                <Badge variant="secondary" className="text-xs">Pro</Badge>
                               </div>
-                              <Badge variant="secondary" className="text-xs">Pro</Badge>
+                              <p className="text-xs text-muted-foreground">Gestiona propiedades profesionalmente</p>
                             </div>
-                            <p className="text-xs text-muted-foreground text-left">
-                              Publica propiedades y conecta con clientes potenciales. Acceso a herramientas profesionales.
-                            </p>
                           </Button>
                         </div>
                       </div>

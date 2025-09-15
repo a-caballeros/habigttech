@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Heart, Search, Bell } from "lucide-react";
+import { PropertyIcon } from "@/components/icons/ProfessionalIcons";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -197,7 +198,8 @@ const ClientProfile = () => {
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 border-blue-200 dark:border-blue-800">
             <CardHeader>
               <CardTitle className="text-blue-700 dark:text-blue-300 flex items-center gap-2">
-                🏠 Panel de Cliente
+                <PropertyIcon className="h-5 w-5 text-blue-600" />
+                Panel de Cliente
                 <Badge className="bg-blue-600 text-white">CLIENTE</Badge>
               </CardTitle>
             </CardHeader>
@@ -209,7 +211,7 @@ const ClientProfile = () => {
                   onClick={() => navigate('/')}
                 >
                   <Search className="h-5 w-5" />
-                  🔍 Buscar Propiedades
+                  Buscar Propiedades
                 </Button>
                 
                 <Button 

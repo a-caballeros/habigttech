@@ -235,7 +235,7 @@ const Subscription = () => {
                           </div>
                           <div className="flex items-center gap-2">
                             <Check className="h-4 w-4 text-success flex-shrink-0" />
-                            <span className="text-sm">API de integración</span>
+                            <span className="text-sm">Optimización con IA para Facebook</span>
                           </div>
                         </>
                       )}

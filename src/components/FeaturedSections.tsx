@@ -99,14 +99,17 @@ const FeaturedSections = () => {
             {recentProperties.map((property) => (
               <Card key={property.id} className="group hover:shadow-lg transition-all duration-300">
                 <div className="relative overflow-hidden rounded-t-lg">
-                  <img 
-                    src={property.images?.[0] || '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png'}
-                    alt={property.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.currentTarget.src = '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png';
-                    }}
-                  />
+                  {property.images && property.images.length > 0 ? (
+                    <img 
+                      src={property.images[0]}
+                      alt={property.title}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
+                      <Building className="h-12 w-12 text-muted-foreground/50" />
+                    </div>
+                  )}
                   <Button 
                     variant="ghost" 
                     size="sm"
@@ -218,34 +221,15 @@ const FeaturedSections = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
           {/* Agent Registration */}
-          <div className="group bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-3xl p-10 text-center shadow-elegant hover:shadow-strong transition-all duration-500 hover:scale-[1.02]">
-            <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-primary/30 transition-all duration-300">
-              <Building className="h-10 w-10 text-white" />
-            </div>
-            <h3 className="font-heading text-2xl font-semibold mb-4 text-foreground">Registro de Agente</h3>
-            <p className="font-body text-muted-foreground mb-6 leading-relaxed max-w-sm mx-auto">
-              Únete a nuestra red de agentes profesionales. Accede a herramientas exclusivas 
-              y conecta con clientes potenciales.
-            </p>
-            <div className="space-y-2 mb-6">
-              <div className="flex items-center justify-center text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
-                Herramientas profesionales
-              </div>
-              <div className="flex items-center justify-center text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
-                Dashboard personalizado
-              </div>
-              <div className="flex items-center justify-center text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
-                Red de clientes exclusiva
-              </div>
+          <div className="group bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+            <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Building className="h-8 w-8 text-white" />
             </div>
             <Button 
               size="lg" 
-              className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg font-medium"
+              className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary font-medium"
               onClick={() => navigate('/auth?type=agent')}
             >
               Registrarse como Agente
@@ -254,33 +238,14 @@ const FeaturedSections = () => {
           </div>
 
           {/* Client Registration */}
-          <div className="group bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-3xl p-10 text-center shadow-elegant hover:shadow-strong transition-all duration-500 hover:scale-[1.02]">
-            <div className="w-20 h-20 bg-gradient-to-br from-accent to-accent/80 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-accent/30 transition-all duration-300">
-              <Users className="h-10 w-10 text-white" />
-            </div>
-            <h3 className="font-heading text-2xl font-semibold mb-4 text-foreground">Registro de Cliente</h3>
-            <p className="font-body text-muted-foreground mb-6 leading-relaxed max-w-sm mx-auto">
-              Descubre propiedades exclusivas y accede a alertas personalizadas. 
-              Tu hogar ideal está esperándote.
-            </p>
-            <div className="space-y-2 mb-6">
-              <div className="flex items-center justify-center text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                Alertas personalizadas
-              </div>
-              <div className="flex items-center justify-center text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                Propiedades exclusivas
-              </div>
-              <div className="flex items-center justify-center text-sm text-muted-foreground">
-                <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                Acceso prioritario
-              </div>
+          <div className="group bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+            <div className="w-16 h-16 bg-gradient-to-br from-accent to-accent/80 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Users className="h-8 w-8 text-white" />
             </div>
             <Button 
               size="lg" 
               variant="outline" 
-              className="w-full border-accent/30 text-accent hover:bg-accent hover:text-white shadow-lg font-medium"
+              className="w-full border-accent/30 text-accent hover:bg-accent hover:text-white font-medium"
               onClick={() => navigate('/auth?type=client')}
             >
               Registrarse como Cliente

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
   Heart, MapPin, Bed, Bath, Square, Car,
-  Eye, MessageCircle, Star
+  Eye, MessageCircle, Star, Building
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -104,14 +104,17 @@ const FeaturedPropertiesSection = () => {
           {featuredProperties.map((property) => (
             <Card key={property.id} className="group hover:shadow-lg transition-all duration-300">
               <div className="relative overflow-hidden rounded-t-lg">
-                  <img 
-                    src={property.images?.[0] || '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png'} 
-                    alt={property.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.currentTarget.src = '/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png';
-                    }}
-                  />
+                  {property.images && property.images.length > 0 ? (
+                    <img 
+                      src={property.images[0]}
+                      alt={property.title}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
+                      <Building className="h-12 w-12 text-muted-foreground/50" />
+                    </div>
+                  )}
                 <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground">
                   <Star className="h-3 w-3 mr-1" />
                   Destacada

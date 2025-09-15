@@ -221,35 +221,33 @@ const FeaturedSections = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-lg mx-auto">
           {/* Agent Registration */}
-          <div className="group bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Building className="h-8 w-8 text-white" />
+          <div className="group bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <Building className="h-6 w-6 text-white" />
             </div>
             <Button 
-              size="lg" 
-              className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary font-medium"
+              size="sm" 
+              className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-sm py-2"
               onClick={() => navigate('/auth?type=agent')}
             >
-              Registrarse como Agente
-              <ArrowRight className="ml-2 h-4 w-4" />
+              Soy Agente
             </Button>
           </div>
 
           {/* Client Registration */}
-          <div className="group bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-2xl p-8 text-center hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-            <div className="w-16 h-16 bg-gradient-to-br from-accent to-accent/80 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Users className="h-8 w-8 text-white" />
+          <div className="group bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+            <div className="w-12 h-12 bg-gradient-to-br from-accent to-accent/80 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <Users className="h-6 w-6 text-white" />
             </div>
             <Button 
-              size="lg" 
+              size="sm" 
               variant="outline" 
-              className="w-full border-accent/30 text-accent hover:bg-accent hover:text-white font-medium"
+              className="w-full border-accent/30 text-accent hover:bg-accent hover:text-white text-sm py-2"
               onClick={() => navigate('/auth?type=client')}
             >
-              Registrarse como Cliente
-              <ArrowRight className="ml-2 h-4 w-4" />
+              Soy Cliente
             </Button>
           </div>
         </div>

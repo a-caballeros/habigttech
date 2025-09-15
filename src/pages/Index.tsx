@@ -154,6 +154,17 @@ const Index = () => {
       />
       <MinimalistNavigation />
       
+      {/* Under Construction Banner */}
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-center gap-2 text-amber-800">
+            <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+            <span className="text-sm font-medium">Sitio en construcción - Algunas funciones pueden no estar disponibles</span>
+            <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+      
       <main className="flex-1">
         {renderCurrentView()}
       </main>

@@ -109,7 +109,7 @@ const PropertyCard = ({
               setFavorite(!favorite);
             }}
           >
-            <Heart className={`h-4 w-4 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-muted-foreground hover:text-red-400'}`} />
+            <Heart className={`h-4 w-4 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-muted-foreground hover:text-red-400'}`} fill={favorite ? '#ef4444' : 'none'} />
           </Button>
         </div>
         

@@ -259,38 +259,38 @@ const FeaturedSections = () => {
           </Card>
 
           {/* Client Registration */}
-          <Card className="group relative overflow-hidden border-2 border-accent/20 hover:border-accent/40 transition-all duration-300 hover:shadow-xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10" />
+          <Card className="group relative overflow-hidden border-2 border-emerald-200/60 hover:border-emerald-300/80 transition-all duration-300 hover:shadow-2xl bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/20 via-transparent to-emerald-200/20" />
             <CardContent className="relative p-8 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-accent to-accent/80 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <Users className="h-10 w-10 text-white" />
+              <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-all duration-500 group-hover:shadow-emerald-300/50">
+                <Users className="h-12 w-12 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">Para Clientes</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <h3 className="text-2xl font-bold text-foreground mb-3 font-sans">Para Clientes</h3>
+              <p className="text-muted-foreground mb-6 leading-relaxed font-medium">
                 Descubre tu hogar ideal, guarda tus favoritos y conecta directamente con los mejores agentes inmobiliarios.
               </p>
-              <div className="space-y-3 mb-6">
+              <div className="space-y-3 mb-8">
                 <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <Heart className="h-4 w-4 text-accent mr-2" />
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
                   Búsqueda avanzada de propiedades
                 </div>
                 <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <Heart className="h-4 w-4 text-accent mr-2" />
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
                   Lista de propiedades favoritas
                 </div>
                 <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <Heart className="h-4 w-4 text-accent mr-2" />
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
                   Contacto directo con agentes
                 </div>
               </div>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="w-full border-2 border-accent text-accent hover:bg-accent hover:text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl py-6 font-semibold text-lg group-hover:scale-105"
                 onClick={() => navigate('/auth?type=client')}
               >
-                Registrarme como Cliente
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Users className="mr-3 h-5 w-5" />
+                Regístrate Ahora
+                <div className="ml-2 text-sm font-normal opacity-90">Encuentra lo que buscas</div>
               </Button>
             </CardContent>
           </Card>

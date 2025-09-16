@@ -5,7 +5,6 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <img src="/habi-logo-professional.png" alt="Habi.gt" className="h-12 w-auto" />
             <p className="text-muted-foreground text-sm leading-relaxed">La plataforma líder de bienes raíces en Guatemala, conectando sueños con realidades desde 2025.</p>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Heart className="h-4 w-4 text-red-500" />

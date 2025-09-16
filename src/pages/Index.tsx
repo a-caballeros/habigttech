@@ -136,7 +136,7 @@ const Index = () => {
     "publisher": {
       "@type": "Organization",
       "name": "Habi.gt",
-      "logo": "https://habi.gt/logo-horizontal.png",
+      "logo": "https://habi.gt/habi-logo-professional.png",
       "sameAs": [
         "https://facebook.com/habi.gt",
         "https://instagram.com/habi.gt"

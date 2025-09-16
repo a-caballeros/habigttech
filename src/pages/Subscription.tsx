@@ -215,6 +215,12 @@ const Subscription = () => {
                         <Check className="h-4 w-4 text-success flex-shrink-0" />
                         <span className="text-sm">Estadísticas básicas</span>
                       </div>
+                      {tier.name.toLowerCase() === 'plata' && (
+                        <div className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-success flex-shrink-0" />
+                          <span className="text-sm">1 propiedad promocionada mensual</span>
+                        </div>
+                      )}
                       {(tier.name.toLowerCase() === 'oro' || tier.name.toLowerCase() === 'platino') && (
                         <>
                           <div className="flex items-center gap-2">
@@ -224,6 +230,10 @@ const Subscription = () => {
                           <div className="flex items-center gap-2">
                             <Check className="h-4 w-4 text-success flex-shrink-0" />
                             <span className="text-sm">Estadísticas avanzadas</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Check className="h-4 w-4 text-success flex-shrink-0" />
+                            <span className="text-sm">{tier.name.toLowerCase() === 'oro' ? '3 propiedades promocionadas mensuales' : '5 propiedades promocionadas mensuales'}</span>
                           </div>
                         </>
                       )}

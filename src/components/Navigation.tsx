@@ -18,14 +18,12 @@ const Navigation = () => {
       <div className="container flex h-20 items-center justify-between">{/* Increased height from h-16 to h-20 */}
         {/* Logo */}
         <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
-            <img 
-              src="/lovable-uploads/favicon-isotipo.png"
-              alt="Habi.gt"
-              className="h-8 w-8 object-contain"
-            />
-            <span className="text-2xl font-bold text-foreground tracking-tight">HABI.GT</span>
-          </div>
+          <img 
+            src="/habi-logo-professional.png"
+            alt="Habi.gt"
+            className="h-12 w-auto sm:h-14 md:h-16 lg:h-18 xl:h-20 cursor-pointer max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] object-contain"
+            onClick={() => navigate('/')}
+          />
         </div>
 
 

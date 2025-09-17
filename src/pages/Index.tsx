@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MinimalistNavigation from "@/components/MinimalistNavigation";
-import CWGroupInspiredHero from "@/components/CWGroupInspiredHero";
-import CWGroupInspiredPortfolio from "@/components/CWGroupInspiredPortfolio";
+import MinimalistHeroSection from "@/components/MinimalistHeroSection";
+import PremiumHeroSection from "@/components/PremiumHeroSection";
+import PremiumFeaturesSection from "@/components/PremiumFeaturesSection";
+import PremiumPropertiesSection from "@/components/PremiumPropertiesSection";
+import FeaturedPropertiesSection from "@/components/FeaturedPropertiesSection";
 import FeaturedSections from "@/components/FeaturedSections";
 import PropertyDetails from "@/components/PropertyDetails";
 import AgentDashboard from "@/components/AgentDashboard";
@@ -101,6 +104,21 @@ const Index = () => {
 
   const renderCurrentView = () => {
     switch (currentView) {
+      case 'home':
+        return (
+          <main className="flex-1">
+            {/* Under Construction Banner */}
+            <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2 px-4 text-center text-sm font-medium">
+              🚧 Sitio en construcción - Funcionalidad completa próximamente
+            </div>
+            
+            <PremiumHeroSection />
+            <FeaturedSections />
+            <PremiumFeaturesSection />
+            <PremiumPropertiesSection />
+            <FeaturedPropertiesSection />
+          </main>
+        );
       case 'property-details':
         return (
           <PropertyDetails 
@@ -114,11 +132,10 @@ const Index = () => {
         return <MessagingSystem />;
       default:
         return (
-          <main className="flex-1">
-            <CWGroupInspiredHero />
-            <CWGroupInspiredPortfolio />
+          <>
+            <MinimalistHeroSection />
             <FeaturedSections />
-          </main>
+          </>
         );
     }
   };
@@ -167,9 +184,7 @@ const Index = () => {
         </div>
       </div>
       
-      <main className="flex-1">
-        {renderCurrentView()}
-      </main>
+      {renderCurrentView()}
       <Footer />
     </div>
   );

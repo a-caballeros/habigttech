@@ -42,9 +42,9 @@ const MinimalistNavigation = () => {
         {/* Logo */}
         <div className="flex items-center">
           <img 
-            src="/habi-logo-professional.png"
+            src="/lovable-uploads/f1417da8-41e1-449e-b4c4-a0323e83c55e.png"
             alt="Habi.gt"
-            className="h-10 w-auto cursor-pointer"
+            className="h-12 w-auto cursor-pointer hover:scale-105 transition-transform"
             onClick={() => navigate('/')}
           />
         </div>

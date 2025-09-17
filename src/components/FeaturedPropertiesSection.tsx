@@ -21,9 +21,14 @@ interface FeaturedProperty {
   promoted: boolean;
 }
 
-const FeaturedPropertiesSection = () => {
+interface FeaturedPropertiesSectionProps {
+  onPropertyClick?: (propertyId: string) => void;
+}
+
+const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectionProps) => {
   const [featuredProperties, setFeaturedProperties] = useState<FeaturedProperty[]>([]);
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchFeaturedProperties = async () => {
@@ -102,7 +107,11 @@ const FeaturedPropertiesSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredProperties.map((property) => (
-            <Card key={property.id} className="group hover:shadow-lg transition-all duration-300">
+            <Card 
+              key={property.id} 
+              className="group hover:shadow-lg transition-all duration-300 cursor-pointer"
+              onClick={() => onPropertyClick?.(property.id)}
+            >
               <div className="relative overflow-hidden rounded-t-lg">
                   {property.images && property.images.length > 0 ? (
                     <img 
@@ -123,8 +132,22 @@ const FeaturedPropertiesSection = () => {
                   variant="ghost" 
                   size="sm"
                   className="absolute top-3 right-3 bg-white/80 hover:bg-white"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const newFavorites = new Set(favorites);
+                    if (favorites.has(property.id)) {
+                      newFavorites.delete(property.id);
+                    } else {
+                      newFavorites.add(property.id);
+                    }
+                    setFavorites(newFavorites);
+                  }}
                 >
-                  <Heart className="h-4 w-4" />
+                  <Heart className={`h-4 w-4 transition-colors ${
+                    favorites.has(property.id) 
+                      ? 'fill-red-500 text-red-500' 
+                      : 'text-muted-foreground hover:text-red-400'
+                  }`} />
                 </Button>
               </div>
               

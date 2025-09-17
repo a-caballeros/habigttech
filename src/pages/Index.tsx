@@ -115,7 +115,7 @@ const Index = () => {
         return (
           <>
             <MinimalistHeroSection />
-            <FeaturedSections />
+            <FeaturedSections onPropertyClick={handlePropertyClick} />
           </>
         );
     }

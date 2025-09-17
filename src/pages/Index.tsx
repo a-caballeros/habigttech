@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MinimalistNavigation from "@/components/MinimalistNavigation";
-import MinimalistHeroSection from "@/components/MinimalistHeroSection";
+import CWGroupInspiredHero from "@/components/CWGroupInspiredHero";
+import CWGroupInspiredPortfolio from "@/components/CWGroupInspiredPortfolio";
 import FeaturedSections from "@/components/FeaturedSections";
 import PropertyDetails from "@/components/PropertyDetails";
 import AgentDashboard from "@/components/AgentDashboard";
@@ -113,10 +114,11 @@ const Index = () => {
         return <MessagingSystem />;
       default:
         return (
-          <>
-            <MinimalistHeroSection />
+          <main className="flex-1">
+            <CWGroupInspiredHero />
+            <CWGroupInspiredPortfolio />
             <FeaturedSections />
-          </>
+          </main>
         );
     }
   };

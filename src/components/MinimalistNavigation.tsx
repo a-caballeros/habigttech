@@ -41,12 +41,14 @@ const MinimalistNavigation = () => {
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <div className="flex items-center">
-          <img 
-            src="/lovable-uploads/f1417da8-41e1-449e-b4c4-a0323e83c55e.png"
-            alt="Habi.gt"
-            className="h-12 w-auto cursor-pointer hover:scale-105 transition-transform"
-            onClick={() => navigate('/')}
-          />
+          <div className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate('/')}>
+            <img 
+              src="/lovable-uploads/favicon-isotipo.png"
+              alt="Habi.gt"
+              className="h-8 w-8 object-contain"
+            />
+            <span className="text-xl font-bold text-foreground tracking-tight">HABI.GT</span>
+          </div>
         </div>
 
         {/* Desktop Navigation */}

@@ -50,92 +50,33 @@ const HeroSection = () => {
         {/* Main Heading */}
         <div className="max-w-4xl mx-auto mb-8">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Encuentra tu próximo
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-glow to-accent">
-              hogar en Guatemala
-            </span>
+            Únete a Habi.gt
           </h1>
           <p className="text-xl md:text-2xl text-white/90 font-light leading-relaxed">
             La forma más simple de buscar, encontrar y conectar con las mejores propiedades del país
           </p>
         </div>
 
-        {/* Search Bar for Clients / Add Property Button for Agents */}
-        {userType === 'agent' ? (
-          <div className="max-w-2xl mx-auto mb-12 text-center px-4">
+        {/* Join Buttons */}
+        <div className="max-w-2xl mx-auto mb-12 text-center px-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button 
               size="lg" 
-              className={`w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold shadow-lg ${
-                hasActiveSubscription || profile?.role === 'admin'
-                  ? "bg-success hover:bg-success/90 text-white" 
-                  : "bg-primary hover:bg-primary/90 text-white"
-              }`}
-              onClick={handleAddProperty}
-              disabled={subscriptionLoading}
+              className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
+              onClick={() => navigate('/auth?type=agent')}
             >
-              {hasActiveSubscription || profile?.role === 'admin' ? (
-                <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-              ) : (
-                <Crown className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-              )}
-              <span className="truncate">
-                {hasActiveSubscription || profile?.role === 'admin' ? "Agregar Nueva Propiedad" : "Suscribirse para Agregar Propiedades"}
-              </span>
+              Registrame como Agente
             </Button>
-            <p className="text-white/80 mt-4 text-xs sm:text-sm px-2">
-              {hasActiveSubscription || profile?.role === 'admin'
-                ? "Publica tus propiedades y conecta con clientes potenciales"
-                : "Necesitas una suscripción activa para publicar propiedades"
-              }
-            </p>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-white/10 border-white/20 text-white hover:bg-white/20"
+              onClick={() => navigate('/auth')}
+            >
+              Regístrate Ahora
+            </Button>
           </div>
-        ) : (
-          <>
-            <div className="max-w-2xl mx-auto mb-12">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-muted-foreground" />
-                </div>
-                <Input 
-                  placeholder="Buscar por ubicación, tipo de propiedad o palabras clave..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-4 py-6 text-lg bg-white/95 backdrop-blur border-0 shadow-strong focus:bg-white transition-smooth"
-                />
-            <Button 
-              size="lg" 
-              className="absolute inset-y-0 right-0 m-1 px-4 md:px-8"
-              onClick={() => {
-                if (searchQuery.trim()) {
-                  // Implementar búsqueda real
-                  window.location.hash = `#buscar?q=${encodeURIComponent(searchQuery)}`;
-                }
-              }}
-            >
-              <Search className="h-4 w-4 md:hidden" />
-              <span className="hidden md:inline">Buscar</span>
-            </Button>
-              </div>
-            </div>
-
-            {/* Quick Search Options */}
-            <div className="flex flex-wrap justify-center gap-3 mb-16">
-              {['Zona 14', 'Antigua', 'CAES', 'Zona 11', 'Mixco'].map((location) => (
-                <Button 
-                  key={location}
-                  variant="outline" 
-                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur transition-smooth"
-                  onClick={() => {
-                    window.location.hash = `#buscar?q=${encodeURIComponent(location)}`;
-                  }}
-                >
-                  <MapPin className="h-4 w-4 mr-2" />
-                  {location}
-                </Button>
-              ))}
-            </div>
-          </>
-        )}
+        </div>
 
       </div>
 

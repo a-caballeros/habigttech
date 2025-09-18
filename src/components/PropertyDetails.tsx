@@ -125,7 +125,7 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
             variant="secondary" 
             size="sm" 
             onClick={onBack}
-            className="bg-white/90 hover:bg-white"
+            className="bg-white/95 hover:bg-white text-foreground shadow-soft"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
             Volver
@@ -136,15 +136,15 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
               variant="secondary" 
               size="sm"
               onClick={() => setIsFavorite(!isFavorite)}
-              className="bg-white/90 hover:bg-white"
+              className="bg-white/95 hover:bg-white text-foreground shadow-soft"
             >
-              <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
+              <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-foreground'}`} />
             </Button>
             <Button 
               variant="secondary" 
               size="sm"
               onClick={handleShare}
-              className="bg-white/90 hover:bg-white"
+              className="bg-white/95 hover:bg-white text-foreground shadow-soft"
             >
               <Share2 className="h-4 w-4" />
             </Button>
@@ -154,13 +154,13 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
         {/* Media Controls */}
         <div className="absolute bottom-4 left-4 flex space-x-2">
           {property.hasVideo && (
-            <Button variant="secondary" size="sm" className="bg-white/90 hover:bg-white">
+            <Button variant="secondary" size="sm" className="bg-white/95 hover:bg-white text-foreground shadow-soft">
               <Play className="h-4 w-4 mr-1" />
               Video
             </Button>
           )}
           {property.has3DTour && (
-            <Badge className="bg-primary text-primary-foreground">
+            <Badge className="bg-primary text-primary-foreground shadow-soft">
               <Eye className="h-3 w-3 mr-1" />
               Tour 3D
             </Badge>

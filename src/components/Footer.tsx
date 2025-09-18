@@ -33,9 +33,9 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Social Links */}
+          {/* Links and FAQs */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Síguenos</h3>
+            <h3 className="font-semibold text-foreground">Enlaces Útiles</h3>
             <div className="space-y-2">
               <a href="https://www.facebook.com/habigt" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors">
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -45,6 +45,9 @@ const Footer = () => {
               </a>
               <a href="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                 Acerca de Nosotros
+              </a>
+              <a href="/faq" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+                Preguntas Frecuentes
               </a>
               <a href="/terms" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                 Términos y Condiciones

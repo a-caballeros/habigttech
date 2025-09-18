@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AdminUserManagement from "@/components/AdminUserManagement";
 import AdminTierManagement from "@/components/AdminTierManagement";
+import AdminPropertyManagement from "@/components/AdminPropertyManagement";
 
 const AdminUsers = () => {
   const { profile } = useAuth();
@@ -32,15 +33,19 @@ const AdminUsers = () => {
         </div>
         
         <Tabs defaultValue="users" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="users">Gestión de Usuarios</TabsTrigger>
             <TabsTrigger value="tiers">Gestión de Tiers</TabsTrigger>
+            <TabsTrigger value="properties">Gestión de Propiedades</TabsTrigger>
           </TabsList>
           <TabsContent value="users" className="mt-6">
             <AdminUserManagement />
           </TabsContent>
           <TabsContent value="tiers" className="mt-6">
             <AdminTierManagement />
+          </TabsContent>
+          <TabsContent value="properties" className="mt-6">
+            <AdminPropertyManagement />
           </TabsContent>
         </Tabs>
       </div>

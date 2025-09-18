@@ -118,6 +118,9 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
                       src={property.images[0]}
                       alt={property.title}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.currentTarget.src = "/placeholder.svg";
+                      }}
                     />
                   ) : (
                     <div className="w-full h-48 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">

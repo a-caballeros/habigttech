@@ -159,7 +159,8 @@ const AgentDashboard = () => {
       const { error } = await supabase
         .from('properties')
         .delete()
-        .eq('id', propertyId);
+        .eq('id', propertyId)
+        .eq('agent_id', user?.id); // Only allow deleting own properties
 
       if (error) throw error;
 
@@ -167,6 +168,7 @@ const AgentDashboard = () => {
       setProperties(prev => prev.filter(p => p.id !== propertyId));
     } catch (error) {
       console.error('Error deleting property:', error);
+      alert('Error al eliminar la propiedad');
     }
   };
 

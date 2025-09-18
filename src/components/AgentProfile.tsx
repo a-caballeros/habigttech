@@ -233,19 +233,49 @@ const AgentProfile = () => {
                 <Button 
                     variant="outline" 
                     className="flex items-center gap-2"
-                    onClick={() => {
+                    onClick={async () => {
                       // Create a hidden file input
                       const input = document.createElement('input');
                       input.type = 'file';
                       input.accept = 'image/*';
                       input.onchange = async (e) => {
                         const file = (e.target as HTMLInputElement).files?.[0];
-                        if (file) {
-                          // TODO: Implement image upload to Supabase storage
-                          toast({
-                            title: "Funcionalidad en desarrollo",
-                            description: "La carga de imágenes estará disponible pronto.",
-                          });
+                        if (file && user) {
+                          try {
+                            const fileExt = file.name.split('.').pop();
+                            const fileName = `${user.id}.${fileExt}`;
+                            const filePath = `avatars/${fileName}`;
+
+                            const { error: uploadError } = await supabase.storage
+                              .from('property-images')
+                              .upload(filePath, file, { upsert: true });
+
+                            if (uploadError) throw uploadError;
+
+                            const { data: { publicUrl } } = supabase.storage
+                              .from('property-images')
+                              .getPublicUrl(filePath);
+
+                            const { error: updateError } = await supabase
+                              .from('profiles')
+                              .update({ avatar_url: publicUrl })
+                              .eq('id', user.id);
+
+                            if (updateError) throw updateError;
+
+                            await refetchProfile?.();
+                            toast({
+                              title: "Foto actualizada",
+                              description: "Tu foto de perfil ha sido actualizada correctamente.",
+                            });
+                          } catch (error) {
+                            console.error('Error uploading avatar:', error);
+                            toast({
+                              title: "Error",
+                              description: "No se pudo actualizar la foto de perfil.",
+                              variant: "destructive",
+                            });
+                          }
                         }
                       };
                       input.click();

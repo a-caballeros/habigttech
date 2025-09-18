@@ -9,7 +9,7 @@ const Contact = () => {
       <SEOHead 
         title="Contacto - HabiGT | Plataforma Inmobiliaria Guatemala"
         description="Contáctanos para resolver tus dudas sobre HabiGT, la plataforma líder de bienes raíces en Guatemala. Soporte técnico y comercial disponible."
-        keywords="contacto HabiGT, soporte técnico, plataforma inmobiliaria Guatemala, bienes raíces"
+        keywords="contacto HabiGT, soporte técnico, inmobiliario, guatemala, bienes raíces, inmobiliario, casas en venta, apartamentos en alquiler, casas en alquiler, apartamentos en venta, propiedades en venta, terrenos en venta, bienes raíces de lujo, inmuebles de lujo, propiedades comerciales, oficinas en venta, invertir en bienes raíces, comprar casa, agencia inmobiliaria, asesor inmobiliario, casas de segunda mano, apartamentos nuevos, vender propiedad, avalúo de casa, hipoteca para casa, financiamiento de inmuebles, zona 10, apartamentos en venta zona 10, san miguel petapa, casas en venta san miguel petapa, mixco, apartamentos en alquiler mixco, casas con piscina, casas con jardín, propiedades frente al lago, casas en el lago de atitlán, plataforma inmobiliaria Guatemala, bienes raíces"
       />
       <div className="min-h-screen bg-background flex flex-col">
         <MinimalistNavigation />

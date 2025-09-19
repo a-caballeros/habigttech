@@ -70,7 +70,7 @@ const HeroSection = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-white/10 border-white/20 text-white hover:bg-white/20"
+              className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
               onClick={() => navigate('/auth?userType=client')}
             >
               Registrarme como Cliente

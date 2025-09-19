@@ -69,7 +69,6 @@ const HeroSection = () => {
             </Button>
             <Button 
               size="lg" 
-              variant="outline"
               className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
               onClick={() => navigate('/auth?userType=client')}
             >

@@ -1,0 +1,331 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { 
+  ArrowLeft, Heart, Share2, Play, Eye, 
+  Bed, Bath, Square, Car, MapPin, 
+  Phone, MessageCircle, Calendar,
+  Wifi, Dumbbell, Waves, Shield, 
+  TreePine, PawPrint, Star
+} from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import Navigation from "@/components/Navigation";
+
+interface Property {
+  id: string;
+  title: string;
+  price: number;
+  location: string;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  property_type: string;
+  description: string;
+  images: string[];
+  agent_id: string;
+  created_at: string;
+  status: string;
+}
+
+interface Agent {
+  id: string;
+  full_name: string;
+  avatar_url: string | null;
+  phone: string | null;
+  agency: string | null;
+}
+
+const PropertyDetails = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [property, setProperty] = useState<Property | null>(null);
+  const [agent, setAgent] = useState<Agent | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (id) {
+      fetchProperty();
+    }
+  }, [id]);
+
+  const fetchProperty = async () => {
+    try {
+      const { data: propertyData, error: propertyError } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('id', id)
+        .eq('status', 'active')
+        .single();
+
+      if (propertyError) throw propertyError;
+
+      setProperty(propertyData);
+
+      // Fetch agent details
+      const { data: agentData, error: agentError } = await supabase
+        .from('profiles')
+        .select('id, full_name, avatar_url, phone, agency')
+        .eq('id', propertyData.agent_id)
+        .single();
+
+      if (agentError) throw agentError;
+
+      setAgent(agentData);
+    } catch (error) {
+      console.error('Error fetching property:', error);
+      toast({
+        title: "Error",
+        description: "No se pudo cargar la propiedad.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleShare = () => {
+    navigator.share?.({
+      title: property?.title,
+      text: `${property?.title} - Q${property?.price?.toLocaleString()}`,
+      url: window.location.href,
+    }).catch(() => {
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Enlace copiado",
+        description: "El enlace de la propiedad ha sido copiado al portapapeles.",
+      });
+    });
+  };
+
+  const handleCall = () => {
+    if (agent?.phone) {
+      window.open(`tel:${agent.phone}`, '_self');
+      toast({
+        title: "Iniciando llamada",
+        description: `Llamando a ${agent.full_name}...`,
+      });
+    }
+  };
+
+  const handleMessage = () => {
+    navigate('/messages');
+    toast({
+      title: "Abrir chat",
+      description: `Iniciando conversación con ${agent?.full_name}`,
+    });
+  };
+
+  const handleScheduleVisit = () => {
+    toast({
+      title: "Agendar visita",
+      description: "Redirigiendo al calendario de citas...",
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <div className="animate-pulse">Cargando propiedad...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!property || !agent) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <h1 className="text-2xl font-bold mb-4">Propiedad no encontrada</h1>
+          <Button onClick={() => navigate('/')}>Volver al Inicio</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      {/* Image Gallery */}
+      <div className="relative h-96 md:h-[500px] bg-muted">
+        <img 
+          src={property.images?.[currentImageIndex] || '/placeholder.svg'}
+          alt={property.title}
+          className="w-full h-full object-cover"
+        />
+        
+        {/* Header Controls */}
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
+          <Button 
+            variant="secondary" 
+            size="sm" 
+            onClick={() => navigate('/')}
+            className="bg-white/95 hover:bg-white text-black shadow-lg"
+          >
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            <span className="text-black font-medium">Volver</span>
+          </Button>
+          
+          <div className="flex space-x-2">
+            <Button 
+              variant="secondary" 
+              size="sm"
+              onClick={() => setIsFavorite(!isFavorite)}
+              className="bg-white/95 hover:bg-white shadow-lg"
+            >
+              <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-black'}`} />
+            </Button>
+            <Button 
+              variant="secondary" 
+              size="sm"
+              onClick={handleShare}
+              className="bg-white/95 hover:bg-white text-black shadow-lg"
+            >
+              <Share2 className="h-4 w-4" />
+              <span className="text-black font-medium ml-1">Compartir</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Image Navigation */}
+        {property.images && property.images.length > 1 && (
+          <div className="absolute bottom-4 right-4 flex space-x-1">
+            {property.images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                }`}
+                onClick={() => setCurrentImageIndex(index)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="container mx-auto px-4 py-6 max-w-4xl">
+        {/* Essential Information */}
+        <div className="mb-6">
+          <div className="flex justify-between items-start mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+              Q{property.price?.toLocaleString()}
+            </h1>
+          </div>
+          
+          <h2 className="text-xl font-semibold text-foreground mb-3">{property.title}</h2>
+          
+          <div className="flex items-center text-muted-foreground mb-4">
+            <MapPin className="h-5 w-5 mr-2" />
+            <span>{property.location}</span>
+          </div>
+          
+          {/* Quick Features */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted rounded-lg">
+            {property.bedrooms > 0 && (
+              <div className="flex items-center space-x-2">
+                <Bed className="h-5 w-5 text-primary" />
+                <div>
+                  <div className="font-semibold">{property.bedrooms}</div>
+                  <div className="text-sm text-muted-foreground">Habitaciones</div>
+                </div>
+              </div>
+            )}
+            {property.bathrooms > 0 && (
+              <div className="flex items-center space-x-2">
+                <Bath className="h-5 w-5 text-primary" />
+                <div>
+                  <div className="font-semibold">{property.bathrooms}</div>
+                  <div className="text-sm text-muted-foreground">Baños</div>
+                </div>
+              </div>
+            )}
+            <div className="flex items-center space-x-2">
+              <Square className="h-5 w-5 text-primary" />
+              <div>
+                <div className="font-semibold">{property.area}m²</div>
+                <div className="text-sm text-muted-foreground">Área</div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="font-semibold capitalize">{property.property_type}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold mb-3">Descripción</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              {showFullDescription ? property.description : `${property.description.substring(0, 200)}...`}
+            </p>
+            {property.description.length > 200 && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowFullDescription(!showFullDescription)}
+                className="mt-2 p-0 h-auto font-normal text-primary hover:text-primary-glow"
+              >
+                {showFullDescription ? 'Leer menos' : 'Leer más...'}
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Agent Information */}
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Información del Agente</h3>
+            <div className="flex items-start space-x-4">
+              <img 
+                src={agent.avatar_url || '/placeholder.svg'}
+                alt={agent.full_name || 'Agente'}
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div className="flex-1">
+                <h4 className="font-semibold text-foreground">{agent.full_name}</h4>
+                {agent.agency && (
+                  <p className="text-sm text-muted-foreground mb-1">{agent.agency}</p>
+                )}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <Button size="sm" className="flex items-center" onClick={handleCall}>
+                    <Phone className="h-4 w-4 mr-1" />
+                    <span className="text-white">Llamar</span>
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex items-center" onClick={handleMessage}>
+                    <MessageCircle className="h-4 w-4 mr-1" />
+                    <span>Mensaje</span>
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex items-center" onClick={handleScheduleVisit}>
+                    <Calendar className="h-4 w-4 mr-1" />
+                    <span>Agendar Visita</span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Floating Contact Button */}
+      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
+        <Button size="lg" className="shadow-lg" onClick={handleMessage}>
+          <MessageCircle className="h-5 w-5 mr-2" />
+          <span className="text-white">Contactar Agente</span>
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default PropertyDetails;

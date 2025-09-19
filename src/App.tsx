@@ -28,6 +28,7 @@ import FAQ from "./pages/FAQ";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Support from "./pages/Support";
+import PropertyDetails from "./pages/PropertyDetails";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/property/:id" element={<PropertyDetails />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/payment-methods" element={<PaymentMethods />} />
             <Route path="/payment/paypal" element={<PayPalPayment />} />

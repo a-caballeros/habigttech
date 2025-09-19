@@ -20,7 +20,10 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [userType, setUserType] = useState<'client' | 'agent'>('client');
+  const [userType, setUserType] = useState<'client' | 'agent'>(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return (urlParams.get('userType') as 'client' | 'agent') || 'client';
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);

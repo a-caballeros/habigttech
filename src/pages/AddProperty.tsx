@@ -23,8 +23,8 @@ const propertySchema = z.object({
   price: z.string().min(1, "El precio es requerido"),
   location: z.string().min(3, "La ubicación es requerida"),
   property_type: z.string().min(1, "El tipo de propiedad es requerido"),
-  bedrooms: z.string().min(1, "Número de habitaciones requerido"),
-  bathrooms: z.string().min(1, "Número de baños requerido"),
+  bedrooms: z.string().optional(),
+  bathrooms: z.string().optional(),
   area: z.string().min(1, "El área es requerida"),
 });
 
@@ -90,6 +90,8 @@ const AddProperty = () => {
     },
   });
 
+  const selectedPropertyType = form.watch("property_type");
+
   const onSubmit = async (data: PropertyForm) => {
     if (!user) return;
     
@@ -129,8 +131,8 @@ const AddProperty = () => {
           price: parseFloat(data.price),
           location: data.location,
           property_type: data.property_type,
-          bedrooms: parseInt(data.bedrooms),
-          bathrooms: parseFloat(data.bathrooms),
+          bedrooms: data.bedrooms ? parseInt(data.bedrooms) : 0,
+          bathrooms: data.bathrooms ? parseFloat(data.bathrooms) : 0,
           area: parseInt(data.area),
           status: 'active',
           images: imageUrls
@@ -276,34 +278,38 @@ const AddProperty = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="bedrooms">Habitaciones</Label>
-                    <Input
-                      id="bedrooms"
-                      type="number"
-                      min="0"
-                      placeholder="3"
-                      {...form.register("bedrooms")}
-                    />
-                    {form.formState.errors.bedrooms && (
-                      <p className="text-sm text-destructive">{form.formState.errors.bedrooms.message}</p>
-                    )}
-                  </div>
+                  {selectedPropertyType !== "terreno" && (
+                    <div className="space-y-2">
+                      <Label htmlFor="bedrooms">Habitaciones</Label>
+                      <Input
+                        id="bedrooms"
+                        type="number"
+                        min="0"
+                        placeholder="3"
+                        {...form.register("bedrooms")}
+                      />
+                      {form.formState.errors.bedrooms && (
+                        <p className="text-sm text-destructive">{form.formState.errors.bedrooms.message}</p>
+                      )}
+                    </div>
+                  )}
 
-                  <div className="space-y-2">
-                    <Label htmlFor="bathrooms">Baños</Label>
-                    <Input
-                      id="bathrooms"
-                      type="number"
-                      min="0"
-                      step="0.5"
-                      placeholder="2"
-                      {...form.register("bathrooms")}
-                    />
-                    {form.formState.errors.bathrooms && (
-                      <p className="text-sm text-destructive">{form.formState.errors.bathrooms.message}</p>
-                    )}
-                  </div>
+                  {selectedPropertyType !== "terreno" && (
+                    <div className="space-y-2">
+                      <Label htmlFor="bathrooms">Baños</Label>
+                      <Input
+                        id="bathrooms"
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        placeholder="2"
+                        {...form.register("bathrooms")}
+                      />
+                      {form.formState.errors.bathrooms && (
+                        <p className="text-sm text-destructive">{form.formState.errors.bathrooms.message}</p>
+                      )}
+                    </div>
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="area">Área (m²)</Label>

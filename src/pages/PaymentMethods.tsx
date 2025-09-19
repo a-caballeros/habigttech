@@ -8,20 +8,24 @@ const PaymentMethods = () => {
   const location = useLocation();
   const { selectedPlan, billingCycle } = location.state || {};
 
-  const handlePayPalPayment = () => {
-    navigate('/payment/paypal', { state: { selectedPlan, billingCycle } });
+  const getPaymentLink = (tierName: string, billingCycle: string) => {
+    const tierNameLower = tierName.toLowerCase();
+    
+    if (tierNameLower === 'bronce') {
+      return billingCycle === 'monthly' ? 'https://pay.n1co.shop/pl/E8mRms2ol' : 'https://pay.n1co.shop/pl/jzb23cYbj';
+    } else if (tierNameLower === 'plata') {
+      return billingCycle === 'monthly' ? 'https://pay.n1co.shop/pl/yqkdkuZkq' : 'https://pay.n1co.shop/pl/24mYAfldX';
+    } else if (tierNameLower === 'oro') {
+      return billingCycle === 'monthly' ? 'https://pay.n1co.shop/pl/Zq4XXHbR8' : 'https://pay.n1co.shop/pl/BLm2LSYO0';
+    }
+    return '';
   };
 
-  const handleBinancePayment = () => {
-    navigate('/payment/binance', { state: { selectedPlan, billingCycle } });
-  };
-
-  const handleOtherPayments = () => {
-    const subject = encodeURIComponent('Consulta sobre formas de pago alternativas');
-    const body = encodeURIComponent(
-      `Hola,\n\nMe interesa suscribirme al plan ${selectedPlan?.name} (${billingCycle}) y me gustaría conocer las formas de pago disponibles en moneda local.\n\nPor favor, proporciónenme la información necesaria para realizar el pago de forma directa.\n\nGracias.`
-    );
-    window.location.href = `mailto:webmaster@habigt.tech?subject=${subject}&body=${body}`;
+  const handleCreditCardPayment = () => {
+    const paymentLink = getPaymentLink(selectedPlan?.name || '', billingCycle || 'monthly');
+    if (paymentLink) {
+      window.open(paymentLink, '_blank');
+    }
   };
 
   return (
@@ -37,57 +41,21 @@ const PaymentMethods = () => {
             )}
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
-            {/* PayPal Payment */}
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105" onClick={handlePayPalPayment}>
+          <div className="grid md:grid-cols-1 gap-6 mb-8 max-w-md mx-auto">
+            {/* Credit Card Payment */}
+            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105" onClick={handleCreditCardPayment}>
               <CardHeader className="text-center">
                 <div className="mx-auto bg-blue-500/10 w-16 h-16 rounded-full flex items-center justify-center mb-4">
                   <CreditCard className="h-8 w-8 text-blue-500" />
                 </div>
-                <CardTitle className="text-xl">Pago con PayPal</CardTitle>
+                <CardTitle className="text-xl">Pagos con Tarjeta de Crédito/Débito</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-muted-foreground mb-4">
-                  Realiza tu pago de forma segura a través de PayPal
+                  Realiza tu pago de forma segura con tarjeta de crédito o débito
                 </p>
                 <Button variant="outline" className="w-full">
-                  Pagar con PayPal
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Binance Pay */}
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105" onClick={handleBinancePayment}>
-              <CardHeader className="text-center">
-                <div className="mx-auto bg-orange-500/10 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                  <Wallet className="h-8 w-8 text-orange-500" />
-                </div>
-                <CardTitle className="text-xl">Binance Pay</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-muted-foreground mb-4">
-                  Paga con criptomonedas usando Binance Pay
-                </p>
-                <Button variant="outline" className="w-full">
-                  Pagar con Binance
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Other Payment Methods */}
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105" onClick={handleOtherPayments}>
-              <CardHeader className="text-center">
-                <div className="mx-auto bg-green-500/10 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                  <Mail className="h-8 w-8 text-green-500" />
-                </div>
-                <CardTitle className="text-xl">Otras formas de pago</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-muted-foreground mb-4">
-                  Consulta sobre pagos en moneda local y transferencias directas
-                </p>
-                <Button variant="outline" className="w-full">
-                  Consultar opciones
+                  Pagar con Tarjeta
                 </Button>
               </CardContent>
             </Card>

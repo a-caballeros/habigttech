@@ -17,6 +17,8 @@ const PaymentMethods = () => {
       return billingCycle === 'monthly' ? 'https://pay.n1co.shop/pl/yqkdkuZkq' : 'https://pay.n1co.shop/pl/24mYAfldX';
     } else if (tierNameLower === 'oro') {
       return billingCycle === 'monthly' ? 'https://pay.n1co.shop/pl/Zq4XXHbR8' : 'https://pay.n1co.shop/pl/BLm2LSYO0';
+    } else if (tierNameLower === 'platino') {
+      return billingCycle === 'monthly' ? 'https://pay.n1co.shop/pl/lK0QAFb02' : 'https://pay.n1co.shop/pl/KwyX4fA9K';
     }
     return '';
   };

@@ -73,7 +73,7 @@ const HeroSection = () => {
               className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-white/10 border-white/20 text-white hover:bg-white/20"
               onClick={() => navigate('/auth?userType=client')}
             >
-              Regístrate Ahora
+              Registrarme como Cliente
             </Button>
           </div>
         </div>

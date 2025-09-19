@@ -247,13 +247,13 @@ const AgentProfile = () => {
                             const filePath = `avatars/${fileName}`;
 
                             const { error: uploadError } = await supabase.storage
-                              .from('property-images')
+                              .from('avatars')
                               .upload(filePath, file, { upsert: true });
 
                             if (uploadError) throw uploadError;
 
                             const { data: { publicUrl } } = supabase.storage
-                              .from('property-images')
+                              .from('avatars')
                               .getPublicUrl(filePath);
 
                             const { error: updateError } = await supabase

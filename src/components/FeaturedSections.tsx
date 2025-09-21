@@ -18,16 +18,16 @@ interface Property {
   bedrooms?: number;
   bathrooms?: number;
   area?: number;
-  images: string[];
+  images: string[] | null;
   agent_id: string;
   description?: string;
   amenities?: string[];
-  agent?: {
+  agent: {
     id: string;
     full_name: string;
     avatar_url: string | null;
     agency: string | null;
-  };
+  } | null;
 }
 
 interface FeaturedSectionsProps {
@@ -52,30 +52,25 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
         // Fetch recent properties with agents
         const { data: properties, error: propertiesError } = await supabase
           .from('properties')
-          .select('*')
+          .select(`
+            *,
+            agent:profiles!agent_id(
+              id,
+              full_name,
+              avatar_url,
+              agency
+            )
+          `)
           .eq('status', 'active')
           .order('created_at', { ascending: false })
           .limit(6);
 
         if (propertiesError) throw propertiesError;
 
-        // Fetch agent data for each property
-        const propertiesWithAgents = await Promise.all(
-          (properties || []).map(async (property) => {
-            const { data: agentData } = await supabase
-              .from('profiles')
-              .select('id, full_name, avatar_url, agency')
-              .eq('id', property.agent_id)
-              .maybeSingle();
-
-            return {
-              ...property,
-              agent: agentData
-            };
-          })
-        );
-
-        if (propertiesError) throw propertiesError;
+        const propertiesWithAgents = (properties || []).map(property => ({
+          ...property,
+          agent: Array.isArray(property.agent) && property.agent.length > 0 ? property.agent[0] : null
+        }));
 
         // Fetch stats
         const { count: propCount } = await supabase
@@ -88,7 +83,7 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
           .select('*', { count: 'exact', head: true })
           .eq('user_type', 'agent');
 
-        setRecentProperties(properties || []);
+        setRecentProperties(propertiesWithAgents);
         setPropertyCount(propCount || 0);
         setAgentCount(agCount || 0);
       } catch (error) {

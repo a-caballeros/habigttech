@@ -145,8 +145,8 @@ const AddProperty = () => {
         bathrooms: data.bathrooms ? parseFloat(data.bathrooms) : 0,
         area: parseInt(data.area),
         status: 'active',
-        images: imageUrls.length > 0 ? imageUrls : null,
-        amenities: selectedAmenities.length > 0 ? selectedAmenities : null
+        images: imageUrls.length > 0 ? imageUrls : [],
+        amenities: selectedAmenities.length > 0 ? selectedAmenities : []
       };
 
       console.log('Final property data to insert:', propertyData); // Debug log

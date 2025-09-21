@@ -16,17 +16,17 @@ interface FeaturedProperty {
   bedrooms?: number;
   bathrooms?: number;
   area?: number;
-  images: string[];
+  images: string[] | null;
   agent_id: string;
   promoted: boolean;
   description?: string;
   amenities?: string[];
-  agent?: {
+  agent: {
     id: string;
     full_name: string;
     avatar_url: string | null;
     agency: string | null;
-  };
+  } | null;
 }
 
 interface FeaturedPropertiesSectionProps {
@@ -43,7 +43,15 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
       try {
         const { data, error } = await supabase
           .from('properties')
-          .select('*')
+          .select(`
+            *,
+            agent:profiles!agent_id(
+              id,
+              full_name,
+              avatar_url,
+              agency
+            )
+          `)
           .eq('promoted', true)
           .eq('status', 'active')
           .order('promoted_at', { ascending: false })
@@ -51,26 +59,12 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
 
         if (error) throw error;
 
-        // Fetch agent data for each property
-        const propertiesWithAgents = await Promise.all(
-          (data || []).map(async (property) => {
-            const { data: agentData } = await supabase
-              .from('profiles')
-              .select('id, full_name, avatar_url, agency')
-              .eq('id', property.agent_id)
-              .maybeSingle();
-
-            return {
-              ...property,
-              agent: agentData
-            };
-          })
-        );
-
-        if (error) throw error;
-
-        console.log('Featured properties with agents:', propertiesWithAgents); // Debug log
-        setFeaturedProperties(propertiesWithAgents || []);
+        console.log('Featured properties raw data:', data); // Debug log
+        const processedData = (data || []).map(property => ({
+          ...property,
+          agent: Array.isArray(property.agent) && property.agent.length > 0 ? property.agent[0] : null
+        }));
+        setFeaturedProperties(processedData);
       } catch (error) {
         console.error('Error fetching featured properties:', error);
       } finally {
@@ -140,12 +134,13 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
               onClick={() => onPropertyClick?.(property.id)}
             >
               <div className="relative overflow-hidden rounded-t-lg">
-                  {property.images && property.images.length > 0 ? (
+                  {property.images && Array.isArray(property.images) && property.images.length > 0 ? (
                     <img 
                       src={property.images[0]}
                       alt={property.title}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
+                        console.log('Image load error for:', property.images[0]);
                         e.currentTarget.src = "/placeholder.svg";
                       }}
                     />

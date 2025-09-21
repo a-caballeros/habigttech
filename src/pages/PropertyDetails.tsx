@@ -71,6 +71,7 @@ const PropertyDetails = () => {
       }
 
       console.log('Property data:', propertyData); // Debug log
+      console.log('Property images:', propertyData.images); // Debug images specifically
       setProperty(propertyData);
 
       // Fetch agent details
@@ -177,9 +178,13 @@ const PropertyDetails = () => {
         {/* Image Gallery */}
       <div className="relative h-96 md:h-[500px] bg-muted">
         <img 
-          src={property.images && property.images.length > 0 ? property.images[currentImageIndex] : '/placeholder.svg'}
+          src={property.images && Array.isArray(property.images) && property.images.length > 0 ? property.images[currentImageIndex] : '/placeholder.svg'}
           alt={property.title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            console.log('Image load error:', property.images);
+            e.currentTarget.src = '/placeholder.svg';
+          }}
         />
         
         {/* Header Controls */}
@@ -216,7 +221,7 @@ const PropertyDetails = () => {
         </div>
 
         {/* Image Navigation */}
-        {property.images && property.images.length > 1 && (
+        {property.images && Array.isArray(property.images) && property.images.length > 1 && (
           <div className="absolute bottom-4 right-4 flex space-x-1">
             {property.images.map((_, index) => (
               <button

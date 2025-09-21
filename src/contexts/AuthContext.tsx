@@ -218,6 +218,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signUp = async (email: string, password: string, userData = {}) => {
     const redirectUrl = `${window.location.origin}/`;
     
+    console.log('Starting signUp process for:', email, 'with userData:', userData);
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -228,22 +230,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     });
 
+    console.log('SignUp result:', { data, error });
+
     if (error) {
+      console.error('SignUp error:', error);
       toast({
         title: "Error de registro",
         description: error.message,
         variant: "destructive",
       });
-    } else if (data?.user && !data?.user?.email_confirmed_at) {
-      toast({
-        title: "Registro exitoso",
-        description: "Te hemos enviado un email para verificar tu cuenta. Si no confirmas tu email, podrás usar la cuenta inmediatamente.",
-      });
     } else if (data?.user) {
-      toast({
-        title: "Bienvenido",
-        description: "Tu cuenta ha sido creada exitosamente",
-      });
+      console.log('User created successfully:', data.user);
+      console.log('Session created:', data.session);
+      
+      if (data.session) {
+        // User is automatically signed in
+        toast({
+          title: "Bienvenido",
+          description: "Tu cuenta ha sido creada exitosamente",
+        });
+      } else {
+        // Email confirmation required
+        toast({
+          title: "Registro exitoso",
+          description: "Te hemos enviado un email para verificar tu cuenta.",
+        });
+      }
     }
 
     return { error, data };

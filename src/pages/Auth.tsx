@@ -30,8 +30,9 @@ const Auth = () => {
   
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already authenticated
+  // Redirect if already authenticated  
   if (user) {
+    console.log('User already authenticated, redirecting...', { user, authUserType });
     if (authUserType === 'admin') {
       navigate('/admin-users');
     } else {
@@ -52,31 +53,22 @@ const Auth = () => {
     setLoading(true);
     
     try {
-      // Create user account first
+      console.log('Starting registration process...');
+      
+      // Create user account - Supabase will automatically sign in the user if email confirmation is disabled
       const { error, data } = await signUp(email, password, {
         full_name: fullName,
         user_type: userType
       });
       
+      console.log('Registration completed:', { error, hasUser: !!data?.user, hasSession: !!data?.session });
+      
       if (error) {
         setError(error.message || "Error al crear la cuenta");
-      } else if (data?.user) {
-        // If email is confirmed or confirmation is not required, sign in automatically
-        if (data.user.email_confirmed_at || data.session) {
-          // User is already signed in or email confirmed
-          navigate('/');
-        } else {
-          // Try to sign in anyway (for cases where email confirmation is disabled)
-          const signInResult = await signIn(email, password);
-          
-          if (signInResult.error) {
-            // If sign in fails, show a message but don't error out
-            setError("Cuenta creada exitosamente. Si no puedes iniciar sesión inmediatamente, revisa tu email para verificar tu cuenta.");
-          } else {
-            // All users go to home page after successful registration
-            navigate('/');
-          }
-        }
+      } else {
+        console.log('Registration successful, auth state should update automatically');
+        // Don't navigate immediately, let the auth state change handle it
+        // The useEffect in the redirect section will handle navigation
       }
     } catch (err) {
       setError("Error inesperado al crear la cuenta");

@@ -9,23 +9,23 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/lovable-uploads/favicon-isotipo.png",
+      "src": "/habi-isotipo.png",
       "sizes": "50x50",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/lovable-uploads/favicon-isotipo.png",
+      "src": "/habi-isotipo.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/lovable-uploads/favicon-isotipo.png",
+      "src": "/habi-isotipo.png",
       "sizes": "1024x1024",
       "type": "image/png"
     },
     {
-      "src": "/lovable-uploads/favicon-isotipo.png",
+      "src": "/habi-isotipo.png",
       "sizes": "1440x1440",
       "type": "image/png"
     }

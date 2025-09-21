@@ -103,7 +103,7 @@ export const generateOrganizationSchema = () => {
     "name": "Habi.gt",
     "alternateName": "Habi Guatemala",
     "url": "https://habi.gt",
-    "logo": "https://habi.gt/habi-logo-professional.png",
+    "logo": "https://habi.gt/habi-isotipo.png",
     "description": "La plataforma líder en bienes raíces de Guatemala",
     "foundingDate": "2024",
     "address": {

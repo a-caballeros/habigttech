@@ -19,7 +19,7 @@ const Navigation = () => {
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <img 
-            src="/habi-logo-professional.png"
+            src="/habi-isotipo.png"
             alt="Habi.gt"
             className="h-12 w-auto sm:h-14 md:h-16 lg:h-18 xl:h-20 cursor-pointer max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] xl:max-w-[220px] object-contain"
             onClick={() => navigate('/')}

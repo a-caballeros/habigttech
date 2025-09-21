@@ -29,7 +29,7 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center space-y-4">
           <img 
-            src="/habi-loading-logo.png" 
+            src="/habi-isotipo.png" 
             alt="Habi.gt" 
             className="h-16 w-auto animate-pulse"
           />

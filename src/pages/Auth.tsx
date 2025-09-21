@@ -130,7 +130,7 @@ const Auth = () => {
         <div className="text-center mb-8">
           <div className="relative inline-block">
             <img 
-              src="/habi-isotipo.png"
+              src="/habi-isotipo-transparent.png"
               alt="Habi.gt"
               className="h-20 w-auto mx-auto mb-6 filter drop-shadow-lg"
             />

@@ -14,6 +14,8 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { useAgentApproval } from "@/hooks/useAgentApproval";
+import { useSubscription } from "@/hooks/useSubscription";
 
 // Form validation schema for agent
 const agentProfileSchema = z.object({
@@ -31,6 +33,8 @@ const AgentProfile = () => {
   const { user, profile, refetchProfile } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const { isApproved } = useAgentApproval();
+  const { hasActiveSubscription, currentTier } = useSubscription();
 
   const handleRefreshProfile = async () => {
     if (refetchProfile) {
@@ -101,6 +105,32 @@ const AgentProfile = () => {
           </Button>
           <h1 className="text-2xl font-bold">Mi Perfil - Agente</h1>
         </div>
+
+        {/* Hero Section with Add Property Button - Only for approved agents with subscription */}
+        {isApproved && hasActiveSubscription && (
+          <Card className="mb-6 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
+            <CardContent className="pt-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="text-center md:text-left">
+                  <h2 className="text-xl font-bold text-primary mb-2">
+                    ¡Listo para agregar propiedades!
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Tu cuenta está aprobada y tienes una suscripción activa {currentTier && `(${currentTier})`}
+                  </p>
+                </div>
+                <Button 
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg font-semibold shadow-lg"
+                  onClick={() => navigate('/add-property')}
+                >
+                  <Plus className="h-6 w-6 mr-2" />
+                  Agregar Propiedad
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="grid gap-6">
           {/* Personal Information */}

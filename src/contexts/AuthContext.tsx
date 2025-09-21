@@ -159,6 +159,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state change:', { event, session: session ? 'exists' : 'null', user: session?.user?.email });
+        
         setSession(session);
         setUser(session?.user ?? null);
         
@@ -167,7 +169,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setTimeout(async () => {
             await fetchProfile(session.user.id, session.user.email);
             
-            // Handle OAuth user type after login/signup
+            // Handle OAuth user type after login/signup or regular signup
             if (event === 'SIGNED_IN') {
               const pendingUserType = localStorage.getItem('pending_user_type');
               if (pendingUserType && pendingUserType !== 'client') {
@@ -230,7 +232,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     });
 
-    console.log('SignUp result:', { data, error });
+    console.log('SignUp result:', { 
+      error, 
+      user: data?.user ? { id: data.user.id, email: data.user.email, email_confirmed_at: data.user.email_confirmed_at } : null,
+      session: data?.session ? 'exists' : 'null'
+    });
 
     if (error) {
       console.error('SignUp error:', error);
@@ -240,20 +246,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         variant: "destructive",
       });
     } else if (data?.user) {
-      console.log('User created successfully:', data.user);
-      console.log('Session created:', data.session);
+      console.log('User created successfully');
       
+      // Check if user is immediately signed in or needs email confirmation
       if (data.session) {
-        // User is automatically signed in
+        console.log('User is automatically signed in');
         toast({
           title: "Bienvenido",
           description: "Tu cuenta ha sido creada exitosamente",
         });
-      } else {
-        // Email confirmation required
+      } else if (!data.user.email_confirmed_at) {
+        console.log('Email confirmation required');
         toast({
-          title: "Registro exitoso",
-          description: "Te hemos enviado un email para verificar tu cuenta.",
+          title: "Confirma tu email",
+          description: "Te hemos enviado un email para verificar tu cuenta. Revísalo para activar tu cuenta.",
         });
       }
     }

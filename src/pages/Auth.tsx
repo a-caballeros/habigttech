@@ -55,7 +55,7 @@ const Auth = () => {
     try {
       console.log('Starting registration process...');
       
-      // Create user account - Supabase will automatically sign in the user if email confirmation is disabled
+      // Create user account
       const { error, data } = await signUp(email, password, {
         full_name: fullName,
         user_type: userType
@@ -65,10 +65,12 @@ const Auth = () => {
       
       if (error) {
         setError(error.message || "Error al crear la cuenta");
-      } else {
-        console.log('Registration successful, auth state should update automatically');
-        // Don't navigate immediately, let the auth state change handle it
-        // The useEffect in the redirect section will handle navigation
+      } else if (data?.user) {
+        // If no session was created, it means email confirmation is required
+        if (!data.session) {
+          setError("Registro exitoso. Se ha enviado un email de confirmación. Revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta.");
+        }
+        // If session exists, the auth state change will handle the redirect automatically
       }
     } catch (err) {
       setError("Error inesperado al crear la cuenta");
@@ -155,7 +157,7 @@ const Auth = () => {
           </CardHeader>
           <CardContent>
             {error && (
-              <Alert variant="destructive" className="mb-4">
+              <Alert variant={error.includes("Registro exitoso") ? "default" : "destructive"} className="mb-4">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>

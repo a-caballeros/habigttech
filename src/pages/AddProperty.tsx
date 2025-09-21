@@ -130,25 +130,33 @@ const AddProperty = () => {
         title: data.title,
         description: data.description,
         amenities: selectedAmenities,
-        images: imageUrls
+        images: imageUrls,
+        agent_id: user.id
       }); // Debug log
 
-      const { error } = await supabase
+      const propertyData = {
+        agent_id: user.id,
+        title: data.title,
+        description: data.description,
+        price: parseFloat(data.price),
+        location: data.location,
+        property_type: data.property_type,
+        bedrooms: data.bedrooms ? parseInt(data.bedrooms) : 0,
+        bathrooms: data.bathrooms ? parseFloat(data.bathrooms) : 0,
+        area: parseInt(data.area),
+        status: 'active',
+        images: imageUrls.length > 0 ? imageUrls : null,
+        amenities: selectedAmenities.length > 0 ? selectedAmenities : null
+      };
+
+      console.log('Final property data to insert:', propertyData); // Debug log
+
+      const { error, data: insertedData } = await supabase
         .from('properties')
-        .insert({
-          agent_id: user.id,
-          title: data.title,
-          description: data.description,
-          price: parseFloat(data.price),
-          location: data.location,
-          property_type: data.property_type,
-          bedrooms: data.bedrooms ? parseInt(data.bedrooms) : 0,
-          bathrooms: data.bathrooms ? parseFloat(data.bathrooms) : 0,
-          area: parseInt(data.area),
-          status: 'active',
-          images: imageUrls,
-          amenities: selectedAmenities
-        });
+        .insert(propertyData)
+        .select();
+
+      console.log('Insert result:', { error, insertedData }); // Debug log
 
       if (error) throw error;
 

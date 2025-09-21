@@ -20,6 +20,14 @@ interface Property {
   area?: number;
   images: string[];
   agent_id: string;
+  description?: string;
+  amenities?: string[];
+  agent?: {
+    id: string;
+    full_name: string;
+    avatar_url: string | null;
+    agency: string | null;
+  };
 }
 
 interface FeaturedSectionsProps {
@@ -41,13 +49,31 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch recent properties
+        // Fetch recent properties with agents
         const { data: properties, error: propertiesError } = await supabase
           .from('properties')
           .select('*')
           .eq('status', 'active')
           .order('created_at', { ascending: false })
           .limit(6);
+
+        if (propertiesError) throw propertiesError;
+
+        // Fetch agent data for each property
+        const propertiesWithAgents = await Promise.all(
+          (properties || []).map(async (property) => {
+            const { data: agentData } = await supabase
+              .from('profiles')
+              .select('id, full_name, avatar_url, agency')
+              .eq('id', property.agent_id)
+              .maybeSingle();
+
+            return {
+              ...property,
+              agent: agentData
+            };
+          })
+        );
 
         if (propertiesError) throw propertiesError;
 
@@ -181,11 +207,37 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
                     <span className="text-2xl font-bold text-primary">
                       Q{property.price?.toLocaleString()}
                     </span>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Eye className="h-4 w-4" />
-                      <MessageCircle className="h-4 w-4" />
-                    </div>
                   </div>
+                  
+                  {/* Agent Info */}
+                  {property.agent && (
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+                      <div className="flex items-center gap-2">
+                        <img 
+                          src={property.agent.avatar_url || '/placeholder.svg'}
+                          alt={property.agent.full_name || 'Agente'}
+                          className="w-6 h-6 rounded-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = '/placeholder.svg';
+                          }}
+                        />
+                        <div>
+                          <p className="text-xs font-medium text-foreground">
+                            {property.agent.full_name}
+                          </p>
+                          {property.agent.agency && (
+                            <p className="text-xs text-muted-foreground">
+                              {property.agent.agency}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Eye className="h-4 w-4" />
+                        <MessageCircle className="h-4 w-4" />
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}

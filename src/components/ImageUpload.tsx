@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface ImageUploadProps {
   onImagesSelected: (files: File[]) => void;
@@ -22,6 +22,7 @@ const ImageUpload = ({
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const validateFile = (file: File): boolean => {
     if (!acceptedTypes.includes(file.type)) {

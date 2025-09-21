@@ -199,6 +199,7 @@ export type Database = {
       properties: {
         Row: {
           agent_id: string
+          amenities: string[] | null
           area: number | null
           bathrooms: number | null
           bedrooms: number | null
@@ -217,6 +218,7 @@ export type Database = {
         }
         Insert: {
           agent_id: string
+          amenities?: string[] | null
           area?: number | null
           bathrooms?: number | null
           bedrooms?: number | null
@@ -235,6 +237,7 @@ export type Database = {
         }
         Update: {
           agent_id?: string
+          amenities?: string[] | null
           area?: number | null
           bathrooms?: number | null
           bedrooms?: number | null

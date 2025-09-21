@@ -29,6 +29,7 @@ interface Property {
   agent_id: string;
   created_at: string;
   status: string;
+  amenities: string[];
 }
 
 interface Agent {
@@ -115,11 +116,20 @@ const PropertyDetails = () => {
   };
 
   const handleMessage = () => {
-    navigate('/messages');
-    toast({
-      title: "Abrir chat",
-      description: `Iniciando conversación con ${agent?.full_name}`,
-    });
+    if (agent?.phone) {
+      const whatsappUrl = `https://wa.me/${agent.phone.replace(/[^\d]/g, '')}?text=Hola, estoy interesado en la propiedad "${property?.title}"`;
+      window.open(whatsappUrl, '_blank');
+      toast({
+        title: "Abriendo WhatsApp",
+        description: `Iniciando conversación con ${agent.full_name}`,
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "No se pudo obtener el número del agente.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleScheduleVisit = () => {
@@ -170,10 +180,10 @@ const PropertyDetails = () => {
             variant="secondary" 
             size="sm" 
             onClick={() => navigate('/')}
-            className="bg-white/95 hover:bg-white text-black shadow-lg"
+            className="bg-foreground/90 hover:bg-foreground text-background shadow-lg border-background/20"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
-            <span className="text-black font-medium">Volver</span>
+            <span className="font-medium">Volver</span>
           </Button>
           
           <div className="flex space-x-2">
@@ -181,18 +191,18 @@ const PropertyDetails = () => {
               variant="secondary" 
               size="sm"
               onClick={() => setIsFavorite(!isFavorite)}
-              className="bg-white/95 hover:bg-white shadow-lg"
+              className="bg-foreground/90 hover:bg-foreground shadow-lg border-background/20"
             >
-              <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-black'}`} />
+              <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-background'}`} />
             </Button>
             <Button 
               variant="secondary" 
               size="sm"
               onClick={handleShare}
-              className="bg-white/95 hover:bg-white text-black shadow-lg"
+              className="bg-foreground/90 hover:bg-foreground text-background shadow-lg border-background/20"
             >
               <Share2 className="h-4 w-4" />
-              <span className="text-black font-medium ml-1">Compartir</span>
+              <span className="font-medium ml-1">Compartir</span>
             </Button>
           </div>
         </div>
@@ -269,7 +279,7 @@ const PropertyDetails = () => {
             <p className="text-muted-foreground leading-relaxed">
               {showFullDescription ? property.description : `${property.description.substring(0, 200)}...`}
             </p>
-            {property.description.length > 200 && (
+            {property.description && property.description.length > 200 && (
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -281,6 +291,41 @@ const PropertyDetails = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Amenities */}
+        {property.amenities && property.amenities.length > 0 && (
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Características y Amenidades</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {property.amenities.map((amenity, index) => {
+                  const amenityLabels = {
+                    'piscina': { label: 'Piscina', icon: Waves },
+                    'cocina_equipada': { label: 'Cocina Equipada', icon: Star },
+                    'sala_equipada': { label: 'Sala Equipada', icon: Star },
+                    'cuartos_equipados': { label: 'Cuartos Equipados', icon: Bed },
+                    'lavanderia_equipada': { label: 'Lavandería Equipada', icon: Star },
+                    'seguridad_24_7': { label: 'Seguridad 24/7', icon: Shield },
+                    'balcon': { label: 'Balcón', icon: TreePine },
+                    'jardin': { label: 'Jardín', icon: TreePine },
+                    'terraza': { label: 'Terraza', icon: TreePine },
+                    'parqueo_techado': { label: 'Parqueo Techado', icon: Car }
+                  };
+                  
+                  const amenityInfo = amenityLabels[amenity as keyof typeof amenityLabels] || { label: amenity, icon: Star };
+                  const Icon = amenityInfo.icon;
+                  
+                  return (
+                    <div key={index} className="flex items-center space-x-2 text-sm">
+                      <Icon className="h-4 w-4 text-primary" />
+                      <span>{amenityInfo.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Agent Information */}
         <Card className="mb-6">

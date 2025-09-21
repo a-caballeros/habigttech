@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import ImageUpload from "@/components/ImageUpload";
@@ -26,6 +27,7 @@ const propertySchema = z.object({
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
   area: z.string().min(1, "El área es requerida"),
+  amenities: z.array(z.string()).optional(),
 });
 
 type PropertyForm = z.infer<typeof propertySchema>;
@@ -37,6 +39,7 @@ const AddProperty = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
   // Redirect non-agents
   if (userType !== 'agent') {
@@ -87,6 +90,7 @@ const AddProperty = () => {
       bedrooms: "",
       bathrooms: "",
       area: "",
+      amenities: [],
     },
   });
 
@@ -135,7 +139,8 @@ const AddProperty = () => {
           bathrooms: data.bathrooms ? parseFloat(data.bathrooms) : 0,
           area: parseInt(data.area),
           status: 'active',
-          images: imageUrls
+          images: imageUrls,
+          amenities: selectedAmenities
         });
 
       if (error) throw error;
@@ -324,6 +329,46 @@ const AddProperty = () => {
                       <p className="text-sm text-destructive">{form.formState.errors.area.message}</p>
                     )}
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Amenities */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Características y Amenidades</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {[
+                    { value: 'piscina', label: 'Piscina' },
+                    { value: 'cocina_equipada', label: 'Cocina Equipada' },
+                    { value: 'sala_equipada', label: 'Sala Equipada' },
+                    { value: 'cuartos_equipados', label: 'Cuartos Equipados' },
+                    { value: 'lavanderia_equipada', label: 'Lavandería Equipada' },
+                    { value: 'seguridad_24_7', label: 'Seguridad 24/7' },
+                    { value: 'balcon', label: 'Balcón' },
+                    { value: 'jardin', label: 'Jardín' },
+                    { value: 'terraza', label: 'Terraza' },
+                    { value: 'parqueo_techado', label: 'Parqueo Techado' },
+                  ].map((amenity) => (
+                    <div key={amenity.value} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={amenity.value}
+                        checked={selectedAmenities.includes(amenity.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setSelectedAmenities([...selectedAmenities, amenity.value]);
+                          } else {
+                            setSelectedAmenities(selectedAmenities.filter(a => a !== amenity.value));
+                          }
+                        }}
+                      />
+                      <Label htmlFor={amenity.value} className="text-sm font-normal">
+                        {amenity.label}
+                      </Label>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>

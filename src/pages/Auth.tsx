@@ -132,7 +132,7 @@ const Auth = () => {
             <img 
               src="/habi-isotipo-transparent.png"
               alt="Habi.gt"
-              className="h-20 w-auto mx-auto mb-6 filter drop-shadow-lg"
+              className="h-16 w-auto mx-auto mb-6 filter drop-shadow-lg"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-xl blur-2xl -z-10"></div>
           </div>

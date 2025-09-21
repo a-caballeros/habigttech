@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
           <img 
             src="/habi-isotipo-transparent.png" 
             alt="Habi.gt" 
-            className="h-16 w-auto animate-pulse"
+            className="h-12 w-auto animate-pulse"
           />
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           <p className="text-muted-foreground text-sm">Cargando...</p>

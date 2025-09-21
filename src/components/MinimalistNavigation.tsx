@@ -44,7 +44,7 @@ const MinimalistNavigation = () => {
           <img 
             src="/habi-isotipo-transparent.png"
             alt="Habi.gt"
-            className="h-12 w-auto cursor-pointer hover:scale-105 transition-transform"
+            className="h-10 w-auto cursor-pointer hover:scale-105 transition-transform"
             onClick={() => navigate('/')}
           />
         </div>

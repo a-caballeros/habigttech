@@ -253,27 +253,7 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
           <Card className="group relative overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
             <CardContent className="relative p-8 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <Building className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">Para Agentes</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                Expande tu cartera de clientes, gestiona tus propiedades y maximiza tus ventas con nuestras herramientas profesionales.
-              </p>
-              <div className="space-y-3 mb-6">
-                <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <Star className="h-4 w-4 text-primary mr-2" />
-                  Panel de gestión profesional
-                </div>
-                <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <Star className="h-4 w-4 text-primary mr-2" />
-                  Promoción de propiedades destacadas
-                </div>
-                <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <Star className="h-4 w-4 text-primary mr-2" />
-                  Sistema de mensajería integrado
-                </div>
-              </div>
+              <div className="text-6xl mb-8">🏢</div>
               <Button 
                 size="lg" 
                 className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-xl transition-all duration-300"
@@ -289,35 +269,13 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
           <Card className="group relative overflow-hidden border-2 border-emerald-200/60 hover:border-emerald-300/80 transition-all duration-300 hover:shadow-2xl bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30">
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/20 via-transparent to-emerald-200/20" />
             <CardContent className="relative p-8 text-center">
-              <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-all duration-500 group-hover:shadow-emerald-300/50">
-                <Users className="h-12 w-12 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3 font-sans">Para Clientes</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed font-medium">
-                Descubre tu hogar ideal, guarda tus favoritos y conecta directamente con los mejores agentes inmobiliarios.
-              </p>
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
-                  Búsqueda avanzada de propiedades
-                </div>
-                <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
-                  Lista de propiedades favoritas
-                </div>
-                <div className="flex items-center justify-center text-sm text-muted-foreground">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
-                  Contacto directo con agentes
-                </div>
-              </div>
+              <div className="text-6xl mb-8">🏠</div>
               <Button 
                 size="lg" 
                 className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl py-6 font-semibold text-lg group-hover:scale-105"
                 onClick={() => navigate('/auth?type=client')}
               >
-                <Users className="mr-3 h-5 w-5" />
-                Regístrate Ahora
-                <div className="ml-2 text-sm font-normal opacity-90">Encuentra lo que buscas</div>
+                Registrarme como Cliente
               </Button>
             </CardContent>
           </Card>

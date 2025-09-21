@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import MinimalistNavigation from "@/components/MinimalistNavigation";
 import Footer from "@/components/Footer";
+import BackButton from "@/components/BackButton";
 import SEOHead from "@/components/SEOHead";
 
 const Contact = () => {
@@ -15,6 +16,7 @@ const Contact = () => {
         <MinimalistNavigation />
         
         <main className="flex-1 container mx-auto px-4 py-12">
+          <BackButton />
           <div className="max-w-4xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12">

@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import BackButton from '@/components/BackButton';
 import { Shield, Save, Users, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -112,6 +113,7 @@ const AdminProfile = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <BackButton />
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">

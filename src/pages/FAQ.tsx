@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import BackButton from "@/components/BackButton";
 
 const FAQ = () => {
   const faqs = [
@@ -49,6 +50,7 @@ const FAQ = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
+        <BackButton />
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-4">Preguntas Frecuentes</h1>

@@ -1,6 +1,7 @@
 import { usePageSEO } from "@/hooks/usePageSEO";
 import MinimalistNavigation from "@/components/MinimalistNavigation";
 import Footer from "@/components/Footer";
+import BackButton from "@/components/BackButton";
 import { Building2, Zap, BarChart3, Shield } from "lucide-react";
 
 const About = () => {
@@ -15,6 +16,9 @@ const About = () => {
       <MinimalistNavigation />
       
       <main className="flex-1">
+        <div className="container mx-auto px-4 pt-6">
+          <BackButton />
+        </div>
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-b from-background to-card">
           <div className="container mx-auto px-4">

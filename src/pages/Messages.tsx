@@ -1,11 +1,13 @@
 import Navigation from "@/components/Navigation";
 import MessagingSystem from "@/components/MessagingSystem";
+import BackButton from "@/components/BackButton";
 
 const Messages = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="container mx-auto px-4 py-8">
+        <BackButton />
         <MessagingSystem />
       </div>
     </div>

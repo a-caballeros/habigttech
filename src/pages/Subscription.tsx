@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useSubscription } from '@/hooks/useSubscription';
+import BackButton from '@/components/BackButton';
 import { Check, Crown, Star, Award, Diamond } from 'lucide-react';
 
 interface SubscriptionTier {
@@ -141,6 +142,7 @@ const Subscription = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 to-accent/5 p-4">
       <div className="max-w-6xl mx-auto py-8">
+        <BackButton />
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Planes de Suscripción para Agentes</h1>
           <p className="text-muted-foreground">

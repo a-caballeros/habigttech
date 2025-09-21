@@ -1,6 +1,7 @@
 import { HelpCircle, MessageCircle, Mail, Book, Users, Zap } from "lucide-react";
 import MinimalistNavigation from "@/components/MinimalistNavigation";
 import Footer from "@/components/Footer";
+import BackButton from "@/components/BackButton";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -60,6 +61,7 @@ const Support = () => {
         <MinimalistNavigation />
         
         <main className="flex-1 container mx-auto px-4 py-12">
+          <BackButton />
           <div className="max-w-6xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12">

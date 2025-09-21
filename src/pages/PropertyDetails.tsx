@@ -63,10 +63,14 @@ const PropertyDetails = () => {
         .select('*')
         .eq('id', id)
         .eq('status', 'active')
-        .single();
+        .maybeSingle();
 
       if (propertyError) throw propertyError;
+      if (!propertyData) {
+        throw new Error('Property not found');
+      }
 
+      console.log('Property data:', propertyData); // Debug log
       setProperty(propertyData);
 
       // Fetch agent details
@@ -74,10 +78,14 @@ const PropertyDetails = () => {
         .from('profiles')
         .select('id, full_name, avatar_url, phone, agency')
         .eq('id', propertyData.agent_id)
-        .single();
+        .maybeSingle();
 
       if (agentError) throw agentError;
+      if (!agentData) {
+        throw new Error('Agent not found');
+      }
 
+      console.log('Agent data:', agentData); // Debug log
       setAgent(agentData);
     } catch (error) {
       console.error('Error fetching property:', error);
@@ -166,10 +174,10 @@ const PropertyDetails = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Image Gallery */}
+        {/* Image Gallery */}
       <div className="relative h-96 md:h-[500px] bg-muted">
         <img 
-          src={property.images?.[currentImageIndex] || '/placeholder.svg'}
+          src={property.images && property.images.length > 0 ? property.images[currentImageIndex] : '/placeholder.svg'}
           alt={property.title}
           className="w-full h-full object-cover"
         />
@@ -277,7 +285,10 @@ const PropertyDetails = () => {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-3">Descripción</h3>
             <p className="text-muted-foreground leading-relaxed">
-              {showFullDescription ? property.description : `${property.description.substring(0, 200)}...`}
+              {property.description ? (
+                showFullDescription ? property.description : 
+                (property.description.length > 200 ? `${property.description.substring(0, 200)}...` : property.description)
+              ) : 'Sin descripción disponible'}
             </p>
             {property.description && property.description.length > 200 && (
               <Button 

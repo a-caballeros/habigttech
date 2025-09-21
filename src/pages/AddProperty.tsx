@@ -126,6 +126,13 @@ const AddProperty = () => {
         }
       }
 
+      console.log('Saving property with data:', {
+        title: data.title,
+        description: data.description,
+        amenities: selectedAmenities,
+        images: imageUrls
+      }); // Debug log
+
       const { error } = await supabase
         .from('properties')
         .insert({

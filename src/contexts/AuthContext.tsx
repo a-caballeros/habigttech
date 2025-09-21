@@ -27,7 +27,7 @@ interface AuthContextType {
   profile: Profile | null;
   userType: 'client' | 'agent' | 'admin';
   loading: boolean;
-  signUp: (email: string, password: string, userData?: any) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, userData?: any) => Promise<{ error: any; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   signInWithProvider: (provider: 'facebook' | 'twitter' | 'google', userType?: string) => Promise<{ error: any }>;
@@ -237,7 +237,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else if (data?.user && !data?.user?.email_confirmed_at) {
       toast({
         title: "Registro exitoso",
-        description: "Revisa tu email para verificar tu cuenta",
+        description: "Te hemos enviado un email para verificar tu cuenta. Si no confirmas tu email, podrás usar la cuenta inmediatamente.",
       });
     } else if (data?.user) {
       toast({
@@ -246,7 +246,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
     }
 
-    return { error };
+    return { error, data };
   };
 
   const signIn = async (email: string, password: string) => {

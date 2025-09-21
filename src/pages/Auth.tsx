@@ -52,26 +52,28 @@ const Auth = () => {
     setLoading(true);
     
     try {
-      // Create user account first, then redirect to subscription for agents
-      const { error } = await signUp(email, password, {
+      // Create user account first
+      const { error, data } = await signUp(email, password, {
         full_name: fullName,
         user_type: userType
       });
       
       if (error) {
         setError(error.message || "Error al crear la cuenta");
-      } else {
-        // After successful signup, sign in the user automatically
-        const signInResult = await signIn(email, password);
-        
-        if (signInResult.error) {
-          setError("Cuenta creada pero error al iniciar sesión. Intenta iniciar sesión manualmente.");
+      } else if (data?.user) {
+        // If email is confirmed or confirmation is not required, sign in automatically
+        if (data.user.email_confirmed_at || data.session) {
+          // User is already signed in or email confirmed
+          navigate('/');
         } else {
-          if (userType === 'agent') {
-            // For agents, redirect to subscription page after successful signup
-            navigate('/subscription');
+          // Try to sign in anyway (for cases where email confirmation is disabled)
+          const signInResult = await signIn(email, password);
+          
+          if (signInResult.error) {
+            // If sign in fails, show a message but don't error out
+            setError("Cuenta creada exitosamente. Si no puedes iniciar sesión inmediatamente, revisa tu email para verificar tu cuenta.");
           } else {
-            // For clients, go to home page
+            // All users go to home page after successful registration
             navigate('/');
           }
         }

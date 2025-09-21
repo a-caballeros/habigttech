@@ -61,12 +61,19 @@ const Auth = () => {
       if (error) {
         setError(error.message || "Error al crear la cuenta");
       } else {
-        if (userType === 'agent') {
-          // For agents, redirect to subscription page after successful signup
-          navigate('/subscription');
+        // After successful signup, sign in the user automatically
+        const signInResult = await signIn(email, password);
+        
+        if (signInResult.error) {
+          setError("Cuenta creada pero error al iniciar sesión. Intenta iniciar sesión manualmente.");
         } else {
-          // For clients, go to home page
-          navigate('/');
+          if (userType === 'agent') {
+            // For agents, redirect to subscription page after successful signup
+            navigate('/subscription');
+          } else {
+            // For clients, go to home page
+            navigate('/');
+          }
         }
       }
     } catch (err) {

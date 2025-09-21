@@ -266,8 +266,8 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
           </Card>
 
           {/* Client Registration */}
-          <Card className="group relative overflow-hidden border-2 border-emerald-200/60 hover:border-emerald-300/80 transition-all duration-300 hover:shadow-2xl bg-gradient-to-br from-emerald-50/50 via-white to-emerald-50/30">
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/20 via-transparent to-emerald-200/20" />
+          <Card className="group relative overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
             <CardContent className="relative p-8 text-center">
               <div className="text-6xl mb-8">🏠</div>
               <Button 

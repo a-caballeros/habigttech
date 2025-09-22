@@ -125,14 +125,15 @@ const MinimalistHeroSection = () => {
                   <SelectTrigger className="pl-10 h-12 rounded-lg">
                     <SelectValue placeholder="Tipo" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="casa">Casa</SelectItem>
-                    <SelectItem value="apartamento">Apartamento</SelectItem>
-                    <SelectItem value="local_comercial">Local Comercial</SelectItem>
-                    <SelectItem value="terreno">Terreno</SelectItem>
-                    <SelectItem value="oficina">Oficina</SelectItem>
-                    <SelectItem value="bodega">Bodega</SelectItem>
-                  </SelectContent>
+                    <SelectContent>
+                      <SelectItem value="todos">Todos</SelectItem>
+                      <SelectItem value="casa">Casa</SelectItem>
+                      <SelectItem value="apartamento">Apartamento</SelectItem>
+                      <SelectItem value="local_comercial">Local Comercial</SelectItem>
+                      <SelectItem value="terreno">Terreno</SelectItem>
+                      <SelectItem value="oficina">Oficina</SelectItem>
+                      <SelectItem value="bodega">Bodega</SelectItem>
+                    </SelectContent>
                 </Select>
               </div>
               
@@ -144,6 +145,7 @@ const MinimalistHeroSection = () => {
                     <SelectValue placeholder="Precio" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="todos">Todos</SelectItem>
                     <SelectItem value="0-100000">Q0 - Q100,000</SelectItem>
                     <SelectItem value="100000-300000">Q100,000 - Q300,000</SelectItem>
                     <SelectItem value="300000-500000">Q300,000 - Q500,000</SelectItem>

@@ -16,30 +16,30 @@ interface PropertyDetailsProps {
   property: {
     id: string;
     title: string;
-    price: string;
+    price: number;
     location: string;
     bedrooms: number;
     bathrooms: number;
     area: number;
-    parking: number;
+    property_type: string;
     images: string[];
-    hasVideo?: boolean;
-    has3DTour?: boolean;
     description: string;
-    features: string[];
-    agent: {
-      name: string;
-      photo: string;
-      tier: 'bronze' | 'silver' | 'gold';
-      agency: string;
-      phone: string;
-    };
-    views: number;
+    amenities: string[];
+    agent_id: string;
+    status: string;
+    created_at: string;
+  };
+  agent: {
+    id: string;
+    full_name: string;
+    avatar_url: string | null;
+    phone: string | null;
+    agency: string | null;
   };
   onBack?: () => void;
 }
 
-const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
+const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -47,7 +47,7 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
   const handleShare = () => {
     navigator.share?.({
       title: property.title,
-      text: `${property.title} - ${property.price}`,
+      text: `${property.title} - Q${property.price?.toLocaleString()}`,
       url: window.location.href,
     }).catch(() => {
       navigator.clipboard.writeText(window.location.href);
@@ -59,19 +59,24 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
   };
 
   const handleCall = () => {
-    window.open(`tel:${property.agent.phone}`, '_self');
-    toast({
-      title: "Iniciando llamada",
-      description: `Llamando a ${property.agent.name}...`,
-    });
+    if (agent?.phone) {
+      window.open(`tel:${agent.phone}`, '_self');
+      toast({
+        title: "Iniciando llamada",
+        description: `Llamando a ${agent.full_name}...`,
+      });
+    }
   };
 
   const handleMessage = () => {
-    window.location.hash = '#messages';
-    toast({
-      title: "Abrir chat",
-      description: `Iniciando conversación con ${property.agent.name}`,
-    });
+    if (agent?.phone) {
+      const whatsappUrl = `https://wa.me/${agent.phone.replace(/[^\d]/g, '')}?text=Hola, estoy interesado en la propiedad "${property.title}"`;
+      window.open(whatsappUrl, '_blank');
+      toast({
+        title: "Abriendo WhatsApp",
+        description: `Iniciando conversación con ${agent.full_name}`,
+      });
+    }
   };
 
   const handleScheduleVisit = () => {
@@ -82,31 +87,20 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
   };
 
   const handleContactAgent = () => {
-    toast({
-      title: "Contactar agente",
-      description: "Abriendo opciones de contacto...",
-    });
+    handleMessage();
   };
 
-  const tierColors = {
-    bronze: 'text-amber-600',
-    silver: 'text-slate-600', 
-    gold: 'text-yellow-500'
-  };
-
-  const tierLabels = {
-    bronze: 'Agente Bronce',
-    silver: 'Agente Plata',
-    gold: 'Agente Oro'
-  };
-
-  const featureIcons: { [key: string]: any } = {
-    'Piscina': Waves,
-    'Gimnasio': Dumbbell,
-    'Wifi': Wifi,
-    'Seguridad 24/7': Shield,
-    'Jardín': TreePine,
-    'Pet Friendly': PawPrint,
+  const amenityLabels = {
+    'piscina': { label: 'Piscina', icon: Waves },
+    'cocina_equipada': { label: 'Cocina Equipada', icon: Star },
+    'sala_equipada': { label: 'Sala Equipada', icon: Star },
+    'cuartos_equipados': { label: 'Cuartos Equipados', icon: Bed },
+    'lavanderia_equipada': { label: 'Lavandería Equipada', icon: Star },
+    'seguridad_24_7': { label: 'Seguridad 24/7', icon: Shield },
+    'balcon': { label: 'Balcón', icon: TreePine },
+    'jardin': { label: 'Jardín', icon: TreePine },
+    'terraza': { label: 'Terraza', icon: TreePine },
+    'parqueo_techado': { label: 'Parqueo Techado', icon: Car }
   };
 
   return (
@@ -114,9 +108,12 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
       {/* Image Gallery */}
       <div className="relative h-96 md:h-[500px] bg-muted">
         <img 
-          src={property.images[currentImageIndex]}
+          src={property.images && Array.isArray(property.images) && property.images.length > 0 ? property.images[currentImageIndex] : '/placeholder.svg'}
           alt={property.title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = '/placeholder.svg';
+          }}
         />
         
         {/* Header Controls */}
@@ -151,29 +148,14 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
           </div>
         </div>
 
-        {/* Media Controls */}
-        <div className="absolute bottom-4 left-4 flex space-x-2">
-          {property.hasVideo && (
-            <Button variant="secondary" size="sm" className="bg-white/95 hover:bg-white text-foreground shadow-soft">
-              <Play className="h-4 w-4 mr-1" />
-              Video
-            </Button>
-          )}
-          {property.has3DTour && (
-            <Badge className="bg-primary text-primary-foreground shadow-soft">
-              <Eye className="h-3 w-3 mr-1" />
-              Tour 3D
-            </Badge>
-          )}
-        </div>
 
         {/* Image Navigation */}
-        {property.images.length > 1 && (
+        {property.images && Array.isArray(property.images) && property.images.length > 1 && (
           <div className="absolute bottom-4 right-4 flex space-x-1">
             {property.images.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full transition-smooth ${
+                className={`w-2 h-2 rounded-full transition-all ${
                   index === currentImageIndex ? 'bg-white' : 'bg-white/50'
                 }`}
                 onClick={() => setCurrentImageIndex(index)}
@@ -187,11 +169,9 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
         {/* Essential Information */}
         <div className="mb-6">
           <div className="flex justify-between items-start mb-2">
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground">{property.price}</h1>
-            <div className="flex items-center text-muted-foreground">
-              <Eye className="h-4 w-4 mr-1" />
-              <span className="text-sm">{property.views} vistas</span>
-            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+              Q{property.price?.toLocaleString()}
+            </h1>
           </div>
           
           <h2 className="text-xl font-semibold text-foreground mb-3">{property.title}</h2>
@@ -203,20 +183,24 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
           
           {/* Quick Features */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted rounded-lg">
-            <div className="flex items-center space-x-2">
-              <Bed className="h-5 w-5 text-primary" />
-              <div>
-                <div className="font-semibold">{property.bedrooms}</div>
-                <div className="text-sm text-muted-foreground">Habitaciones</div>
+            {property.bedrooms > 0 && (
+              <div className="flex items-center space-x-2">
+                <Bed className="h-5 w-5 text-primary" />
+                <div>
+                  <div className="font-semibold">{property.bedrooms}</div>
+                  <div className="text-sm text-muted-foreground">Habitaciones</div>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Bath className="h-5 w-5 text-primary" />
-              <div>
-                <div className="font-semibold">{property.bathrooms}</div>
-                <div className="text-sm text-muted-foreground">Baños</div>
+            )}
+            {property.bathrooms > 0 && (
+              <div className="flex items-center space-x-2">
+                <Bath className="h-5 w-5 text-primary" />
+                <div>
+                  <div className="font-semibold">{property.bathrooms}</div>
+                  <div className="text-sm text-muted-foreground">Baños</div>
+                </div>
               </div>
-            </div>
+            )}
             <div className="flex items-center space-x-2">
               <Square className="h-5 w-5 text-primary" />
               <div>
@@ -225,11 +209,7 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <Car className="h-5 w-5 text-primary" />
-              <div>
-                <div className="font-semibold">{property.parking}</div>
-                <div className="text-sm text-muted-foreground">Parqueos</div>
-              </div>
+              <div className="font-semibold capitalize">{property.property_type}</div>
             </div>
           </div>
         </div>
@@ -239,36 +219,45 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-3">Descripción</h3>
             <p className="text-muted-foreground leading-relaxed">
-              {showFullDescription ? property.description : `${property.description.substring(0, 200)}...`}
+              {property.description ? (
+                showFullDescription ? property.description : 
+                (property.description.length > 200 ? `${property.description.substring(0, 200)}...` : property.description)
+              ) : 'Sin descripción disponible'}
             </p>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => setShowFullDescription(!showFullDescription)}
-              className="mt-2 p-0 h-auto font-normal text-primary hover:text-primary-glow"
-            >
-              {showFullDescription ? 'Leer menos' : 'Leer más...'}
-            </Button>
+            {property.description && property.description.length > 200 && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowFullDescription(!showFullDescription)}
+                className="mt-2 p-0 h-auto font-normal text-primary hover:text-primary-glow"
+              >
+                {showFullDescription ? 'Leer menos' : 'Leer más...'}
+              </Button>
+            )}
           </CardContent>
         </Card>
 
-        {/* Features */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Características y Amenidades</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {property.features.map((feature, index) => {
-                const Icon = featureIcons[feature] || TreePine;
-                return (
-                  <div key={index} className="flex items-center space-x-2 text-sm">
-                    <Icon className="h-4 w-4 text-primary" />
-                    <span>{feature}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Amenities */}
+        {property.amenities && property.amenities.length > 0 && (
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Características y Amenidades</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {property.amenities.map((amenity, index) => {
+                  const amenityInfo = amenityLabels[amenity as keyof typeof amenityLabels] || { label: amenity, icon: Star };
+                  const Icon = amenityInfo.icon;
+                  
+                  return (
+                    <div key={index} className="flex items-center space-x-2 text-sm">
+                      <Icon className="h-4 w-4 text-primary" />
+                      <span>{amenityInfo.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Agent Information */}
         <Card className="mb-6">
@@ -276,31 +265,27 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
             <h3 className="text-lg font-semibold mb-4">Información del Agente</h3>
             <div className="flex items-start space-x-4">
               <img 
-                src={property.agent.photo}
-                alt={property.agent.name}
+                src={agent.avatar_url || '/placeholder.svg'}
+                alt={agent.full_name || 'Agente'}
                 className="w-16 h-16 rounded-full object-cover"
               />
               <div className="flex-1">
-                <h4 className="font-semibold text-foreground">{property.agent.name}</h4>
-                <p className="text-sm text-muted-foreground mb-1">{property.agent.agency}</p>
-                <div className="flex items-center mb-3">
-                  <Star className={`h-4 w-4 mr-1 ${tierColors[property.agent.tier]}`} />
-                  <span className={`text-sm ${tierColors[property.agent.tier]} font-medium`}>
-                    {tierLabels[property.agent.tier]}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2">
+                <h4 className="font-semibold text-foreground">{agent.full_name}</h4>
+                {agent.agency && (
+                  <p className="text-sm text-muted-foreground mb-1">{agent.agency}</p>
+                )}
+                <div className="flex flex-wrap gap-2 mt-3">
                   <Button size="sm" className="flex items-center" onClick={handleCall}>
                     <Phone className="h-4 w-4 mr-1" />
-                    Llamar
+                    <span className="text-white">Llamar</span>
                   </Button>
                   <Button variant="outline" size="sm" className="flex items-center" onClick={handleMessage}>
                     <MessageCircle className="h-4 w-4 mr-1" />
-                    Mensaje
+                    <span>Mensaje</span>
                   </Button>
                   <Button variant="outline" size="sm" className="flex items-center" onClick={handleScheduleVisit}>
                     <Calendar className="h-4 w-4 mr-1" />
-                    Agendar Visita
+                    <span>Agendar Visita</span>
                   </Button>
                 </div>
               </div>
@@ -311,9 +296,9 @@ const PropertyDetails = ({ property, onBack }: PropertyDetailsProps) => {
 
       {/* Floating Contact Button */}
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
-        <Button size="lg" className="shadow-strong" onClick={handleContactAgent}>
+        <Button size="lg" className="shadow-lg" onClick={handleContactAgent}>
           <MessageCircle className="h-5 w-5 mr-2" />
-          Contactar Agente
+          <span className="text-white">Contactar Agente</span>
         </Button>
       </div>
     </div>

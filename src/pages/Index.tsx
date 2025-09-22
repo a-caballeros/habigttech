@@ -34,32 +34,30 @@ const Index = () => {
   // Real properties will be loaded from database
   const sampleProperties: any[] = [];
 
-  // Property details data
+  // Sample property for demo - will be replaced with real data
   const propertyDetailsData = {
     id: '1',
     title: 'Casa Colonial con Jardín Privado',
-    price: 'Q1,500,000',
+    price: 1500000,
     location: 'Antigua Guatemala, Sacatepéquez',
     bedrooms: 4,
     bathrooms: 3,
     area: 280,
-    parking: 2,
+    property_type: 'casa',
     images: [property1, property2, property3],
-    hasVideo: true,
-    has3DTour: true,
-    description: 'Hermosa casa colonial ubicada en el corazón de Antigua Guatemala. Esta propiedad única combina la arquitectura tradicional guatemalteca con comodidades modernas. Cuenta con un jardín privado exuberante, pisos de ladrillo original, techos altos con vigas de madera, y una cocina completamente equipada. La ubicación privilegiada te permite caminar a restaurantes, cafés y sitios históricos. Ideal para familias que buscan vivir rodeados de historia y cultura en una de las ciudades más bellas de Guatemala.',
-    features: [
-      'Piscina', 'Jardín Privado', 'Cocina Equipada', 'Terraza',
-      'Seguridad 24/7', 'Parqueo Techado', 'Balcón', 'Vista al Volcán'
-    ],
-    agent: {
-      name: 'María González',
-      photo: agent1,
-      tier: 'gold' as const,
-      agency: 'Premium Properties GT',
-      phone: '+502 1234-5678'
-    },
-    views: 245
+    description: 'Hermosa casa colonial ubicada en el corazón de Antigua Guatemala. Esta propiedad única combina la arquitectura tradicional guatemalteca con comodidades modernas.',
+    amenities: ['piscina', 'jardin', 'cocina_equipada', 'terraza', 'seguridad_24_7', 'parqueo_techado', 'balcon'],
+    agent_id: 'sample-agent-id',
+    status: 'active',
+    created_at: new Date().toISOString()
+  };
+
+  const agentDetailsData = {
+    id: 'sample-agent-id',
+    full_name: 'María González',
+    avatar_url: agent1,
+    phone: '+502 1234-5678',
+    agency: 'Premium Properties GT'
   };
 
   const handlePropertyClick = (propertyId: string) => {
@@ -104,6 +102,7 @@ const Index = () => {
         return (
           <PropertyDetails 
             property={propertyDetailsData}
+            agent={agentDetailsData}
             onBack={handleBackToHome}
           />
         );

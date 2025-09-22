@@ -148,14 +148,38 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
           </div>
         </div>
 
-
-        {/* Image Navigation */}
+        {/* Navigation Arrows */}
         {property.images && Array.isArray(property.images) && property.images.length > 1 && (
-          <div className="absolute bottom-4 right-4 flex space-x-1">
+          <>
+            <button
+              onClick={() => setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : property.images.length - 1)}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setCurrentImageIndex(currentImageIndex < property.images.length - 1 ? currentImageIndex + 1 : 0)}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4 rotate-180" />
+            </button>
+          </>
+        )}
+
+        {/* Image Counter */}
+        {property.images && Array.isArray(property.images) && property.images.length > 1 && (
+          <div className="absolute top-4 right-1/2 transform translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+            {currentImageIndex + 1} / {property.images.length}
+          </div>
+        )}
+
+        {/* Image Navigation Dots */}
+        {property.images && Array.isArray(property.images) && property.images.length > 1 && (
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
             {property.images.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full transition-all ${
+                className={`w-3 h-3 rounded-full transition-all ${
                   index === currentImageIndex ? 'bg-white' : 'bg-white/50'
                 }`}
                 onClick={() => setCurrentImageIndex(index)}

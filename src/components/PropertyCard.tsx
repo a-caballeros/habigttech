@@ -64,6 +64,57 @@ const PropertyCard = ({
             }}
           />
           
+          {/* Navigation Arrows */}
+          {images && Array.isArray(images) && images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : images.length - 1);
+                }}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-1 rounded-full transition-colors opacity-0 group-hover:opacity-100"
+              >
+                <span className="text-xs">‹</span>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentImageIndex(currentImageIndex < images.length - 1 ? currentImageIndex + 1 : 0);
+                }}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-1 rounded-full transition-colors opacity-0 group-hover:opacity-100"
+              >
+                <span className="text-xs">›</span>
+              </button>
+            </>
+          )}
+          
+          {/* Promoted Badge */}
+          {promoted && (
+            <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground shadow-soft">
+              Destacada
+            </Badge>
+          )}
+          
+          {/* Image Counter */}
+          {images && Array.isArray(images) && images.length > 1 && (
+            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-2 py-1 rounded text-xs">
+              {currentImageIndex + 1}/{images.length}
+            </div>
+          )}
+          
+          {/* Favorite Button */}
+          <Button
+            variant="secondary"
+            size="sm"
+            className="absolute top-3 right-3 h-8 w-8 rounded-full shadow-soft bg-white/90 p-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              setFavorite(!favorite);
+            }}
+          >
+            <Heart className={`h-4 w-4 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-muted-foreground hover:text-red-400'}`} fill={favorite ? '#ef4444' : 'none'} />
+          </Button>
+          
           {/* Image Navigation Dots */}
           {images && Array.isArray(images) && images.length > 1 && (
             <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1">
@@ -81,26 +132,6 @@ const PropertyCard = ({
               ))}
             </div>
           )}
-          
-          {/* Promoted Badge */}
-          {promoted && (
-            <Badge className="absolute top-3 left-3 bg-accent text-accent-foreground shadow-soft">
-              Destacada
-            </Badge>
-          )}
-          
-          {/* Favorite Button */}
-          <Button
-            variant="secondary"
-            size="sm"
-            className="absolute top-3 right-3 h-8 w-8 rounded-full shadow-soft bg-white/90 p-0"
-            onClick={(e) => {
-              e.stopPropagation();
-              setFavorite(!favorite);
-            }}
-          >
-            <Heart className={`h-4 w-4 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-muted-foreground hover:text-red-400'}`} fill={favorite ? '#ef4444' : 'none'} />
-          </Button>
         </div>
         
         <CardContent className="p-5">

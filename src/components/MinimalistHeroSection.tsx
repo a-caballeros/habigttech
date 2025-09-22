@@ -83,18 +83,38 @@ const MinimalistHeroSection = () => {
                   <SelectTrigger className="pl-10 h-12 rounded-lg">
                     <SelectValue placeholder="Ubicación" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="zona-1">Zona 1</SelectItem>
-                    <SelectItem value="zona-2">Zona 2</SelectItem>
-                    <SelectItem value="zona-9">Zona 9</SelectItem>
-                    <SelectItem value="zona-10">Zona 10</SelectItem>
-                    <SelectItem value="zona-14">Zona 14</SelectItem>
-                    <SelectItem value="zona-15">Zona 15</SelectItem>
-                    <SelectItem value="carretera-salvador">Carretera a El Salvador</SelectItem>
-                    <SelectItem value="antigua">Antigua Guatemala</SelectItem>
-                    <SelectItem value="mixco">Mixco</SelectItem>
-                    <SelectItem value="villa-nueva">Villa Nueva</SelectItem>
-                  </SelectContent>
+                    <SelectContent>
+                      <SelectItem value="todos">Todos</SelectItem>
+                      <SelectItem value="zona-1">Zona 1</SelectItem>
+                      <SelectItem value="zona-2">Zona 2</SelectItem>
+                      <SelectItem value="zona-3">Zona 3</SelectItem>
+                      <SelectItem value="zona-4">Zona 4</SelectItem>
+                      <SelectItem value="zona-5">Zona 5</SelectItem>
+                      <SelectItem value="zona-6">Zona 6</SelectItem>
+                      <SelectItem value="zona-7">Zona 7</SelectItem>
+                      <SelectItem value="zona-8">Zona 8</SelectItem>
+                      <SelectItem value="zona-9">Zona 9</SelectItem>
+                      <SelectItem value="zona-10">Zona 10</SelectItem>
+                      <SelectItem value="zona-11">Zona 11</SelectItem>
+                      <SelectItem value="zona-12">Zona 12</SelectItem>
+                      <SelectItem value="zona-13">Zona 13</SelectItem>
+                      <SelectItem value="zona-14">Zona 14</SelectItem>
+                      <SelectItem value="zona-15">Zona 15</SelectItem>
+                      <SelectItem value="zona-16">Zona 16</SelectItem>
+                      <SelectItem value="zona-17">Zona 17</SelectItem>
+                      <SelectItem value="zona-18">Zona 18</SelectItem>
+                      <SelectItem value="zona-19">Zona 19</SelectItem>
+                      <SelectItem value="zona-21">Zona 21</SelectItem>
+                      <SelectItem value="zona-24">Zona 24</SelectItem>
+                      <SelectItem value="zona-25">Zona 25</SelectItem>
+                      <SelectItem value="carretera-salvador">Carretera a El Salvador</SelectItem>
+                      <SelectItem value="antigua">Antigua Guatemala</SelectItem>
+                      <SelectItem value="mixco">Mixco</SelectItem>
+                      <SelectItem value="villa-nueva">Villa Nueva</SelectItem>
+                      <SelectItem value="san-jose-pinula">San José Pinula</SelectItem>
+                      <SelectItem value="santa-catarina-pinula">Santa Catarina Pinula</SelectItem>
+                      <SelectItem value="fraijanes">Fraijanes</SelectItem>
+                    </SelectContent>
                 </Select>
               </div>
               

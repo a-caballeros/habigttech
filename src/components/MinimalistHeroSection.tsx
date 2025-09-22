@@ -51,9 +51,9 @@ const MinimalistHeroSection = () => {
             </div>
           </div>
           
-          {/* Search Bar - Lower Position */}
-          <div className="absolute bottom-24 md:bottom-32 left-1/2 transform -translate-x-1/2 w-full max-w-6xl px-4">
-            <form onSubmit={handleSearch} className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl">
+          {/* Search Bar - Much Lower Position */}
+          <div className="absolute bottom-8 md:bottom-16 left-1/2 transform -translate-x-1/2 w-full max-w-5xl px-4">
+            <form onSubmit={handleSearch} className="bg-white/98 backdrop-blur-md rounded-xl p-4 md:p-6 shadow-xl border border-white/20">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {/* Search Query */}
                 <div className="lg:col-span-2 relative">

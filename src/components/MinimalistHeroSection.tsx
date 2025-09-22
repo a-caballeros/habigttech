@@ -60,7 +60,7 @@ const MinimalistHeroSection = () => {
       </div>
 
       {/* Search Bar - Outside hero photo */}
-      <div className="bg-background py-8 md:py-12">
+      <div className="bg-background py-4 md:py-6">
         <div className="container mx-auto px-4">
           <form onSubmit={handleSearch} className="bg-card rounded-xl p-4 md:p-6 shadow-lg border max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">

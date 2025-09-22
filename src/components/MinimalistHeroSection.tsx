@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, ChevronDown, MapPin, Home, DollarSign } from "lucide-react";
+import { Search, ChevronDown, MapPin, Home } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import heroMainImage from "@/assets/hero-guatemala-main.png";
@@ -118,18 +118,18 @@ const MinimalistHeroSection = () => {
               
               {/* Price Range */}
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground font-semibold text-sm">Q</span>
                 <Select value={priceRange} onValueChange={setPriceRange}>
                   <SelectTrigger className="pl-10 h-12 rounded-lg">
                     <SelectValue placeholder="Precio" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="0-100000">GTQ0 - GTQ100,000</SelectItem>
-                    <SelectItem value="100000-300000">GTQ100,000 - GTQ300,000</SelectItem>
-                    <SelectItem value="300000-500000">GTQ300,000 - GTQ500,000</SelectItem>
-                    <SelectItem value="500000-1000000">GTQ500,000 - GTQ1,000,000</SelectItem>
-                    <SelectItem value="1000000-2000000">GTQ1,000,000 - GTQ2,000,000</SelectItem>
-                    <SelectItem value="2000000+">GTQ2,000,000+</SelectItem>
+                    <SelectItem value="0-100000">Q0 - Q100,000</SelectItem>
+                    <SelectItem value="100000-300000">Q100,000 - Q300,000</SelectItem>
+                    <SelectItem value="300000-500000">Q300,000 - Q500,000</SelectItem>
+                    <SelectItem value="500000-1000000">Q500,000 - Q1,000,000</SelectItem>
+                    <SelectItem value="1000000-2000000">Q1,000,000 - Q2,000,000</SelectItem>
+                    <SelectItem value="2000000+">Q2,000,000+</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

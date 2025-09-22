@@ -54,7 +54,7 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
           .from('properties')
           .select(`
             *,
-            profiles!properties_agent_id_fkey(
+            agent:profiles(
               id,
               full_name,
               avatar_url,
@@ -69,7 +69,7 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
 
         const propertiesWithAgents = (properties || []).map(property => ({
           ...property,
-          agent: property.profiles || null
+          agent: property.agent || null
         }));
 
         // Fetch stats

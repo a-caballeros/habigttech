@@ -11,11 +11,7 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSubscription } from "@/hooks/useSubscription";
 
-// Import images for property details demo
-import property1 from "@/assets/property1.jpg";
-import property2 from "@/assets/property2.jpg";
-import property3 from "@/assets/property3.jpg";
-import agent1 from "@/assets/agent1.jpg";
+import { supabase } from "@/integrations/supabase/client";
 
 type ViewType = 'home' | 'property-details' | 'agent-dashboard' | 'messages';
 type UserType = 'client' | 'agent';
@@ -28,46 +24,49 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<ViewType>('home');
   const [userType, setUserType] = useState<UserType>('client');
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
-  const [propertyCount, setPropertyCount] = useState(0);
-  const [agentCount, setAgentCount] = useState(0);
+  const [propertyData, setPropertyData] = useState<any>(null);
+  const [agentData, setAgentData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
-  // Real properties will be loaded from database
-  const sampleProperties: any[] = [];
+  const handlePropertyClick = async (propertyId: string) => {
+    setLoading(true);
+    try {
+      // Fetch property with agent data
+      const { data: property, error } = await supabase
+        .from('properties')
+        .select(`
+          *,
+          profiles(
+            id,
+            full_name,
+            avatar_url,
+            phone,
+            agency
+          )
+        `)
+        .eq('id', propertyId)
+        .single();
 
-  // Sample property for demo - will be replaced with real data
-  const propertyDetailsData = {
-    id: '1',
-    title: 'Casa Colonial con Jardín Privado',
-    price: 1500000,
-    location: 'Antigua Guatemala, Sacatepéquez',
-    bedrooms: 4,
-    bathrooms: 3,
-    area: 280,
-    property_type: 'casa',
-    images: [property1, property2, property3],
-    description: 'Hermosa casa colonial ubicada en el corazón de Antigua Guatemala. Esta propiedad única combina la arquitectura tradicional guatemalteca con comodidades modernas.',
-    amenities: ['piscina', 'jardin', 'cocina_equipada', 'terraza', 'seguridad_24_7', 'parqueo_techado', 'balcon'],
-    agent_id: 'sample-agent-id',
-    status: 'active',
-    created_at: new Date().toISOString()
-  };
+      if (error) throw error;
 
-  const agentDetailsData = {
-    id: 'sample-agent-id',
-    full_name: 'María González',
-    avatar_url: agent1,
-    phone: '+502 1234-5678',
-    agency: 'Premium Properties GT'
-  };
-
-  const handlePropertyClick = (propertyId: string) => {
-    setSelectedProperty(propertyId);
-    setCurrentView('property-details');
+      if (property) {
+        setPropertyData(property);
+        setAgentData(Array.isArray(property.profiles) ? property.profiles[0] : property.profiles);
+        setSelectedProperty(propertyId);
+        setCurrentView('property-details');
+      }
+    } catch (error) {
+      console.error('Error fetching property:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBackToHome = () => {
     setCurrentView('home');
     setSelectedProperty(null);
+    setPropertyData(null);
+    setAgentData(null);
   };
 
   // Check if user is super admin
@@ -99,10 +98,35 @@ const Index = () => {
   const renderCurrentView = () => {
     switch (currentView) {
       case 'property-details':
+        if (loading) {
+          return (
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-muted-foreground">Cargando propiedad...</p>
+              </div>
+            </div>
+          );
+        }
+        if (!propertyData || !agentData) {
+          return (
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-muted-foreground">Propiedad no encontrada</p>
+                <button 
+                  onClick={handleBackToHome}
+                  className="mt-4 text-primary hover:underline"
+                >
+                  Volver al inicio
+                </button>
+              </div>
+            </div>
+          );
+        }
         return (
           <PropertyDetails 
-            property={propertyDetailsData}
-            agent={agentDetailsData}
+            property={propertyData}
+            agent={agentData}
             onBack={handleBackToHome}
           />
         );

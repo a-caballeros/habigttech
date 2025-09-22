@@ -119,10 +119,10 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
         {/* Header Controls */}
         <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
           <Button 
-            variant="secondary" 
+            variant="default" 
             size="sm" 
             onClick={onBack}
-            className="bg-white/95 hover:bg-white text-foreground shadow-soft"
+            className="bg-background/90 hover:bg-background border border-border text-foreground shadow-lg"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
             Volver
@@ -130,18 +130,18 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
           
           <div className="flex space-x-2">
             <Button 
-              variant="secondary" 
+              variant="default" 
               size="sm"
               onClick={() => setIsFavorite(!isFavorite)}
-              className="bg-white/95 hover:bg-white text-foreground shadow-soft"
+              className="bg-background/90 hover:bg-background border border-border text-foreground shadow-lg"
             >
               <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-foreground'}`} />
             </Button>
             <Button 
-              variant="secondary" 
+              variant="default" 
               size="sm"
               onClick={handleShare}
-              className="bg-white/95 hover:bg-white text-foreground shadow-soft"
+              className="bg-background/90 hover:bg-background border border-border text-foreground shadow-lg"
             >
               <Share2 className="h-4 w-4" />
             </Button>

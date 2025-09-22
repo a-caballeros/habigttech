@@ -45,7 +45,7 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
           .from('properties')
           .select(`
             *,
-            agent:profiles(
+            agent:profiles!properties_agent_id_fkey(
               id,
               full_name,
               avatar_url,
@@ -62,7 +62,7 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
         console.log('Featured properties raw data:', data); // Debug log
         const processedData = (data || []).map(property => ({
           ...property,
-          agent: property.agent || null
+          agent: Array.isArray(property.agent) ? property.agent[0] : property.agent
         }));
         setFeaturedProperties(processedData);
       } catch (error) {

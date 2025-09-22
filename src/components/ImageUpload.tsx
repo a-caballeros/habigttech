@@ -10,6 +10,7 @@ interface ImageUploadProps {
   maxSize?: number; // in MB
   acceptedTypes?: string[];
   className?: string;
+  allowVideos?: boolean;
 }
 
 const ImageUpload = ({ 
@@ -17,18 +18,23 @@ const ImageUpload = ({
   maxFiles = 10, 
   maxSize = 5,
   acceptedTypes = ['image/jpeg', 'image/png', 'image/webp'],
-  className 
+  className,
+  allowVideos = false
 }: ImageUploadProps) => {
+  const defaultTypes = allowVideos 
+    ? ['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/webm', 'video/mov']
+    : ['image/jpeg', 'image/png', 'image/webp'];
+  const finalAcceptedTypes = acceptedTypes.length > 0 ? acceptedTypes : defaultTypes;
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const validateFile = (file: File): boolean => {
-    if (!acceptedTypes.includes(file.type)) {
+    if (!finalAcceptedTypes.includes(file.type)) {
       toast({
         title: "Tipo de archivo no válido",
-        description: `Solo se permiten archivos: ${acceptedTypes.join(', ')}`,
+        description: `Solo se permiten archivos: ${finalAcceptedTypes.join(', ')}`,
         variant: "destructive",
       });
       return false;
@@ -99,7 +105,7 @@ const ImageUpload = ({
         ref={fileInputRef}
         type="file"
         multiple
-        accept={acceptedTypes.join(',')}
+        accept={finalAcceptedTypes.join(',')}
         onChange={(e) => e.target.files && handleFileSelection(e.target.files)}
         className="hidden"
       />
@@ -117,15 +123,23 @@ const ImageUpload = ({
         onClick={() => fileInputRef.current?.click()}
       >
         <Upload className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-        <h3 className="text-lg font-medium mb-2">Subir fotografías</h3>
+        <h3 className="text-lg font-medium mb-2">
+          {allowVideos ? 'Subir fotografías y videos' : 'Subir fotografías'}
+        </h3>
         <p className="text-muted-foreground mb-4">
-          Arrastra y suelta tus fotos aquí, o haz clic para seleccionar
+          {allowVideos 
+            ? 'Arrastra y suelta tus fotos y videos aquí, o haz clic para seleccionar'
+            : 'Arrastra y suelta tus fotos aquí, o haz clic para seleccionar'
+          }
         </p>
         <Button variant="outline" type="button">
           Seleccionar Archivos
         </Button>
         <p className="text-sm text-muted-foreground mt-2">
-          JPG, PNG, WEBP hasta {maxSize}MB por archivo. Máximo {maxFiles} fotos.
+          {allowVideos 
+            ? `JPG, PNG, WEBP, MP4, WebM hasta ${maxSize}MB por archivo. Máximo ${maxFiles} archivos.`
+            : `JPG, PNG, WEBP hasta ${maxSize}MB por archivo. Máximo ${maxFiles} fotos.`
+          }
         </p>
       </div>
 
@@ -136,11 +150,20 @@ const ImageUpload = ({
             <Card key={index} className="relative overflow-hidden">
               <CardContent className="p-0">
                 <div className="aspect-square relative">
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
+                  {file.type.startsWith('video/') ? (
+                    <video
+                      src={URL.createObjectURL(file)}
+                      className="w-full h-full object-cover"
+                      controls={false}
+                      muted
+                    />
+                  ) : (
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
                   <Button
                     variant="destructive"
                     size="icon"

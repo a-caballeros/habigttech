@@ -388,16 +388,17 @@ const AddProperty = () => {
               </CardContent>
             </Card>
 
-            {/* Photos */}
+            {/* Photos and Videos */}
             <Card>
               <CardHeader>
-                <CardTitle>Fotografías de la Propiedad</CardTitle>
+                <CardTitle>Fotografías y Videos de la Propiedad</CardTitle>
               </CardHeader>
               <CardContent>
                 <ImageUpload
                   onImagesSelected={setSelectedImages}
                   maxFiles={10}
-                  maxSize={5}
+                  maxSize={20}
+                  allowVideos={true}
                 />
                 {selectedImages.length > 0 && (
                   <div className="mt-4 p-4 bg-muted/50 rounded-lg">

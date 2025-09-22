@@ -44,7 +44,15 @@ const AgentDashboard = () => {
       try {
         const { data, error } = await supabase
           .from('properties')
-          .select('*')
+          .select(`
+            *,
+            profiles(
+              id,
+              full_name,
+              avatar_url,
+              agency
+            )
+          `)
           .eq('agent_id', user.id)
           .order('created_at', { ascending: false });
 
@@ -120,7 +128,15 @@ const AgentDashboard = () => {
         try {
           const { data, error } = await supabase
             .from('properties')
-            .select('*')
+            .select(`
+              *,
+              profiles(
+                id,
+                full_name,
+                avatar_url,
+                agency
+              )
+            `)
             .eq('agent_id', user.id)
             .order('created_at', { ascending: false });
 

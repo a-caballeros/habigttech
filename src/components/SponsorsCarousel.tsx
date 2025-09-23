@@ -121,14 +121,14 @@ const SponsorsCarousel = () => {
             {sponsors.map((sponsor) => (
               <CarouselItem key={sponsor.id} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <Card 
-                  className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-primary/20"
+                  className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-primary/20 rounded-full overflow-hidden"
                   onClick={() => handleSponsorClick(sponsor.website_url)}
                 >
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <CardContent className="flex aspect-square items-center justify-center p-4">
                     <img
                       src={sponsor.logo_url}
                       alt={sponsor.name}
-                      className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
                         e.currentTarget.src = '/placeholder.svg';
                       }}

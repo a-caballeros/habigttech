@@ -59,6 +59,7 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Fetching properties for featured sections...');
         // Fetch recent properties with agents
         const { data: properties, error: propertiesError } = await supabase
           .from('properties')
@@ -75,7 +76,12 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
           .order('created_at', { ascending: false })
           .limit(6);
 
-        if (propertiesError) throw propertiesError;
+        if (propertiesError) {
+          console.error('Error fetching properties:', propertiesError);
+          throw propertiesError;
+        }
+
+        console.log('Fetched properties:', properties);
 
         const propertiesWithAgents = (properties || []).map(property => ({
           ...property,
@@ -96,6 +102,7 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
         setRecentProperties(propertiesWithAgents);
         setPropertyCount(propCount || 0);
         setAgentCount(agCount || 0);
+        console.log('Properties updated:', propertiesWithAgents.length);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -104,6 +111,23 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
     };
 
     fetchData();
+
+    // Set up real-time subscription for new properties
+    const channel = supabase
+      .channel('properties-changes')
+      .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'properties' }, 
+        (payload) => {
+          console.log('Property change detected:', payload);
+          // Refetch data when properties change
+          fetchData();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (

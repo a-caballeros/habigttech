@@ -42,6 +42,10 @@ const FAQ = () => {
     {
       question: "¿Habi.gt cobra comisiones por ventas?",
       answer: "No, Habi.gt no cobra comisiones por ventas. Solo cobramos la suscripción mensual según el plan elegido. Todas las comisiones de venta son entre el agente y su cliente."
+    },
+    {
+      question: "¿Habi.gt vende, alquila o compra propiedades?",
+      answer: "No, Habi.gt es únicamente una plataforma digital que conecta agentes inmobiliarios con potenciales clientes. No vendemos, alquilamos ni compramos propiedades directamente. Somos el intermediario tecnológico que facilita que los agentes promocionen sus propiedades y se conecten con interesados."
     }
   ];
 

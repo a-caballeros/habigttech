@@ -13,6 +13,9 @@ const HeroSection = () => {
   const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Debug logging
+  console.log('HeroSection auth state:', { profile, userType, hasProfile: !!profile });
+
   const handleAddProperty = () => {
     console.log('handleAddProperty called:', { userType, hasActiveSubscription, subscriptionLoading, role: profile?.role });
     

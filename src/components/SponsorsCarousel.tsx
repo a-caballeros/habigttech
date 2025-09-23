@@ -83,7 +83,21 @@ const SponsorsCarousel = () => {
   }
 
   if (sponsors.length === 0) {
-    return null; // Don't show the section if there are no sponsors
+    return (
+      <section className="container mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Patrocinadores</h2>
+          <p className="text-lg text-muted-foreground">
+            Nuestros socios estratégicos
+          </p>
+        </div>
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">
+            No hay patrocinadores registrados en este momento.
+          </p>
+        </div>
+      </section>
+    );
   }
 
   return (

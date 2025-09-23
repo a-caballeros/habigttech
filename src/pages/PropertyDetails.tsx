@@ -9,7 +9,7 @@ import {
   Bed, Bath, Square, Car, MapPin, 
   Phone, MessageCircle, Calendar,
   Wifi, Dumbbell, Waves, Shield, 
-  TreePine, PawPrint, Star
+  TreePine, PawPrint, Star, Building
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -319,13 +319,27 @@ const PropertyDetails = () => {
                     'piscina': { label: 'Piscina', icon: Waves },
                     'cocina_equipada': { label: 'Cocina Equipada', icon: Star },
                     'sala_equipada': { label: 'Sala Equipada', icon: Star },
-                    'cuartos_equipados': { label: 'Cuartos Equipados', icon: Bed },
+                    'habitaciones_equipadas': { label: 'Habitaciones Equipadas', icon: Bed },
                     'lavanderia_equipada': { label: 'Lavandería Equipada', icon: Star },
                     'seguridad_24_7': { label: 'Seguridad 24/7', icon: Shield },
                     'balcon': { label: 'Balcón', icon: TreePine },
                     'jardin': { label: 'Jardín', icon: TreePine },
                     'terraza': { label: 'Terraza', icon: TreePine },
-                    'parqueo_techado': { label: 'Parqueo Techado', icon: Car }
+                    'parqueo_techado': { label: 'Parqueo Techado', icon: Car },
+                    'parqueo': { label: 'Parqueo', icon: Car },
+                    'cocina': { label: 'Cocina', icon: Star },
+                    'lavanderia': { label: 'Lavandería', icon: Star },
+                    'sala': { label: 'Sala', icon: Star },
+                    'gimnasio': { label: 'Gimnasio', icon: Dumbbell },
+                    'pergola': { label: 'Pérgola', icon: TreePine },
+                    'salon_social': { label: 'Salón Social', icon: Building },
+                    'fire_pit': { label: 'Fire Pit', icon: Star },
+                    'banos_completos': { label: 'Baños Completos', icon: Star },
+                    'closet': { label: 'Closet', icon: Star },
+                    'cuarto_servicio': { label: 'Cuarto de Servicio', icon: Building },
+                    'bodega': { label: 'Bodega', icon: Building },
+                    'walking_closet': { label: 'Walking Closet', icon: Star },
+                    'churrasquera': { label: 'Churrasquera', icon: Star },
                   };
                   
                   const amenityInfo = amenityLabels[amenity as keyof typeof amenityLabels] || { label: amenity, icon: Star };

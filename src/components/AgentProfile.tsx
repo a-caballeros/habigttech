@@ -312,17 +312,22 @@ const AgentProfile = () => {
                               .from('avatars')
                               .getPublicUrl(filePath);
 
+                            console.log('Generated public URL:', publicUrl);
+
                             const { error: updateError } = await supabase
                               .from('profiles')
                               .update({ avatar_url: publicUrl })
                               .eq('id', user.id);
 
                             if (updateError) {
-                              console.error('Update error:', updateError);
+                              console.error('Profile update error:', updateError);
                               throw updateError;
                             }
 
+                            console.log('Profile updated successfully');
                             await refetchProfile?.();
+                            console.log('Profile refetched');
+                            
                             toast({
                               title: "Foto actualizada",
                               description: "Tu foto de perfil ha sido actualizada correctamente.",

@@ -31,6 +31,8 @@ const Index = () => {
   const handlePropertyClick = async (propertyId: string) => {
     setLoading(true);
     try {
+      console.log('Fetching property:', propertyId);
+      
       // Fetch property with agent data
       const { data: property, error } = await supabase
         .from('properties')
@@ -45,18 +47,33 @@ const Index = () => {
           )
         `)
         .eq('id', propertyId)
-        .single();
+        .eq('status', 'active')
+        .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
       if (property) {
+        console.log('Property found:', property);
         setPropertyData(property);
         setAgentData(Array.isArray(property.profiles) ? property.profiles[0] : property.profiles);
+        setSelectedProperty(propertyId);
+        setCurrentView('property-details');
+      } else {
+        console.log('Property not found for ID:', propertyId);
+        setPropertyData(null);
+        setAgentData(null);
         setSelectedProperty(propertyId);
         setCurrentView('property-details');
       }
     } catch (error) {
       console.error('Error fetching property:', error);
+      setPropertyData(null);
+      setAgentData(null);
+      setSelectedProperty(propertyId);
+      setCurrentView('property-details');
     } finally {
       setLoading(false);
     }

@@ -33,41 +33,47 @@ const Index = () => {
     try {
       console.log('Fetching property:', propertyId);
       
-      // Fetch property with agent data
-      const { data: property, error } = await supabase
+      // First fetch the property
+      const { data: property, error: propertyError } = await supabase
         .from('properties')
-        .select(`
-          *,
-          profiles(
-            id,
-            full_name,
-            avatar_url,
-            phone,
-            agency
-          )
-        `)
+        .select('*')
         .eq('id', propertyId)
         .eq('status', 'active')
         .maybeSingle();
 
-      if (error) {
-        console.error('Supabase error:', error);
-        throw error;
+      if (propertyError) {
+        console.error('Property error:', propertyError);
+        throw propertyError;
       }
 
-      if (property) {
-        console.log('Property found:', property);
-        setPropertyData(property);
-        setAgentData(Array.isArray(property.profiles) ? property.profiles[0] : property.profiles);
-        setSelectedProperty(propertyId);
-        setCurrentView('property-details');
-      } else {
+      if (!property) {
         console.log('Property not found for ID:', propertyId);
         setPropertyData(null);
         setAgentData(null);
         setSelectedProperty(propertyId);
         setCurrentView('property-details');
+        setLoading(false);
+        return;
       }
+
+      // Then fetch the agent profile separately
+      const { data: agent, error: agentError } = await supabase
+        .from('profiles')
+        .select('id, full_name, avatar_url, phone, agency')
+        .eq('id', property.agent_id)
+        .maybeSingle();
+
+      if (agentError) {
+        console.error('Agent error:', agentError);
+      }
+
+      console.log('Property found:', property);
+      console.log('Agent found:', agent);
+      
+      setPropertyData(property);
+      setAgentData(agent);
+      setSelectedProperty(propertyId);
+      setCurrentView('property-details');
     } catch (error) {
       console.error('Error fetching property:', error);
       setPropertyData(null);

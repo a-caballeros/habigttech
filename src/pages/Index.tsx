@@ -71,7 +71,23 @@ const Index = () => {
       console.log('Agent found:', agent);
       
       setPropertyData(property);
-      setAgentData(agent);
+      
+      // If agent not found, create a fallback agent object
+      if (!agent) {
+        console.warn('Agent profile not found for property, creating fallback');
+        setAgentData({
+          id: property.agent_id,
+          full_name: 'Agente no encontrado',
+          avatar_url: null,
+          phone: null,
+          agency: null,
+          email: null,
+          hide_email: true,
+          hide_phone: true
+        });
+      } else {
+        setAgentData(agent);
+      }
       setSelectedProperty(propertyId);
       setCurrentView('property-details');
     } catch (error) {

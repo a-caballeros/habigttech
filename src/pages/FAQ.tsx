@@ -17,7 +17,7 @@ const FAQ = () => {
     },
     {
       question: "¿Cuáles son los planes de suscripción disponibles?",
-      answer: "Ofrecemos tres planes: Plata (1 propiedad, Q99/mes), Oro (3 propiedades, Q199/mes) y Platino (propiedades ilimitadas, Q399/mes). Cada plan incluye diferentes beneficios y límites de publicación."
+      answer: "Ofrecemos cuatro planes: Bronce (3 propiedades, Q299/mes o Q2,988/año), Plata (5 propiedades, Q499/mes o Q4,988/año), Oro (7 propiedades, Q799/mes o Q7,988/año) y Platino (propiedades ilimitadas, Q1,299/mes o Q12,988/año). Cada plan incluye diferentes beneficios y límites de publicación."
     },
     {
       question: "¿Cómo publico una propiedad?",

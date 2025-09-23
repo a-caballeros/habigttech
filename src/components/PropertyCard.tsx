@@ -78,12 +78,20 @@ const PropertyCard = ({
       <div className="relative overflow-hidden">
         {/* Image Carousel */}
         <div className="aspect-[4/3] bg-muted relative">
+          {(() => {
+            console.log('PropertyCard - Rendering image for property:', title, 'Images array:', images);
+            return null;
+          })()}
           <img 
             src={images && Array.isArray(images) && images.length > 0 ? images[currentImageIndex] : '/placeholder.svg'} 
             alt={title}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             onError={(e) => {
+              console.log('PropertyCard - Image failed to load:', e.currentTarget.src);
               e.currentTarget.src = '/placeholder.svg';
+            }}
+            onLoad={() => {
+              console.log('PropertyCard - Image loaded successfully:', images?.[currentImageIndex]);
             }}
           />
           

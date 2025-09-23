@@ -17,6 +17,8 @@ interface Profile {
   budget_max?: number | null;
   preferred_location?: string | null;
   preferred_property_type?: string | null;
+  hide_email?: boolean;
+  hide_phone?: boolean;
   created_at: string;
   updated_at: string;
 }

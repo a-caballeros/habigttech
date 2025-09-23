@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface PropertyCardProps {
   id: string;
@@ -18,6 +19,8 @@ interface PropertyCardProps {
   agent: {
     full_name: string;
     avatar_url: string | null;
+    hide_phone?: boolean;
+    hide_email?: boolean;
   } | null;
   promoted?: boolean;
   isFavorite?: boolean;
@@ -38,6 +41,7 @@ const PropertyCard = ({
   isFavorite = false,
   onClick
 }: PropertyCardProps) => {
+  const { user } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [favorite, setFavorite] = useState(isFavorite);
   const [avatarCacheKey, setAvatarCacheKey] = useState(Date.now());
@@ -52,6 +56,15 @@ const PropertyCard = ({
   }, []);
 
   const handleAgentContact = () => {
+    if (!user) {
+      toast({
+        title: "Inicia sesión requerida",
+        description: "Debes iniciar sesión para contactar al agente.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     if (agent) {
       toast({
         title: "Contactar agente",
@@ -192,17 +205,29 @@ const PropertyCard = ({
                   <span className="text-xs text-muted-foreground">Agente</span>
                 </div>
               </div>
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="text-xs px-3 py-1"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAgentContact();
-                }}
-              >
-                Contactar
-              </Button>
+              {user ? (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="text-xs px-3 py-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAgentContact();
+                  }}
+                >
+                  Contactar
+                </Button>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="text-xs px-3 py-1 opacity-50"
+                  disabled
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Inicia sesión
+                </Button>
+              )}
             </div>
           )}
         </CardContent>

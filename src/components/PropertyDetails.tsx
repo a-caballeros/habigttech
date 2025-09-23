@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   ArrowLeft, Heart, Share2, Play, Eye, 
   Bed, Bath, Square, Car, MapPin, 
@@ -35,11 +36,15 @@ interface PropertyDetailsProps {
     avatar_url: string | null;
     phone: string | null;
     agency: string | null;
+    email?: string | null;
+    hide_email?: boolean;
+    hide_phone?: boolean;
   };
   onBack?: () => void;
 }
 
 const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
+  const { user } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -69,22 +74,52 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
   };
 
   const handleCall = () => {
-    if (agent?.phone) {
+    if (!user) {
+      toast({
+        title: "Inicia sesión requerida",
+        description: "Debes iniciar sesión para contactar al agente.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (agent?.phone && !agent.hide_phone) {
       window.open(`tel:${agent.phone}`, '_self');
       toast({
         title: "Iniciando llamada",
         description: `Llamando a ${agent.full_name}...`,
       });
+    } else {
+      toast({
+        title: "Teléfono no disponible",
+        description: "El agente ha optado por mantener su teléfono privado.",
+        variant: "destructive"
+      });
     }
   };
 
   const handleMessage = () => {
-    if (agent?.phone) {
+    if (!user) {
+      toast({
+        title: "Inicia sesión requerida",
+        description: "Debes iniciar sesión para contactar al agente.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (agent?.phone && !agent.hide_phone) {
       const whatsappUrl = `https://wa.me/${agent.phone.replace(/[^\d]/g, '')}?text=Hola, estoy interesado en la propiedad "${property.title}"`;
       window.open(whatsappUrl, '_blank');
       toast({
         title: "Abriendo WhatsApp",
         description: `Iniciando conversación con ${agent.full_name}`,
+      });
+    } else {
+      toast({
+        title: "Contacto no disponible",
+        description: "El agente ha optado por mantener su información de contacto privada.",
+        variant: "destructive"
       });
     }
   };
@@ -322,20 +357,43 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
                 {agent.agency && (
                   <p className="text-sm text-muted-foreground mb-1">{agent.agency}</p>
                 )}
-                <div className="flex flex-wrap gap-2 mt-3">
-                  <Button size="sm" className="flex items-center" onClick={handleCall}>
-                    <Phone className="h-4 w-4 mr-1" />
-                    <span className="text-white">Llamar</span>
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex items-center" onClick={handleMessage}>
-                    <MessageCircle className="h-4 w-4 mr-1" />
-                    <span>Mensaje</span>
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex items-center" onClick={handleScheduleVisit}>
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>Agendar Visita</span>
-                  </Button>
-                </div>
+                 {user ? (
+                   <div className="flex flex-wrap gap-2 mt-3">
+                     {(!agent.hide_phone && agent.phone) ? (
+                       <Button size="sm" className="flex items-center" onClick={handleCall}>
+                         <Phone className="h-4 w-4 mr-1" />
+                         <span className="text-white">Llamar</span>
+                       </Button>
+                     ) : (
+                       <Button size="sm" disabled className="flex items-center opacity-50">
+                         <Phone className="h-4 w-4 mr-1" />
+                         <span className="text-white">Privado</span>
+                       </Button>
+                     )}
+                     {(!agent.hide_phone && agent.phone) ? (
+                       <Button variant="outline" size="sm" className="flex items-center" onClick={handleMessage}>
+                         <MessageCircle className="h-4 w-4 mr-1" />
+                         <span>Mensaje</span>
+                       </Button>
+                     ) : (
+                       <Button variant="outline" size="sm" disabled className="flex items-center opacity-50">
+                         <MessageCircle className="h-4 w-4 mr-1" />
+                         <span>Privado</span>
+                       </Button>
+                     )}
+                     <Button variant="outline" size="sm" className="flex items-center" onClick={handleScheduleVisit}>
+                       <Calendar className="h-4 w-4 mr-1" />
+                       <span>Agendar Visita</span>
+                     </Button>
+                   </div>
+                 ) : (
+                   <div className="flex flex-wrap gap-2 mt-3">
+                     <Button variant="outline" size="sm" disabled className="flex items-center opacity-50">
+                       <Phone className="h-4 w-4 mr-1" />
+                       <span>Inicia sesión para contactar</span>
+                     </Button>
+                   </div>
+                 )}
               </div>
             </div>
           </CardContent>

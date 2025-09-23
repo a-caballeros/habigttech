@@ -56,10 +56,10 @@ const Index = () => {
         return;
       }
 
-      // Then fetch the agent profile separately
+      // Then fetch the agent profile separately with privacy settings
       const { data: agent, error: agentError } = await supabase
         .from('profiles')
-        .select('id, full_name, avatar_url, phone, agency')
+        .select('id, full_name, avatar_url, phone, agency, email, hide_email, hide_phone')
         .eq('id', property.agent_id)
         .maybeSingle();
 

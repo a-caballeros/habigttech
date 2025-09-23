@@ -151,6 +151,8 @@ export type Database = {
           created_at: string
           email: string | null
           full_name: string | null
+          hide_email: boolean | null
+          hide_phone: boolean | null
           id: string
           license_number: string | null
           phone: string | null
@@ -168,6 +170,8 @@ export type Database = {
           created_at?: string
           email?: string | null
           full_name?: string | null
+          hide_email?: boolean | null
+          hide_phone?: boolean | null
           id: string
           license_number?: string | null
           phone?: string | null
@@ -185,6 +189,8 @@ export type Database = {
           created_at?: string
           email?: string | null
           full_name?: string | null
+          hide_email?: boolean | null
+          hide_phone?: boolean | null
           id?: string
           license_number?: string | null
           phone?: string | null

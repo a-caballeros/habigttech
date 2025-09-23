@@ -8,6 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Plus, BarChart3, MessageCircle, Upload } from "lucide-react";
 import { BusinessIcon, StarIcon, MobileIcon, TeamIcon } from "@/components/icons/ProfessionalIcons";
 import { useNavigate } from "react-router-dom";
+import AgentPrivacySettings from "./AgentPrivacySettings";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -439,6 +440,9 @@ const AgentProfile = () => {
               </div>
             </CardContent>
           </Card>
+          
+          {/* Privacy Settings */}
+          <AgentPrivacySettings />
         </div>
       </div>
     </div>

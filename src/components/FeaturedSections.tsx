@@ -69,7 +69,9 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
               id,
               full_name,
               avatar_url,
-              agency
+              agency,
+              hide_email,
+              hide_phone
             )
           `)
           .eq('status', 'active')

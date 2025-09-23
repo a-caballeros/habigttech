@@ -31,9 +31,17 @@ import Contact from "./pages/Contact";
 import Support from "./pages/Support";
 import PropertyDetails from "./pages/PropertyDetails";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
-const App = () => (
+const App = () => {
+  return (
   <QueryClientProvider client={queryClient}>
     <PerformanceMonitor />
     <AuthProvider>
@@ -103,7 +111,8 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
-  </QueryClientProvider>
-);
+    </QueryClientProvider>
+  );
+};
 
 export default App;

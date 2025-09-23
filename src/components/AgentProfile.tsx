@@ -260,7 +260,7 @@ const AgentProfile = () => {
                   className="w-20 h-20 rounded-full object-cover"
                 />
                 <div className="flex-1">
-                <Button 
+                  <Button 
                     variant="outline" 
                     className="flex items-center gap-2"
                     onClick={async () => {
@@ -272,15 +272,41 @@ const AgentProfile = () => {
                         const file = (e.target as HTMLInputElement).files?.[0];
                         if (file && user) {
                           try {
+                            // Validate file size (max 2MB)
+                            if (file.size > 2 * 1024 * 1024) {
+                              toast({
+                                title: "Error",
+                                description: "La imagen debe ser menor a 2MB.",
+                                variant: "destructive",
+                              });
+                              return;
+                            }
+
                             const fileExt = file.name.split('.').pop();
                             const fileName = `${user.id}.${fileExt}`;
-                            const filePath = `avatars/${fileName}`;
+                            const filePath = `${user.id}/${fileName}`;
+
+                            // Delete existing avatar if it exists
+                            try {
+                              await supabase.storage
+                                .from('avatars')
+                                .remove([filePath]);
+                            } catch (deleteError) {
+                              // Ignore delete errors - file might not exist
+                              console.log('No existing avatar to delete');
+                            }
 
                             const { error: uploadError } = await supabase.storage
                               .from('avatars')
-                              .upload(filePath, file, { upsert: true });
+                              .upload(filePath, file, { 
+                                upsert: true,
+                                contentType: file.type 
+                              });
 
-                            if (uploadError) throw uploadError;
+                            if (uploadError) {
+                              console.error('Upload error:', uploadError);
+                              throw uploadError;
+                            }
 
                             const { data: { publicUrl } } = supabase.storage
                               .from('avatars')
@@ -291,18 +317,21 @@ const AgentProfile = () => {
                               .update({ avatar_url: publicUrl })
                               .eq('id', user.id);
 
-                            if (updateError) throw updateError;
+                            if (updateError) {
+                              console.error('Update error:', updateError);
+                              throw updateError;
+                            }
 
                             await refetchProfile?.();
                             toast({
                               title: "Foto actualizada",
                               description: "Tu foto de perfil ha sido actualizada correctamente.",
                             });
-                          } catch (error) {
+                          } catch (error: any) {
                             console.error('Error uploading avatar:', error);
                             toast({
                               title: "Error",
-                              description: "No se pudo actualizar la foto de perfil.",
+                              description: `No se pudo actualizar la foto de perfil: ${error.message || 'Error desconocido'}`,
                               variant: "destructive",
                             });
                           }

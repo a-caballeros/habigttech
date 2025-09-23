@@ -46,14 +46,14 @@ const MinimalistHeroSection = () => {
 
 
   return (
-    <section className="relative min-h-screen bg-background">
+    <section className="relative bg-background">
       {/* Main Hero Image */}
-      <div className="relative h-screen">
-        <div className="relative h-screen overflow-hidden">
+      <div className="relative h-[60vh] md:h-[70vh]">
+        <div className="relative h-full overflow-hidden">
           <img
             src={heroMainImage}
             alt="Guatemala City skyline with Habi.gt logo"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
           

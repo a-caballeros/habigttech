@@ -57,25 +57,41 @@ const HeroSection = () => {
           </p>
         </div>
 
-        {/* Join Buttons */}
-        <div className="max-w-2xl mx-auto mb-12 text-center px-4">
-          <div className="flex flex-col sm:flex-row gap-4">
+        {/* Join Buttons - Only show for non-authenticated users */}
+        {!profile && (
+          <div className="max-w-2xl mx-auto mb-12 text-center px-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button 
+                size="lg" 
+                className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
+                onClick={() => navigate('/auth?userType=agent')}
+              >
+                Registrame como Agente
+              </Button>
+              <Button 
+                size="lg" 
+                className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
+                onClick={() => navigate('/auth?userType=client')}
+              >
+                Registrarme como Cliente
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Add Property Button for Agents */}
+        {profile && userType === 'agent' && (
+          <div className="max-w-md mx-auto mb-12 text-center px-4">
             <Button 
               size="lg" 
-              className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
-              onClick={() => navigate('/auth?userType=agent')}
+              className="w-full px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
+              onClick={handleAddProperty}
             >
-              Registrame como Agente
-            </Button>
-            <Button 
-              size="lg" 
-              className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
-              onClick={() => navigate('/auth?userType=client')}
-            >
-              Registrarme como Cliente
+              <Plus className="mr-2 h-5 w-5" />
+              Agregar Propiedad
             </Button>
           </div>
-        </div>
+        )}
 
       </div>
 

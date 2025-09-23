@@ -120,12 +120,17 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
       .on('postgres_changes', 
         { event: '*', schema: 'public', table: 'properties' }, 
         (payload) => {
-          console.log('Property change detected:', payload);
+          console.log('🔄 Property change detected via realtime:', payload);
+          console.log('🔄 Change type:', payload.eventType);
+          console.log('🔄 Change data:', payload.new || payload.old);
           // Refetch data when properties change
+          console.log('🔄 Refetching properties due to realtime change...');
           fetchData();
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log('🔄 Real-time subscription status:', status);
+      });
 
     return () => {
       supabase.removeChannel(channel);

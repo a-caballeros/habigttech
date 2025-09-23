@@ -103,18 +103,28 @@ const AddProperty = () => {
     try {
       // First upload images if any
       let imageUrls: string[] = [];
+      console.log('Starting image upload process, images selected:', selectedImages.length);
+      
       if (selectedImages.length > 0) {
-        for (const image of selectedImages) {
+        for (const [index, image] of selectedImages.entries()) {
+          console.log(`Uploading image ${index + 1}/${selectedImages.length}:`, image.name);
           const fileExt = image.name.split('.').pop();
           const fileName = `${Math.random()}.${fileExt}`;
           const filePath = `properties/${fileName}`;
 
-          const { error: uploadError } = await supabase.storage
+          const { error: uploadError, data: uploadData } = await supabase.storage
             .from('property-images')
             .upload(filePath, image);
 
+          console.log(`Image ${index + 1} upload result:`, { uploadError, uploadData });
+
           if (uploadError) {
             console.error('Error uploading image:', uploadError);
+            toast({
+              title: "Error de imagen",
+              description: `No se pudo subir la imagen ${image.name}: ${uploadError.message}`,
+              variant: "destructive",
+            });
             continue; // Skip this image and continue with others
           }
 
@@ -122,9 +132,12 @@ const AddProperty = () => {
             .from('property-images')
             .getPublicUrl(filePath);
 
+          console.log(`Image ${index + 1} public URL:`, publicUrl);
           imageUrls.push(publicUrl);
         }
       }
+      
+      console.log('Final image URLs array:', imageUrls);
 
       console.log('Saving property with data:', {
         title: data.title,

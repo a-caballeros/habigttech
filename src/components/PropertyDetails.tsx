@@ -354,8 +354,14 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
               />
               <div className="flex-1">
                 <h4 className="font-semibold text-foreground">{agent.full_name}</h4>
-                {agent.agency && (
+                 {agent.agency && (
                   <p className="text-sm text-muted-foreground mb-1">{agent.agency}</p>
+                )}
+                {user && !agent.hide_email && agent.email && (
+                  <p className="text-sm text-muted-foreground mb-1">{agent.email}</p>
+                )}
+                {user && !agent.hide_phone && agent.phone && (
+                  <p className="text-sm text-muted-foreground mb-1">{agent.phone}</p>
                 )}
                  {user ? (
                    <div className="flex flex-wrap gap-2 mt-3">

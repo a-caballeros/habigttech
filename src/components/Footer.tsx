@@ -72,6 +72,26 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      
+      {/* Metricool Analytics Tracking Script */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            function loadScript(a){
+              var b=document.getElementsByTagName("head")[0],
+              c=document.createElement("script");
+              c.type="text/javascript",
+              c.src="https://tracker.metricool.com/resources/be.js",
+              c.onreadystatechange=a,
+              c.onload=a,
+              b.appendChild(c)
+            }
+            loadScript(function(){
+              beTracker.t({hash:"107c8b1d7c7f6f6e052b80592fb2ea42"})
+            });
+          `
+        }}
+      />
     </footer>;
 };
 export default Footer;

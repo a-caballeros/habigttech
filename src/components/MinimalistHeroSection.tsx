@@ -1,18 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, ChevronDown, MapPin, Home } from "lucide-react";
+import { Search, ChevronDown, MapPin, Home, Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSubscription } from "@/hooks/useSubscription";
 import heroMainImage from "@/assets/hero-guatemala-main.png";
 
 
 const MinimalistHeroSection = () => {
   const navigate = useNavigate();
+  const { userType, profile } = useAuth();
+  const { hasActiveSubscription, loading: subscriptionLoading } = useSubscription();
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("");
   const [propertyType, setPropertyType] = useState("");
   const [priceRange, setPriceRange] = useState("");
+
+  const handleAddProperty = () => {
+    // Super admin bypass subscription check
+    if (profile?.role === 'admin') {
+      navigate('/add-property');
+      return;
+    }
+    
+    if (userType === 'agent' && !subscriptionLoading && !hasActiveSubscription) {
+      navigate('/subscription');
+    } else {
+      navigate('/add-property');
+    }
+  };
 
 
   const handleSearch = (e: React.FormEvent) => {
@@ -49,8 +67,43 @@ const MinimalistHeroSection = () => {
                 Miles de propiedades te esperan en Guatemala
               </p>
             </div>
+
+            {/* Join Buttons - Only show for non-authenticated users */}
+            {!profile && (
+              <div className="max-w-2xl mx-auto mb-8 text-center px-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    size="lg" 
+                    className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
+                    onClick={() => navigate('/auth?userType=agent')}
+                  >
+                    Registrame como Agente
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    className="flex-1 px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
+                    onClick={() => navigate('/auth?userType=client')}
+                  >
+                    Registrarme como Cliente
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Quick Add Property Button for Agents */}
+            {profile && userType === 'agent' && (
+              <div className="max-w-md mx-auto mb-8 text-center px-4">
+                <Button 
+                  size="lg" 
+                  className="w-full px-6 py-4 text-lg font-semibold shadow-lg bg-primary hover:bg-primary/90 text-white"
+                  onClick={handleAddProperty}
+                >
+                  <Plus className="mr-2 h-5 w-5" />
+                  Agregar Propiedad
+                </Button>
+              </div>
+            )}
           </div>
-          
         </div>
       </div>
 

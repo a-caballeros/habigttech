@@ -41,6 +41,11 @@ const AddProperty = () => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
+  const handleImageSelection = (images: File[]) => {
+    console.log('📸 Images selected in AddProperty:', images.length, images.map(img => img.name));
+    setSelectedImages(images);
+  };
+
   // Redirect non-agents
   if (userType !== 'agent') {
     return (
@@ -97,7 +102,14 @@ const AddProperty = () => {
   const selectedPropertyType = form.watch("property_type");
 
   const onSubmit = async (data: PropertyForm) => {
-    if (!user) return;
+    if (!user) {
+      console.error('No user found when trying to submit property');
+      return;
+    }
+    
+    console.log('🚀 Starting property submission with user:', user.id);
+    console.log('🚀 Selected images count:', selectedImages.length);
+    console.log('🚀 Selected images:', selectedImages.map(img => ({ name: img.name, size: img.size, type: img.type })));
     
     setIsLoading(true);
     try {
@@ -169,9 +181,16 @@ const AddProperty = () => {
         .insert(propertyData)
         .select();
 
-      console.log('Insert result:', { error, insertedData }); // Debug log
+      console.log('✅ Insert result:', { error, insertedData }); // Debug log
+      
+      if (insertedData && insertedData.length > 0) {
+        console.log('✅ Property created successfully with images:', insertedData[0].images);
+      }
 
-      if (error) throw error;
+      if (error) {
+        console.error('❌ Error inserting property:', error);
+        throw error;
+      }
 
       toast({
         title: "Propiedad creada",
@@ -422,7 +441,7 @@ const AddProperty = () => {
               </CardHeader>
               <CardContent>
                 <ImageUpload
-                  onImagesSelected={setSelectedImages}
+                  onImagesSelected={handleImageSelection}
                   maxFiles={10}
                   maxSize={20}
                   allowVideos={true}

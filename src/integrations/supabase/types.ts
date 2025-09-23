@@ -270,6 +270,42 @@ export type Database = {
           },
         ]
       }
+      sponsors: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          display_order: number | null
+          id: string
+          is_active: boolean
+          logo_url: string
+          name: string
+          updated_at: string
+          website_url: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean
+          logo_url: string
+          name: string
+          updated_at?: string
+          website_url: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          display_order?: number | null
+          id?: string
+          is_active?: boolean
+          logo_url?: string
+          name?: string
+          updated_at?: string
+          website_url?: string
+        }
+        Relationships: []
+      }
       subscription_tiers: {
         Row: {
           annual_price: number

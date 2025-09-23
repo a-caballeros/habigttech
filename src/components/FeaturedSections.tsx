@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import FeaturedPropertiesSection from "./FeaturedPropertiesSection";
+import SponsorsCarousel from "./SponsorsCarousel";
 
 interface Property {
   id: string;
@@ -327,48 +328,8 @@ const FeaturedSections = ({ onPropertyClick }: FeaturedSectionsProps) => {
         </div>
       </section>
 
-      {/* Registration Sections */}
-      <section className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Únete a Habi.gt</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Forma parte de la comunidad inmobiliaria líder de Guatemala
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {/* Agent Registration */}
-          <Card className="group relative overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-            <CardContent className="relative p-8 text-center">
-              <div className="text-6xl mb-8">🏢</div>
-              <Button 
-                size="lg" 
-                className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={() => navigate('/auth?type=agent')}
-              >
-                Registrarme como Agente
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Client Registration */}
-          <Card className="group relative overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-            <CardContent className="relative p-8 text-center">
-              <div className="text-6xl mb-8">🏠</div>
-              <Button 
-                size="lg" 
-                className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl py-6 font-semibold text-lg group-hover:scale-105"
-                onClick={() => navigate('/auth?type=client')}
-              >
-                Registrarme como Cliente
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+      {/* Sponsors Carousel */}
+      <SponsorsCarousel />
     </div>
   );
 };

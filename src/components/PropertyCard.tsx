@@ -2,7 +2,7 @@ import { Heart, MapPin, Bed, Bath, Square, Car, Eye, Star, MessageCircle } from 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 
 interface PropertyCardProps {
@@ -40,6 +40,16 @@ const PropertyCard = ({
 }: PropertyCardProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [favorite, setFavorite] = useState(isFavorite);
+  const [avatarCacheKey, setAvatarCacheKey] = useState(Date.now());
+
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      setAvatarCacheKey(Date.now());
+    };
+
+    window.addEventListener('avatar-updated', handleAvatarUpdate);
+    return () => window.removeEventListener('avatar-updated', handleAvatarUpdate);
+  }, []);
 
   const handleAgentContact = () => {
     if (agent) {
@@ -173,7 +183,7 @@ const PropertyCard = ({
             <div className="flex items-center justify-between pt-4">
               <div className="flex items-center space-x-2">
                 <img 
-                  src={agent.avatar_url || '/placeholder.svg'} 
+                  src={agent.avatar_url ? `${agent.avatar_url}?t=${avatarCacheKey}` : '/placeholder.svg'} 
                   alt={agent.full_name}
                   className="w-8 h-8 rounded-full object-cover"
                 />

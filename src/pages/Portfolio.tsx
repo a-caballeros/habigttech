@@ -8,7 +8,7 @@ import Navigation from "@/components/Navigation";
 
 const Portfolio = () => {
   const navigate = useNavigate();
-  const { profile } = useAuth();
+  const { profile, avatarCacheKey } = useAuth();
 
   const stats = [
     { label: "Propiedades Vendidas", value: "0", icon: Building },
@@ -45,7 +45,7 @@ const Portfolio = () => {
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-shrink-0">
                   <img
-                    src={profile?.avatar_url || "/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png"}
+                    src={profile?.avatar_url ? `${profile.avatar_url}?t=${avatarCacheKey}` : "/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png"}
                     alt="Foto del agente"
                     className="w-32 h-32 rounded-lg object-cover"
                   />

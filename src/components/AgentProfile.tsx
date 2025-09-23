@@ -30,7 +30,7 @@ type AgentProfileForm = z.infer<typeof agentProfileSchema>;
 
 const AgentProfile = () => {
   const navigate = useNavigate();
-  const { user, profile, refetchProfile } = useAuth();
+  const { user, profile, refetchProfile, refreshAllAvatars, avatarCacheKey } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { isApproved } = useAgentApproval();
@@ -255,10 +255,10 @@ const AgentProfile = () => {
             <CardContent>
               <div className="flex items-center gap-4">
                 <img
-                  src={profile?.avatar_url ? `${profile.avatar_url}?t=${new Date().getTime()}` : "/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png"}
+                  src={profile?.avatar_url ? `${profile.avatar_url}?t=${avatarCacheKey}` : "/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png"}
                   alt="Avatar"
                   className="w-20 h-20 rounded-full object-cover"
-                  key={profile?.avatar_url || 'default'}
+                  key={`${profile?.avatar_url || 'default'}-${avatarCacheKey}`}
                 />
                 <div className="flex-1">
                   <Button 
@@ -331,10 +331,8 @@ const AgentProfile = () => {
                             await refetchProfile?.();
                             console.log('Profile refetched');
                             
-                            // Force image refresh by updating the src
-                            setTimeout(() => {
-                              window.location.reload();
-                            }, 1000);
+                            // Refresh all avatars globally
+                            refreshAllAvatars?.();
                             
                             toast({
                               title: "Foto actualizada",

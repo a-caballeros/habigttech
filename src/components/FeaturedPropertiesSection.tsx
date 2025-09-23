@@ -37,6 +37,16 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
   const [featuredProperties, setFeaturedProperties] = useState<FeaturedProperty[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [avatarCacheKey, setAvatarCacheKey] = useState(Date.now());
+
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      setAvatarCacheKey(Date.now());
+    };
+
+    window.addEventListener('avatar-updated', handleAvatarUpdate);
+    return () => window.removeEventListener('avatar-updated', handleAvatarUpdate);
+  }, []);
 
   useEffect(() => {
     const fetchFeaturedProperties = async () => {
@@ -218,7 +228,7 @@ const FeaturedPropertiesSection = ({ onPropertyClick }: FeaturedPropertiesSectio
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
                     <div className="flex items-center gap-2">
                       <img 
-                        src={property.agent.avatar_url || '/placeholder.svg'}
+                        src={property.agent.avatar_url ? `${property.agent.avatar_url}?t=${avatarCacheKey}` : '/placeholder.svg'}
                         alt={property.agent.full_name || 'Agente'}
                         className="w-6 h-6 rounded-full object-cover"
                         onError={(e) => {

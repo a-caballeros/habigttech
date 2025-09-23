@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -43,6 +43,16 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [avatarCacheKey, setAvatarCacheKey] = useState(Date.now());
+
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      setAvatarCacheKey(Date.now());
+    };
+
+    window.addEventListener('avatar-updated', handleAvatarUpdate);
+    return () => window.removeEventListener('avatar-updated', handleAvatarUpdate);
+  }, []);
 
   const handleShare = () => {
     navigator.share?.({
@@ -303,7 +313,7 @@ const PropertyDetails = ({ property, agent, onBack }: PropertyDetailsProps) => {
             <h3 className="text-lg font-semibold mb-4">Información del Agente</h3>
             <div className="flex items-start space-x-4">
               <img 
-                src={agent.avatar_url || '/placeholder.svg'}
+                src={agent.avatar_url ? `${agent.avatar_url}?t=${avatarCacheKey}` : '/placeholder.svg'}
                 alt={agent.full_name || 'Agente'}
                 className="w-16 h-16 rounded-full object-cover"
               />

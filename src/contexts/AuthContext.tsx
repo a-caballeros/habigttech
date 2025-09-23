@@ -34,6 +34,8 @@ interface AuthContextType {
   sendOTP: (phone: string) => Promise<{ error: any }>;
   verifyOTP: (phone: string, token: string) => Promise<{ error: any }>;
   refetchProfile: () => Promise<void>;
+  avatarCacheKey: number;
+  refreshAllAvatars: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -55,6 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [avatarCacheKey, setAvatarCacheKey] = useState(Date.now());
   const { toast } = useToast();
 
   const userType: 'client' | 'agent' | 'admin' = profile?.user_type as 'client' | 'agent' | 'admin' || 'client';
@@ -387,6 +390,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const refreshAllAvatars = () => {
+    setAvatarCacheKey(Date.now());
+    // Force a global state refresh for all avatar-displaying components
+    window.dispatchEvent(new CustomEvent('avatar-updated', { 
+      detail: { userId: user?.id, timestamp: Date.now() } 
+    }));
+  };
+
   const value = {
     user,
     session,
@@ -400,6 +411,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     sendOTP,
     verifyOTP,
     refetchProfile,
+    avatarCacheKey,
+    refreshAllAvatars,
   };
 
   return (

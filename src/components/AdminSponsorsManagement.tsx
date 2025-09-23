@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Trash2, Plus, Edit, ExternalLink, Image } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import LogoUpload from './LogoUpload';
 
 interface Sponsor {
   id: string;
@@ -30,6 +31,7 @@ const AdminSponsorsManagement = () => {
     website_url: '',
     display_order: 0,
   });
+  const [useManualUrl, setUseManualUrl] = useState(false);
   const { toast } = useToast();
 
   const fetchSponsors = async () => {
@@ -121,6 +123,7 @@ const AdminSponsorsManagement = () => {
       setNewSponsor({ name: '', logo_url: '', website_url: '', display_order: 0 });
       setEditingSponsor(null);
       setIsAddDialogOpen(false);
+      setUseManualUrl(false);
       fetchSponsors();
     } catch (error) {
       console.error('Error saving sponsor:', error);
@@ -140,6 +143,7 @@ const AdminSponsorsManagement = () => {
       website_url: sponsor.website_url,
       display_order: sponsor.display_order,
     });
+    setUseManualUrl(true); // Default to manual URL when editing
     setIsAddDialogOpen(true);
   };
 
@@ -200,6 +204,7 @@ const AdminSponsorsManagement = () => {
   const resetForm = () => {
     setNewSponsor({ name: '', logo_url: '', website_url: '', display_order: 0 });
     setEditingSponsor(null);
+    setUseManualUrl(false);
   };
 
   return (
@@ -238,16 +243,40 @@ const AdminSponsorsManagement = () => {
                   required
                 />
               </div>
-              <div>
-                <Label htmlFor="logo_url">URL del Logo</Label>
-                <Input
-                  id="logo_url"
-                  value={newSponsor.logo_url}
-                  onChange={(e) => setNewSponsor({ ...newSponsor, logo_url: e.target.value })}
-                  placeholder="https://ejemplo.com/logo.png"
-                  required
-                />
+              
+              {/* Logo Upload Section */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label>Logo del Patrocinador</Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setUseManualUrl(!useManualUrl)}
+                  >
+                    {useManualUrl ? 'Subir Archivo' : 'Ingresar URL'}
+                  </Button>
+                </div>
+                
+                {useManualUrl ? (
+                  <div>
+                    <Label htmlFor="logo_url">URL del Logo</Label>
+                    <Input
+                      id="logo_url"
+                      value={newSponsor.logo_url}
+                      onChange={(e) => setNewSponsor({ ...newSponsor, logo_url: e.target.value })}
+                      placeholder="https://ejemplo.com/logo.png"
+                      required
+                    />
+                  </div>
+                ) : (
+                  <LogoUpload
+                    onLogoUploaded={(url) => setNewSponsor({ ...newSponsor, logo_url: url })}
+                    currentLogoUrl={newSponsor.logo_url}
+                  />
+                )}
               </div>
+              
               <div>
                 <Label htmlFor="website_url">URL del Sitio Web</Label>
                 <Input

@@ -9,17 +9,22 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
-import { Mail, Eye, EyeOff, AlertCircle, Users, Building2 } from "lucide-react";
+import { Mail, Eye, EyeOff, AlertCircle, Users, Building2, Upload, Camera } from "lucide-react";
 import { PropertyIcon, BusinessIcon } from "@/components/icons/ProfessionalIcons";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { signUp, signIn, signInWithProvider, user, userType: authUserType } = useAuth();
+  const { signUp, signIn, signInWithProvider, user, userType: authUserType, refreshAllAvatars } = useAuth();
+  const { toast } = useToast();
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [userType, setUserType] = useState<'client' | 'agent'>(() => {
     const urlParams = new URLSearchParams(window.location.search);
     return (urlParams.get('userType') as 'client' | 'agent') || 'client';
@@ -41,6 +46,63 @@ const Auth = () => {
     return null;
   }
 
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError("Por favor selecciona una imagen válida");
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError("La imagen debe ser menor a 5MB");
+        return;
+      }
+      
+      setSelectedAvatar(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setAvatarPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadAvatar = async (userId: string): Promise<string | null> => {
+    if (!selectedAvatar) return null;
+    
+    try {
+      const fileExt = selectedAvatar.name.split('.').pop();
+      const fileName = `${userId}.${fileExt}`;
+      const filePath = `avatars/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, selectedAvatar, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (uploadError) {
+        console.error('Error uploading avatar:', uploadError);
+        return null;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+
+      return publicUrl;
+    } catch (error) {
+      console.error('Error in avatar upload:', error);
+      return null;
+    }
+  };
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -48,6 +110,26 @@ const Auth = () => {
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden");
       return;
+    }
+
+    if (!fullName.trim()) {
+      setError("El nombre completo es obligatorio");
+      return;
+    }
+
+    // Validations for agents
+    if (userType === 'agent') {
+      if (!selectedAvatar) {
+        setError("La fotografía de perfil es obligatoria para agentes");
+        return;
+      }
+      
+      // Validate that full name has at least 2 words (name and surname)
+      const nameParts = fullName.trim().split(' ').filter(part => part.length > 0);
+      if (nameParts.length < 2) {
+        setError("Los agentes deben proporcionar nombre y apellido completos");
+        return;
+      }
     }
     
     setLoading(true);
@@ -66,6 +148,26 @@ const Auth = () => {
       if (error) {
         setError(error.message || "Error al crear la cuenta");
       } else if (data?.user) {
+        // Upload avatar if it's an agent and avatar is selected
+        if (userType === 'agent' && selectedAvatar) {
+          const avatarUrl = await uploadAvatar(data.user.id);
+          if (avatarUrl) {
+            // Update profile with avatar
+            await supabase
+              .from('profiles')
+              .update({ avatar_url: avatarUrl })
+              .eq('id', data.user.id);
+            
+            // Refresh avatars globally
+            refreshAllAvatars();
+            
+            toast({
+              title: "Registro exitoso",
+              description: "Tu cuenta ha sido creada con tu fotografía de perfil.",
+            });
+          }
+        }
+        
         // If no session was created, it means email confirmation is required
         if (!data.session) {
           setError("Registro exitoso. Se ha enviado un email de confirmación. Revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta.");
@@ -124,7 +226,6 @@ const Auth = () => {
     
     setLoading(false);
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted/20 flex items-center justify-center p-4">
@@ -231,14 +332,14 @@ const Auth = () => {
                   </div>
                 </div>
 
-                  <Button 
-                    variant="ghost" 
-                    className="w-full"
-                    onClick={() => (document.querySelector('[value="email"]') as HTMLElement)?.click()}
-                  >
-                    <Mail className="mr-2 h-4 w-4" />
-                    Usar email y contraseña
-                  </Button>
+                <Button 
+                  variant="ghost" 
+                  className="w-full"
+                  onClick={() => (document.querySelector('[value="email"]') as HTMLElement)?.click()}
+                >
+                  <Mail className="mr-2 h-4 w-4" />
+                  Usar email y contraseña
+                </Button>
               </TabsContent>
 
               {/* Email Login Tab */}
@@ -297,11 +398,14 @@ const Auth = () => {
                   <TabsContent value="signup" className="space-y-4 mt-4">
                     <form onSubmit={handleSignUp} className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="fullname">Nombre completo</Label>
+                        <Label htmlFor="fullname">
+                          {userType === 'agent' ? 'Nombre y apellidos completos' : 'Nombre completo'}
+                          {userType === 'agent' && <span className="text-destructive"> *</span>}
+                        </Label>
                         <Input
                           id="fullname"
                           type="text"
-                          placeholder="Tu nombre completo"
+                          placeholder={userType === 'agent' ? "Ej: Juan Carlos Pérez García" : "Tu nombre completo"}
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           required
@@ -339,7 +443,64 @@ const Auth = () => {
                             </div>
                           </Button>
                         </div>
+
+                        {userType === 'agent' && (
+                          <div className="bg-accent/30 border border-accent/50 rounded-lg p-4">
+                            <div className="flex items-center space-x-2 text-sm">
+                              <AlertCircle className="h-4 w-4 text-amber-600" />
+                              <span className="font-medium text-amber-800 dark:text-amber-200">
+                                Campos obligatorios para agentes:
+                              </span>
+                            </div>
+                            <ul className="text-xs text-amber-700 dark:text-amber-300 mt-2 space-y-1">
+                              <li>• Nombre y apellidos completos</li>
+                              <li>• Fotografía de perfil profesional</li>
+                            </ul>
+                          </div>
+                        )}
                       </div>
+                      
+                      {/* Avatar upload for agents */}
+                      {userType === 'agent' && (
+                        <div className="space-y-3">
+                          <Label className="text-base font-medium">
+                            Fotografía de perfil <span className="text-destructive">*</span>
+                          </Label>
+                          <div className="flex items-center space-x-4">
+                            <div className="relative">
+                              <div className="w-20 h-20 rounded-full border-2 border-border overflow-hidden bg-muted flex items-center justify-center">
+                                {avatarPreview ? (
+                                  <img 
+                                    src={avatarPreview} 
+                                    alt="Preview" 
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <Camera className="h-8 w-8 text-muted-foreground" />
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex-1">
+                              <Label htmlFor="avatar-upload" className="cursor-pointer">
+                                <div className="flex items-center space-x-2 text-sm text-primary hover:text-primary/80">
+                                  <Upload className="h-4 w-4" />
+                                  <span>{selectedAvatar ? 'Cambiar foto' : 'Subir fotografía'}</span>
+                                </div>
+                              </Label>
+                              <Input
+                                id="avatar-upload"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                                className="hidden"
+                              />
+                              <p className="text-xs text-muted-foreground mt-1">
+                                JPG, PNG o WEBP. Máximo 5MB.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="space-y-2">
                         <Label htmlFor="signup-email">Email</Label>
@@ -415,7 +576,6 @@ const Auth = () => {
                   </TabsContent>
                 </Tabs>
               </TabsContent>
-
             </Tabs>
           </CardContent>
         </Card>

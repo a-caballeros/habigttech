@@ -255,9 +255,10 @@ const AgentProfile = () => {
             <CardContent>
               <div className="flex items-center gap-4">
                 <img
-                  src={profile?.avatar_url || "/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png"}
+                  src={profile?.avatar_url ? `${profile.avatar_url}?t=${new Date().getTime()}` : "/lovable-uploads/59b800a3-685e-4cd5-9971-d6f04b97c304.png"}
                   alt="Avatar"
                   className="w-20 h-20 rounded-full object-cover"
+                  key={profile?.avatar_url || 'default'}
                 />
                 <div className="flex-1">
                   <Button 
@@ -325,8 +326,15 @@ const AgentProfile = () => {
                             }
 
                             console.log('Profile updated successfully');
+                            
+                            // Force re-fetch profile to ensure state is updated
                             await refetchProfile?.();
                             console.log('Profile refetched');
+                            
+                            // Force image refresh by updating the src
+                            setTimeout(() => {
+                              window.location.reload();
+                            }, 1000);
                             
                             toast({
                               title: "Foto actualizada",

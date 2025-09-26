@@ -55,6 +55,9 @@ const Footer = () => {
               <a href="/support" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                 Soporte
               </a>
+              <a href="https://n1co.com/n1cobusiness-gt/" target="_blank" rel="noopener noreferrer" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+                N1co Business GT
+              </a>
             </div>
           </div>
         </div>

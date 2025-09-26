@@ -46,6 +46,10 @@ const FAQ = () => {
     {
       question: "¿Habi.gt vende, alquila o compra propiedades?",
       answer: "No, Habi.gt es únicamente una plataforma digital que conecta agentes inmobiliarios con potenciales clientes. No vendemos, alquilamos ni compramos propiedades directamente. Somos el intermediario tecnológico que facilita que los agentes promocionen sus propiedades y se conecten con interesados."
+    },
+    {
+      question: "¿Quién gestiona nuestros pagos?",
+      answer: "Los pagos en Habi.gt son gestionados por N1co, nuestra pasarela de pagos confiable y segura. N1co es una plataforma guatemalteca especializada en procesamiento de pagos digitales que garantiza la seguridad de tus transacciones y ofrece múltiples métodos de pago para tu comodidad."
     }
   ];
 

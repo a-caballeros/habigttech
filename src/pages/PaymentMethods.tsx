@@ -63,6 +63,50 @@ const PaymentMethods = () => {
             </Card>
           </div>
 
+          {/* Payment Security Info */}
+          <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950/20 dark:to-green-950/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
+            <div className="flex items-center justify-center mb-4">
+              <div className="bg-gradient-to-r from-blue-500 to-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                🔒 Pagos Seguros
+              </div>
+            </div>
+            
+            <div className="text-center space-y-3">
+              <h3 className="text-lg font-semibold text-foreground">
+                Tus pagos están protegidos por N1co
+              </h3>
+              
+              <div className="space-y-2 text-sm text-muted-foreground max-w-2xl mx-auto">
+                <p>
+                  <span className="font-medium text-foreground">N1co</span> es una fintech de El Salvador especializada en procesamiento de pagos digitales, respaldada por <span className="font-medium text-blue-600">VISA</span> e instituciones financieras reguladas.
+                </p>
+                
+                <div className="flex flex-wrap justify-center gap-4 mt-4">
+                  <div className="flex items-center space-x-2 bg-background/50 rounded-full px-3 py-1">
+                    <svg className="h-4 w-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs font-medium">Encriptación SSL</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2 bg-background/50 rounded-full px-3 py-1">
+                    <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs font-medium">Respaldado por VISA</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2 bg-background/50 rounded-full px-3 py-1">
+                    <svg className="h-4 w-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs font-medium">Regulado</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Payment Instructions */}
           <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-6 mb-8">
             <h2 className="text-xl font-semibold text-foreground mb-4 text-center">

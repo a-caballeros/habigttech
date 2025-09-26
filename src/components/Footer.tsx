@@ -46,6 +46,9 @@ const Footer = () => {
               <a href="/about" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                 Acerca de Nosotros
               </a>
+              <a href="/advertise" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+                Anúnciate con Nosotros
+              </a>
               <a href="/faq" className="block text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                 Preguntas Frecuentes
               </a>

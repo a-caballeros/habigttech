@@ -30,6 +30,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Support from "./pages/Support";
 import PropertyDetails from "./pages/PropertyDetails";
+import Advertise from "./pages/Advertise";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/support" element={<Support />} />
+            <Route path="/advertise" element={<Advertise />} />
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />

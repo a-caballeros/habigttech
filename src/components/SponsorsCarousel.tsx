@@ -70,9 +70,9 @@ const SponsorsCarousel = () => {
     return (
       <section className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Patrocinadores</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Anúnciate con Nosotros</h2>
           <p className="text-lg text-muted-foreground">
-            Nuestros socios estratégicos
+            Conecta con la audiencia especializada en bienes raíces
           </p>
         </div>
         <div className="flex items-center justify-center">
@@ -86,9 +86,9 @@ const SponsorsCarousel = () => {
     return (
       <section className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Patrocinadores</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Anúnciate con Nosotros</h2>
           <p className="text-lg text-muted-foreground">
-            Nuestros socios estratégicos
+            Conecta con la audiencia especializada en bienes raíces
           </p>
         </div>
         <div className="text-center py-12">
@@ -102,12 +102,12 @@ const SponsorsCarousel = () => {
 
   return (
     <section className="container mx-auto px-4 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Patrocinadores</h2>
-        <p className="text-lg text-muted-foreground">
-          Nuestros socios estratégicos
-        </p>
-      </div>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Anúnciate con Nosotros</h2>
+          <p className="text-lg text-muted-foreground">
+            Conecta con la audiencia especializada en bienes raíces
+          </p>
+        </div>
 
       <div className="max-w-5xl mx-auto">
         <Carousel

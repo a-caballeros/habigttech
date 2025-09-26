@@ -78,7 +78,14 @@ const PaymentMethods = () => {
               
               <div className="space-y-2 text-sm text-muted-foreground max-w-2xl mx-auto">
                 <p>
-                  <span className="font-medium text-foreground">N1co</span> es una fintech de El Salvador especializada en procesamiento de pagos digitales, respaldada por <span className="font-medium text-blue-600">VISA</span> e instituciones financieras reguladas.
+                  <a 
+                    href="https://n1co.com/n1cobusiness-gt/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-medium text-blue-600 hover:text-blue-500 transition-colors underline"
+                  >
+                    N1co
+                  </a> es una fintech de El Salvador especializada en procesamiento de pagos digitales, respaldada por <span className="font-medium text-blue-600">VISA</span> e instituciones financieras reguladas.
                 </p>
                 
                 <div className="flex flex-wrap justify-center gap-4 mt-4">

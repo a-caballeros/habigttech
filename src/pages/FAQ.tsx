@@ -49,7 +49,7 @@ const FAQ = () => {
     },
     {
       question: "¿Quién gestiona nuestros pagos?",
-      answer: "Los pagos en Habi.gt son gestionados por N1co, nuestra pasarela de pagos confiable y segura. N1co es una plataforma guatemalteca especializada en procesamiento de pagos digitales que garantiza la seguridad de tus transacciones y ofrece múltiples métodos de pago para tu comodidad."
+      answer: "Los pagos en Habi.gt son gestionados por N1co, nuestra pasarela de pagos confiable y segura. N1co es una fintech de El Salvador especializada en procesamiento de pagos digitales. N1co es una empresa respaldada por VISA e instituciones financieras debidamente autorizadas y reguladas por las entidades reguladoras del sector financiero regional, garantizando la seguridad de tus transacciones y ofreciendo múltiples métodos de pago para tu comodidad. Más información en https://n1co.com/n1cobusiness-gt/"
     }
   ];
 
